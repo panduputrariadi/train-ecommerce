@@ -13,7 +13,6 @@ class SendOtpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        Log::info('SendOtpRequest authorize called');
         return true;
     }
 
@@ -25,7 +24,6 @@ class SendOtpRequest extends FormRequest
 
     public function rules(): array
     {
-        Log::info('SendOtpRequest rules called');
         return [
             'email' => ['required', 'email'],
         ];
@@ -39,7 +37,6 @@ class SendOtpRequest extends FormRequest
         ];
     }
 
-    //kayak gini
     public function getDto()
     {
         return SendOtpDtos::fromArray($this->validated());

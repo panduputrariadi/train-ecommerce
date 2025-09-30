@@ -2,6 +2,7 @@
 
 namespace App\Modules\OTP\Requests;
 
+use App\Modules\OTP\DTOs\VerifyOtpDtos;
 use App\Modules\OTP\Rule\FindIdOtp;
 use App\Modules\OTP\Rule\MatchesHashedOtp;
 use Illuminate\Foundation\Http\FormRequest;
@@ -41,5 +42,10 @@ class VerifyOtpRequest extends FormRequest
             'id.exists' => 'The provided OTP is invalid, expired, or already used.',
             'otp.matches_hasshed_otp' => 'Invalid OTP code.',
         ];
+    }
+
+    public function validateVerifyDto()
+    {
+        return VerifyOtpDtos::fromArray($this->validated());
     }
 }
