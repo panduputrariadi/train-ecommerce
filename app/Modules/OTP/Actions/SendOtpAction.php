@@ -12,18 +12,22 @@ class SendOtpAction
 {
     public function execute(SendOtpRequest $request): Otp
     {
-        $otpCode = random_int(100000, 999999);
-        $dto = $request->getDto();
+        try {
+            $otpCode = random_int(100000, 999999);
+            $dto = $request->getDto();
 
-        $otp = Otp::create([
-            'email'      => $dto->email,
-            'otp'        => $otpCode,
-            'type'       => TypeOtp::TYPE_EMAIL,
-            'used_for'   => UseOtp::USED_FOR_REGISTER,
-            'expired_at' => now()->addMinutes(5),
-        ]);
+            $otp = Otp::create([
+                'email'      => $dto->email,
+                'otp'        => $otpCode,
+                'type'       => TypeOtp::TYPE_EMAIL,
+                'used_for'   => UseOtp::USED_FOR_REGISTER,
+                'expired_at' => now()->addMinutes(5),
+            ]);
 
-        SendEmailJobs::dispatch($dto->email, $otpCode);
+            SendEmailJobs::dispatch($dto->email, $otpCode);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
 
         return $otp;
     }
