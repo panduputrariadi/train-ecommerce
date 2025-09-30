@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\OTP\Resources;
+namespace App\Http\Common\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
