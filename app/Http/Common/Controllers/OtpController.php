@@ -13,36 +13,17 @@ use Illuminate\Support\Facades\DB;
 
 class OtpController extends Controller
 {
-    public function sendOtp(SendOtpAction $sendOtpAction, SendOtpRequest $request): JsonResponse
+    public function sendOtp(SendOtpAction $sendOtpAction, SendOtpRequest $request)
     {
-        DB::beginTransaction();
-        try {
-            $otp = $sendOtpAction->execute($request);
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
+        $otp = DB::transaction(fn () => $sendOtpAction->execute($request));
 
-            return response()->json([
-                'success' => false,
-                'message' => $th->getMessage(),
-            ], 500);
-        }
-        return (new SendOtpResource($otp))->response();
+        return new SendOtpResource($otp);
     }
 
     public function verifyOtp(VerifyOtpAction $verifyOtpAction, VerifyOtpRequest $request)
     {
-        DB::beginTransaction();
-        try {
-            $otp = DB::transaction(fn () => $verifyOtpAction->execute($request));
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'message' => $th->getMessage(),
-            ], 422);
-        }
-        return $otp;
+        $otp = DB::transaction(fn () => $verifyOtpAction->execute($request));
+
+        return response()->json(['message' => 'OTP verified successfully']);
     }
 }
