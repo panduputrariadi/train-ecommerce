@@ -3,30 +3,34 @@
 namespace App\Modules\OTP\Rule;
 
 use App\Modules\OTP\Models\Otp;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class FindIdOtp implements Rule
+class FindIdOtp implements ValidationRule
 {
     protected int $otpId;
+
     public function __construct(int $otpId)
     {
         $this->otpId = $otpId;
     }
-    public function passes($attribute, $value): bool
+
+    public function validate(string $attribute, mixed $value, \Closure $fail): void
     {
-        $otpIdRecord = Otp::where('id', $this->otpId)
-            ->whereNull('verified_at')
-            ->where('expired_at', '>', now())
-            ->first();
+        $otpIdRecord = Otp::find($this->otpId);
 
         if (! $otpIdRecord) {
-            return false;
+            $fail('id not found');
+            return;
         }
-        return true;
-    }
 
-    public function message(): string
-    {
-        return 'The :attribute is invalid.';
+        if ($otpIdRecord->verified_at !== null) {
+            $fail('id already used');
+            return;
+        }
+
+        if ($otpIdRecord->expired_at <= now()) {
+            $fail('id expired');
+            return;
+        }
     }
 }

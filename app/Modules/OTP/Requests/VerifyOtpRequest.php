@@ -24,7 +24,7 @@ class VerifyOtpRequest extends FormRequest
         return [
             'id' => [
                 'required',
-                'exists:otps,id',
+                new FindIdOtp($otpId),
             ],
             'otp' => [
                 'required',
