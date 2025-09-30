@@ -3,10 +3,10 @@
 namespace App\Modules\OTP\Rule;
 
 use App\Modules\OTP\Models\Otp;
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class MatchesHashedOtp implements Rule
+class MatchesHashedOtp implements ValidationRule
 {
     protected int $otpId;
 
@@ -15,19 +15,12 @@ class MatchesHashedOtp implements Rule
         $this->otpId = $otpId;
     }
 
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, \Closure $fail): void
     {
         $otpRecord = Otp::find($this->otpId);
 
-        if (! $otpRecord) {
-            return false;
+        if (! $otpRecord || ! Hash::check($value, $otpRecord->otp)) {
+            $fail('The :attribute is invalid.');
         }
-
-        return Hash::check($value, $otpRecord->otp);
-    }
-
-    public function message(): string
-    {
-        return 'The :attribute is invalid.';
     }
 }
