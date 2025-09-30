@@ -2,6 +2,7 @@
 
 namespace App\Modules\OTP\Requests;
 
+use App\Modules\OTP\DTOs\SendOtpDtos;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 
@@ -27,7 +28,6 @@ class SendOtpRequest extends FormRequest
         Log::info('SendOtpRequest rules called');
         return [
             'email' => ['required', 'email'],
-            // 'email' => 'required|email',
         ];
     }
 
@@ -37,5 +37,11 @@ class SendOtpRequest extends FormRequest
             'email.required' => 'Email is required',
             'email.email' => 'Invalid email format',
         ];
+    }
+
+    //kayak gini
+    public function getDto()
+    {
+        return SendOtpDtos::fromArray($this->validated());
     }
 }

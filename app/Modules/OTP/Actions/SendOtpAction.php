@@ -21,6 +21,7 @@ class SendOtpAction
             $dto = SendOtpDtos::fromArray($data);
             $otp = Otp::create([
                 'email' => $dto->email,
+                //hash in model
                 'otp' => Hash::make($otpCode),
                 'type' => Otp::TYPE_EMAIL,
                 'used_for' => Otp::USED_FOR_REGISTER,
@@ -28,10 +29,10 @@ class SendOtpAction
             ]);
             SendEmailJobs::dispatch($dto->email, $otpCode);
             DB::commit();
-            return $otp;
         }catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
         }
+        return $otp;
     }
 }
