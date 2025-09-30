@@ -2,6 +2,7 @@
 
 namespace App\Modules\Auth\Request;
 
+use App\Modules\Auth\DTOs\CreateRegisterUserDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRegisterUserRequest extends FormRequest
@@ -16,5 +17,10 @@ class CreateRegisterUserRequest extends FormRequest
             'photo' => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:2048'],
             'phone' => ['required', 'string', 'max:255'],
         ];
+    }
+
+    public function validatedDto()
+    {
+        return CreateRegisterUserDto::fromArray($this->validated());
     }
 }

@@ -7,16 +7,13 @@ use App\Modules\Auth\Enum\UserStatus;
 use App\Modules\Auth\Models\User;
 use App\Modules\Auth\Request\CreateRegisterUserRequest;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 
 class CreateRegisterUserAction
 {
     public function execute(CreateRegisterUserRequest $request): User
     {
-        DB::beginTransaction();
         try {
-            $data = $request->validated();
-            $dto = CreateRegisterUserDto::fromArray($data);
+            $dto = $request->validatedDto();
             $user = User::create([
                 'email' => $dto->email,
                 'password' => $dto->password,
@@ -35,9 +32,7 @@ class CreateRegisterUserAction
                 'phone' => $dto->phone,
             ]);
 
-            DB::commit();
         }catch (\Throwable $th) {
-            DB::rollBack();
             throw $th;
         }
         return $user->fresh();
