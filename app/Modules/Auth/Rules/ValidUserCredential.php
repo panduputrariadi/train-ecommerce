@@ -15,7 +15,7 @@ class ValidUserCredential implements ValidationRule
         $user = User::where('email', $email)->first();
 
         if (! $user || ! Hash::check($value, $user->password)) {
-            $fail('The provided credentials are incorrect.');
+            $fail('email or password are incorrect');
         }
 
         if ($user && ! $user->is_active->value) {
