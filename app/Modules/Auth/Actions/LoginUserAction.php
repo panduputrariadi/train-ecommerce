@@ -3,8 +3,8 @@
 namespace App\Modules\Auth\Actions;
 
 use App\Modules\Auth\DTOs\LoginUserDto;
-use App\Modules\Auth\Models\User;
 use App\Modules\Auth\Request\LoginUserRequest;
+use App\Modules\Share\Models\User;
 
 class LoginUserAction
 {

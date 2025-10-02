@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Auth\Enum;
+namespace App\Modules\Share\Enum;
 
 enum UserStatus: string
 {

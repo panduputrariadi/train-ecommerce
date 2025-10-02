@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Modules\Auth\Models;
+namespace App\Modules\Share\Models;
 
-use App\Modules\OTP\Models\Otp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,10 +21,5 @@ class UserProfile extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function otps()
-    {
-        return $this->hasMany(Otp::class);
     }
 }
