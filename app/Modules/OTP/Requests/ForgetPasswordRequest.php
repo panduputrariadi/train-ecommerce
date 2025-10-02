@@ -2,7 +2,7 @@
 
 namespace App\Modules\OTP\Requests;
 
-use App\Modules\OTP\DTOs\ForgetPasswordDtos;
+use App\Modules\OTP\DTOs\ForgetPasswordDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ForgetPasswordRequest extends FormRequest
@@ -17,6 +17,6 @@ class ForgetPasswordRequest extends FormRequest
 
     public function validatedDto()
     {
-        return ForgetPasswordDtos::fromArray($this->validated());
+        return ForgetPasswordDto::fromArray($this->validated());
     }
 }

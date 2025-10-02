@@ -10,20 +10,15 @@ class ResetPasswordAction
 {
     public function execute(ResetPasswordRequest $request)
     {
-        try {
-            $dto = $request->validateDto();
-            $otp = Otp::findOrFail($dto->otpId);
+        $dto = $request->validateDto();
+        $otp = Otp::findOrFail($dto->otpId);
 
-            $user = User::where('email', $otp->email)->firstOrFail();
-            $user->password = $dto->password;
-            $user->save();
+        $user = User::where('email', $otp->email)->firstOrFail();
+        $user->password = $dto->password;
+        $user->save();
 
-            $otp->verified_at = now();
-            $otp->save();
-
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $otp->verified_at = now();
+        $otp->save();
         return $user;
     }
 }

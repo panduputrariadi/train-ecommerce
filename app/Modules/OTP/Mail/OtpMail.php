@@ -13,50 +13,34 @@ class OtpMail extends Mailable
     use Queueable, SerializesModels;
 
     protected string $otp;
+    protected string $usedFor;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(string $otp)
+    public function __construct(string $otp, string $usedFor)
     {
         $this->otp = $otp;
+        $this->usedFor = $usedFor;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Otp Mail',
+            subject: 'Your OTP Code',
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
             view: 'emails.otp',
-            with: ['otp' => $this->otp],
+            with: [
+                'otp'     => $this->otp,
+                'usedFor' => $this->usedFor,
+            ],
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
         return [];
     }
-
-    // public function build(): self
-    // {
-    //     return $this->subject('Kode Verifikasi OTP Anda')
-    //                 ->view('emails.otp')
-    //                 ->with('otp', $this->otp);
-    // }
 }
