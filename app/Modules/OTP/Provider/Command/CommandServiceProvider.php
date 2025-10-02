@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\OTP\Provider;
+namespace App\Modules\OTP\Provider\Command;
 
 use Illuminate\Support\ServiceProvider;
 use App\Modules\OTP\Command\DeleteExpiredOtp;

@@ -9,15 +9,11 @@ class VerifyOtpAction
 {
     public function execute(VerifyOtpRequest $request): Otp
     {
-        try {
-            $dto = $request->validateVerifyDto();
-            $otp = Otp::findOrFail($dto->id);
-            $otp->update([
-                'verified_at' => now(),
-            ]);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $dto = $request->validateVerifyDto();
+        $otp = Otp::findOrFail($dto->id);
+        $otp->update([
+            'verified_at' => now(),
+        ]);
         return $otp;
     }
 }

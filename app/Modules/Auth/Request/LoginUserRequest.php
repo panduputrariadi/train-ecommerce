@@ -18,6 +18,6 @@ class LoginUserRequest extends FormRequest
 
     public function validatedLogin()
     {
-        return LoginUserDto::fromRequest($this->validated());
+        return LoginUserDto::fromArray($this->validated());
     }
 }
