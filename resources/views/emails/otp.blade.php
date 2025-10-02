@@ -22,9 +22,15 @@
                     <!-- Title -->
                     <tr>
                         <td>
-                            <h3 style="margin: 0 0 15px; font-size: 18px; color: #333333; text-align: center;">
-                                Your OTP Verification Code
-                            </h3>
+                            @if ($usedFor == 'register')
+                                <h3 style="margin: 0 0 15px; font-size: 18px; color: #333333; text-align: center;">
+                                    Your OTP Verification Code
+                                </h3>
+                            @else
+                                <h3 style="margin: 0 0 15px; font-size: 18px; color: #333333; text-align: center;">
+                                    Your Forget Password Verification Code
+                                </h3>
+                            @endif
                         </td>
                     </tr>
 

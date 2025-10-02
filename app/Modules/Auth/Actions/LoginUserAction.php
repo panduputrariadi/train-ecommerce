@@ -10,17 +10,13 @@ class LoginUserAction
 {
     public function execute(LoginUserRequest $request): array
     {
-        try {
-            $dto = $request->validatedLogin();
-            $user = User::where('email', $dto->email)->firstOrFail();
+        $dto = $request->validatedLogin();
+        $user = User::where('email', $dto->email)->firstOrFail();
 
-            $token = $user->createToken('api-token')->plainTextToken;
-            return [
-                'user' => $user,
-                'token' => $token
-            ];
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $token = $user->createToken('api-token')->plainTextToken;
+        return [
+            'user' => $user,
+            'token' => $token
+        ];
     }
 }

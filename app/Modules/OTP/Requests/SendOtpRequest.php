@@ -2,9 +2,8 @@
 
 namespace App\Modules\OTP\Requests;
 
-use App\Modules\OTP\DTOs\SendOtpDtos;
+use App\Modules\OTP\DTOs\SendOtpDto;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class SendOtpRequest extends FormRequest
 {
@@ -39,6 +38,6 @@ class SendOtpRequest extends FormRequest
 
     public function getDto()
     {
-        return SendOtpDtos::fromArray($this->validated());
+        return SendOtpDto::fromArray($this->validated());
     }
 }

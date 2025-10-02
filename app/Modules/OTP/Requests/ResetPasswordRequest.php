@@ -2,7 +2,7 @@
 
 namespace App\Modules\OTP\Requests;
 
-use App\Modules\OTP\DTOs\ResetPasswordDtos;
+use App\Modules\OTP\DTOs\ResetPasswordDto;
 use App\Modules\OTP\Rule\FindIdOtp;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,6 +19,6 @@ class ResetPasswordRequest extends FormRequest
 
     public function validateDto()
     {
-        return ResetPasswordDtos::fromArray($this->validated());
+        return ResetPasswordDto::fromArray($this->validated());
     }
 }

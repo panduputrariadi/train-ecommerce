@@ -12,29 +12,26 @@ class CreateRegisterUserAction
 {
     public function execute(CreateRegisterUserRequest $request): User
     {
-        try {
-            $dto = $request->validatedDto();
-            $user = User::create([
-                'email' => $dto->email,
-                'password' => $dto->password,
-                'is_active' => UserStatus::ACTIVE,
-            ]);
-            $photoPath = null;
-            if ($dto->photo instanceof UploadedFile) {
-                $nameSlug = preg_replace('/[^a-z0-9\-]/', '', str_replace(' ', '-', strtolower($dto->name)));
-                $filename = "{$user->id}_{$nameSlug}.{$dto->photo->getClientOriginalExtension()}";
-                $photoPath = $dto->photo->storeAs('profile-photos', $filename, 'public');
-            }
-            $user->profile()->create([
-                'name' => $dto->name,
-                'otp_id' => $dto->otp_id,
-                'photo' => $photoPath,
-                'phone' => $dto->phone,
-            ]);
 
-        }catch (\Throwable $th) {
-            throw $th;
+        $dto = $request->validatedDto();
+        $user = User::create([
+            'email' => $dto->email,
+            'password' => $dto->password,
+            'status' => UserStatus::ACTIVE,
+        ]);
+        $photoPath = null;
+        if ($dto->photo instanceof UploadedFile) {
+            $nameSlug = preg_replace('/[^a-z0-9\-]/', '', str_replace(' ', '-', strtolower($dto->name)));
+            $filename = "{$user->id}_{$nameSlug}.{$dto->photo->getClientOriginalExtension()}";
+            $photoPath = $dto->photo->storeAs('profile-photos', $filename, 'public');
         }
+        $user->profile()->create([
+            'name' => $dto->name,
+            'otp_id' => $dto->otpId,
+            'photo' => $photoPath,
+            'phone' => $dto->phone,
+        ]);
+
         return $user->fresh();
     }
 }
