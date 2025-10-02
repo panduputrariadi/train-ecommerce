@@ -2,12 +2,12 @@
 
 namespace App\Modules\Auth\Actions;
 
-use App\Modules\Auth\Request\LoginUserRequest;
+use App\Modules\Auth\Request\LoginAdminRequest;
 use App\Modules\Share\Models\User;
 
-class LoginUserAction
+class LoginAdminAction
 {
-    public function execute(LoginUserRequest $request): array
+    public function execute(LoginAdminRequest $request): array
     {
         $dto = $request->validatedLogin();
         $user = User::where('email', $dto->email)->firstOrFail();
