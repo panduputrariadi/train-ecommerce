@@ -2,7 +2,7 @@
 
 namespace App\Modules\Auth\Rules;
 
-use App\Modules\Auth\Models\User;
+use App\Modules\Share\Models\User;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Hash;
