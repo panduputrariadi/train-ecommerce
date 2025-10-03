@@ -13,7 +13,7 @@ class CreateRegisterUserResource extends JsonResource
             'id' => $this->id,
             'email' => $this->email,
             'name' => $this->profile->name,
-            'photo' => $this->profile->photo ? url('storage/' . $this->profile->photo) : null,
+            'photo' => $this->profile->photo ? url('storage/'.$this->profile->photo) : null,
         ];
     }
 }

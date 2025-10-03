@@ -15,9 +15,9 @@ class RegisterUserService
     {
         $dto = $request->validatedDto();
         $user = User::create([
-            'email'    => $dto->email,
+            'email' => $dto->email,
             'password' => $dto->password,
-            'status'   => UserStatus::ACTIVE,
+            'status' => UserStatus::ACTIVE,
         ]);
 
         $photoPath = null;
@@ -28,10 +28,10 @@ class RegisterUserService
         }
 
         $user->profile()->create([
-            'name'   => $dto->name,
+            'name' => $dto->name,
             'otp_id' => $dto->otpId,
-            'photo'  => $photoPath,
-            'phone'  => $dto->phone,
+            'photo' => $photoPath,
+            'phone' => $dto->phone,
         ]);
 
         UserRole::create([

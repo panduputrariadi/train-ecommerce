@@ -41,8 +41,9 @@ class OtpController extends Controller
     public function resetPassword(ResetPasswordRequest $request, ResetPasswordAction $resetPasswordAction)
     {
         $user = $resetPasswordAction->execute($request);
+
         return response()->json([
-            'message' => 'Reset Password Successfully'
+            'message' => 'Reset Password Successfully',
         ]);
     }
 }

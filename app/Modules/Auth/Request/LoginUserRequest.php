@@ -8,6 +8,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class LoginUserRequest extends FormRequest
 {
+    /**
+     * @return array<string, array<int, string|ValidUserCredential|callable>|string>
+     */
     public function rules(): array
     {
         return [
@@ -16,7 +19,7 @@ class LoginUserRequest extends FormRequest
         ];
     }
 
-    public function validatedLogin()
+    public function validatedLogin(): LoginUserDto
     {
         return LoginUserDto::fromArray($this->validated());
     }

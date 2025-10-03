@@ -7,15 +7,19 @@ use App\Modules\Share\Models\User;
 
 class LoginAdminAction
 {
+    /**
+     * @return array{user: User, token: string}
+     */
     public function execute(LoginAdminRequest $request): array
     {
         $dto = $request->validatedLogin();
         $user = User::where('email', $dto->email)->firstOrFail();
 
         $token = $user->createToken('api_token_user')->plainTextToken;
+
         return [
             'user' => $user,
-            'token' => $token
+            'token' => $token,
         ];
     }
 }

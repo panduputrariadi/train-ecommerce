@@ -7,6 +7,6 @@ use App\Base\BaseDto;
 class LoginUserDto extends BaseDto
 {
     public string $email;
-    public string $password;
 
+    public string $password;
 }

@@ -18,7 +18,7 @@ class ValidUserCredential implements ValidationRule
             $fail('email or password are incorrect');
         }
 
-        if ($user && ! $user->status->value) {
+        if ($user && $user->status !== 'active') {
             $fail('This account is inactive.');
         }
     }

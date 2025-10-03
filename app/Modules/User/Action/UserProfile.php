@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UserProfile
 {
-    public function execute():User
+    public function execute(): User
     {
         $user = Auth::user();
         $user->load('profile', 'role');
+
         return $user;
     }
 }

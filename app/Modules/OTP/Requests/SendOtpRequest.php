@@ -20,7 +20,6 @@ class SendOtpRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
@@ -28,7 +27,10 @@ class SendOtpRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
     {
         return [
             'email.required' => 'Email is required',
@@ -36,7 +38,7 @@ class SendOtpRequest extends FormRequest
         ];
     }
 
-    public function getDto()
+    public function getDto(): SendOtpDto
     {
         return SendOtpDto::fromArray($this->validated());
     }

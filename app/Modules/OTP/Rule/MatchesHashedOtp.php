@@ -3,8 +3,8 @@
 namespace App\Modules\OTP\Rule;
 
 use App\Modules\OTP\Models\Otp;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Hash;
 
 class MatchesHashedOtp implements ValidationRule
 {

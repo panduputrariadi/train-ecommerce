@@ -10,6 +10,7 @@ class UserProfileResource extends JsonResource
     public function toArray(Request $request)
     {
         $role = $this->roles->first();
+
         return [
             'data' => [
                 'id' => $this->id,

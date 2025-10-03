@@ -13,7 +13,9 @@ class SendOtpEmailJob implements ShouldQueue
     use FoundationQueueable, SerializesModels;
 
     public string $email;
+
     public string $otpCode;
+
     public string $usedFor;
 
     public function __construct(string $email, string $otpCode, string $usedFor)

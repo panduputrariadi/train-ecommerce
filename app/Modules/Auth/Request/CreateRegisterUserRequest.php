@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRegisterUserRequest extends FormRequest
 {
+    /**
+     * @return array<string, string|array<int, string>>
+     */
     public function rules(): array
     {
         return [
@@ -19,7 +22,7 @@ class CreateRegisterUserRequest extends FormRequest
         ];
     }
 
-    public function validatedDto()
+    public function validatedDto(): CreateRegisterUserDto
     {
         return CreateRegisterUserDto::fromArray($this->validated());
     }

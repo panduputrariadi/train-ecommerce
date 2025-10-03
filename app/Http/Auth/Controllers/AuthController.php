@@ -22,24 +22,28 @@ class AuthController extends Controller
     public function register(CreateRegisterUserRequest $request, CreateRegisterUserAction $createRegisterUserAction): CreateRegisterUserResource
     {
         $data = DB::transaction(fn () => $createRegisterUserAction->execute($request));
+
         return new CreateRegisterUserResource($data);
     }
 
     public function registerAdmin(CreateRegisterUserRequest $request, CreateRegisterAdminAction $action): CreateRegisterUserResource
     {
         $data = DB::transaction(fn () => $action->execute($request));
+
         return new CreateRegisterUserResource($data);
     }
 
     public function login(LoginUserRequest $request, LoginUserAction $action): LoginUserResource
     {
-        $data = DB::transaction(fn ()=> $action->execute($request));
+        $data = DB::transaction(fn () => $action->execute($request));
+
         return new LoginUserResource($data['user'], $data['token']);
     }
 
     public function loginAdmin(LoginAdminRequest $request, LoginAdminAction $action): LoginUserResource
     {
-        $data = DB::transaction(fn ()=> $action->execute($request));
+        $data = DB::transaction(fn () => $action->execute($request));
+
         return new LoginUserResource($data['user'], $data['token']);
     }
 

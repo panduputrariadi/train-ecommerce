@@ -23,12 +23,12 @@ class Otp extends Model
         'deleted_at',
     ];
 
-    protected function casts():array
+    protected function casts(): array
     {
         return [
             'otp' => 'hashed',
             'type' => TypeOtp::class,
-            'used_for' => UseOtp::class
+            'used_for' => UseOtp::class,
         ];
     }
 }
