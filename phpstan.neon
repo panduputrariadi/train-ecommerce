@@ -1,0 +1,9 @@
+includes:
+    - vendor/nunomaduro/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+parameters:
+    paths:
+        - app/Modules/Auth
+    level: 7
+    ignoreErrors:
+    excludePaths:

@@ -9,13 +9,12 @@ use App\Modules\OTP\Service\OtpService;
 
 class SendOtpAction
 {
-    public function __construct(private OtpService $service)
-    {
+    public function __construct(private OtpService $service) {}
 
-    }
     public function execute(SendOtpRequest $request): Otp
     {
         $dto = $request->getDto();
+
         return $this->service->generateOtp(
             email: $dto->email,
             usedFor: UseOtp::USED_FOR_REGISTER

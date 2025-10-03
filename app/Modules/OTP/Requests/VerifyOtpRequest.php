@@ -10,17 +10,20 @@ use Illuminate\Support\Facades\Log;
 
 class VerifyOtpRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
     }
 
+    /**
+     * @return array<string, array<int, string|FindIdOtp|MatchesHashedOtp|callable>|string>
+     */
     public function rules(): array
     {
         // $otpId = $this->get('id');
         $otpId = $this['id'];
         Log::info('OTP ID:', ['id' => $otpId]);
+
         return [
             'id' => [
                 'required',
@@ -35,6 +38,9 @@ class VerifyOtpRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [
@@ -43,7 +49,7 @@ class VerifyOtpRequest extends FormRequest
         ];
     }
 
-    public function validateVerifyDto()
+    public function validateVerifyDto(): VerifyOtpDto
     {
         return VerifyOtpDto::fromArray($this->validated());
     }

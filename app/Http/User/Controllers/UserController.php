@@ -10,7 +10,8 @@ class UserController extends Controller
 {
     public function getProfile()
     {
-        $user = new UserProfile();
+        $user = new UserProfile;
+
         return new UserProfileResource($user);
     }
 }

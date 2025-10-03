@@ -4,8 +4,6 @@ namespace App\Modules\OTP\Provider\Limiter;
 
 use App\Base\BaseFormRequestLimiter;
 use App\Modules\OTP\Requests\ForgetPasswordRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
 
 class ForgetPasswordOtpLimiter extends BaseFormRequestLimiter
 {

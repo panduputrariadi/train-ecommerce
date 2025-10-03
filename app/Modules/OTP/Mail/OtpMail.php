@@ -13,6 +13,7 @@ class OtpMail extends Mailable
     use Queueable, SerializesModels;
 
     protected string $otp;
+
     protected string $usedFor;
 
     public function __construct(string $otp, string $usedFor)
@@ -33,14 +34,9 @@ class OtpMail extends Mailable
         return new Content(
             view: 'emails.otp',
             with: [
-                'otp'     => $this->otp,
+                'otp' => $this->otp,
                 'usedFor' => $this->usedFor,
             ],
         );
-    }
-
-    public function attachments(): array
-    {
-        return [];
     }
 }

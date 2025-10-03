@@ -10,8 +10,8 @@ class SendOtpResource extends JsonResource
     public function toArray(Request $request)
     {
         return [
-            'id'         => $this->id,
-            'type'       => $this->type,
+            'id' => $this->id,
+            'type' => $this->type,
             'expired_at' => $this->expired_at?->toDateTimeString(),
             'created_at' => $this->created_at?->toDateTimeString(),
         ];

@@ -9,7 +9,7 @@ enum RoleIdUser: int
 
     public function label(): int
     {
-        return match($this) {
+        return match ($this) {
             self::ADMIN_SUPER => 1,
             self::REGULAR_CUSTOMER => 5
         };
