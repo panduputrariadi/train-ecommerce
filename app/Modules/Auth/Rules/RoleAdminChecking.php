@@ -17,7 +17,7 @@ class RoleAdminChecking implements ValidationRule
         }
 
         if (! $user->roles()->where('slug', 'like', 'admin.%')->exists()) {
-            $fail('This account does not have admin privileges.');
+            $fail('Credential invalid');
         }
     }
 }

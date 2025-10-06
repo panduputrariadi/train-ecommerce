@@ -2,6 +2,7 @@
 
 namespace App\Modules\Auth\Rules;
 
+use App\Modules\Share\Enum\UserStatus;
 use App\Modules\Share\Models\User;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -18,7 +19,7 @@ class ValidUserCredential implements ValidationRule
             $fail('email or password are incorrect');
         }
 
-        if ($user && $user->status !== 'active') {
+        if ($user && $user->status !== UserStatus::ACTIVE) {
             $fail('This account is inactive.');
         }
     }

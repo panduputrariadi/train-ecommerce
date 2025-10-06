@@ -39,6 +39,6 @@ abstract class BaseFormRequestLimiter
         return response()->json([
             'message' => 'Too many attempts. Please try again in '.$seconds.' second.',
             'retry_after' => $seconds,
-        ]);
+        ], 429);
     }
 }
