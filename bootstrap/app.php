@@ -43,8 +43,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
             return response()->json([
                 'message' => 'Too many attempts. Please try again in '.$retryAfter.' second.',
-                'retry_after' => (int) $retryAfter,
-            ], $headers);
+                'retry_after' => $retryAfter,
+            ], 429, $headers);
         });
     })->withProviders([
         CommandServiceProvider::class,
