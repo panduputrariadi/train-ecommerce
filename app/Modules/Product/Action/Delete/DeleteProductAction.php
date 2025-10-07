@@ -6,13 +6,15 @@ use App\Modules\Product\Models\Product;
 
 class DeleteProductAction
 {
-    /**
-     * Delete product by code
-     */
-    public function execute(string $code): bool
-    {
-        $product = Product::where('code', $code)->first();
 
-        return $product->delete();
+    /**
+     * Delete a product
+     *
+     * @param Product $product
+     * @return bool
+     */
+    public function execute(Product $product): bool
+    {
+        return (bool) $product->delete();
     }
 }

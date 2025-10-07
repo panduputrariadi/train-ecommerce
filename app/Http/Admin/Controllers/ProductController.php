@@ -12,6 +12,7 @@ use App\Modules\Product\Action\Delete\DeleteProductAction;
 use App\Modules\Product\Action\Detail\GetDetailProductAction;
 use App\Modules\Product\Action\Read\GetProductAction;
 use App\Modules\Product\Action\Update\UpdateProductAction;
+use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Create\CreateProductRequest;
 use App\Modules\Product\Request\Read\GetProductRequest;
 use App\Modules\Product\Request\Update\UpdateProductRequest;
@@ -36,30 +37,25 @@ class ProductController extends Controller
         return new GetProductCollection($data);
     }
 
-    public function updateProduct(string $code, UpdateProductRequest $request, UpdateProductAction $action): UpdateProductResource
+    public function getDetailProduct(Product $product, GetDetailProductAction $action): GetDetailProductResource
+    {
+        $data = $action->execute($product);
+
+        return new GetDetailProductResource($data);
+    }
+
+    public function updateProduct(Product $product, UpdateProductRequest $request, UpdateProductAction $action): UpdateProductResource
     {
         $dto = $request->validatedDto();
-        $product = DB::transaction(fn () => $action->execute($code, $dto));
 
-        return new UpdateProductResource($product);
+        $updated = DB::transaction(fn () => $action->execute($product, $dto));
+
+        return new UpdateProductResource($updated);
     }
 
-    public function getDetailProduct(string $code, GetDetailProductAction $action): GetDetailProductResource
+    public function deleteProduct(Product $product, DeleteProductAction $action): JsonResponse
     {
-        $product = $action->execute($code);
-
-        return new GetDetailProductResource($product);
-    }
-
-    public function deleteProduct(string $code, DeleteProductAction $action): JsonResponse
-    {
-        $deleted = $action->execute($code);
-
-        if (! $deleted) {
-            return response()->json([
-                'message' => 'Product not found',
-            ], 404);
-        }
+        DB::transaction(fn () => $action->execute($product));
 
         return response()->json([
             'message' => 'success deleted product',

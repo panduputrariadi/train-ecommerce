@@ -29,7 +29,10 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "App\\Modules\\": "app/Modules/"
-        }
+        },
+        "files": [
+            "app/Modules/Share/Helper/CodeGenerator.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

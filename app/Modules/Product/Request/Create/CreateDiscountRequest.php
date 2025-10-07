@@ -7,6 +7,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateDiscountRequest extends FormRequest
 {
+
+    /**
+     * Validation rules for creating a discount
+     *
+     * @return array<string, array<int, string>>
+     */
     public function rules(): array
     {
         return [

@@ -9,11 +9,14 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetProductAction
 {
+
     /**
      * Execute the GetProductAction
      *
-     * @param  GetProductRequest  $request
+     * @param  GetProductDto  $dto
      * @return LengthAwarePaginator<int, Product>
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function execute(GetProductDto $dto): LengthAwarePaginator
     {

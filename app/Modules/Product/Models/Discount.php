@@ -13,6 +13,11 @@ class Discount extends Model
         'expired_at' => 'datetime',
     ];
 
+    /**
+     * Get the products associated with the discount.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Product,$this>
+     */
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'discount_products');

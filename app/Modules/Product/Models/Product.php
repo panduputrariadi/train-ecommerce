@@ -28,16 +28,38 @@ class Product extends Model
 
     protected $appends = ['final_price', 'active_discount'];
 
+    public function getRouteKeyName(): string
+    {
+        return 'code';
+    }
+
+    /**
+     * Get the category that owns the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Category, $this>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
+
+    /**
+     * Get the category that owns the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User, $this>
+     */
     public function created_by(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
+
+    /**
+     * Get the discounts associated with the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Discount,$this>
+     */
     public function discounts(): BelongsToMany
     {
         return $this->belongsToMany(Discount::class, 'discount_products')
@@ -47,6 +69,16 @@ class Product extends Model
             });
     }
 
+    /**
+     * Get the active discount of the product.
+     *
+     * @return array{
+     *     type: string,
+     *     code: string,
+     *     value: int,
+     *     expired_at: ?string
+     * }|null The active discount of the product, or null if no active discount is found.
+     */
     public function getActiveDiscountAttribute(): ?array
     {
         $discount = $this->discounts->first();
@@ -62,6 +94,11 @@ class Product extends Model
         ];
     }
 
+    /**
+     * Get the final price of the product.
+     *
+     * @return int The final price of the product.
+     */
     public function getFinalPriceAttribute(): int
     {
         $price = (int) $this->price;
@@ -75,12 +112,10 @@ class Product extends Model
 
         if ($discount->type === 'percentage') {
             return max(0, (int) ($price - ($price * $calculateDisc->value / 100)));
-        }
-
-        if ($discount->type === 'nominal') {
+        } else {
             return max(0, (int) ($price - $calculateDisc->value));
         }
 
-        return $price;
+        // return $price;
     }
 }

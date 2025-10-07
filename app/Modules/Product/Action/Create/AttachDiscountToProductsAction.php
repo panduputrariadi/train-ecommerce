@@ -8,8 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AttachDiscountToProductsAction
 {
+    /**
+     * Attach discount to products
+     *
+     * @param  AttachDiscountToProductDto  $dto
+     * @return  DiscountProduct
+     */
     public function execute(AttachDiscountToProductDto $dto): DiscountProduct
     {
+        $data = null;
         foreach ($dto->productIds as $productId) {
             $data = DiscountProduct::query()->create([
                 'product_id' => $productId,

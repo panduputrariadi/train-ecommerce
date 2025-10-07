@@ -8,6 +8,17 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetDiscountAction
 {
+    /**
+     * Execute the GetDiscountAction
+     *
+     * @param GetDiscountDto $dto
+     * @return LengthAwarePaginator<int, Discount>
+     *
+     * @note This function will return a LengthAwarePaginator of Discount models.
+     * If the search parameter is filled, it will query the discounts with
+     * code or value like the search parameter.
+     * If the search parameter is empty, it will return all discounts.
+     */
     public function execute(GetDiscountDto $dto): LengthAwarePaginator
     {
         $search = $dto->search ?? '';

@@ -12,6 +12,11 @@ class AttachDiscountToProductRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Return the validation rules that apply to the request.
+     *
+     * @return array<string, array<int, string>>
+     */
     public function rules(): array
     {
         return [
@@ -21,6 +26,11 @@ class AttachDiscountToProductRequest extends FormRequest
         ];
     }
 
+    /**
+     * Return a validated AttachDiscountToProductDto
+     *
+     * @return AttachDiscountToProductDto
+     */
     public function validatedDto(): AttachDiscountToProductDto
     {
         return AttachDiscountToProductDto::fromArray($this->validated());

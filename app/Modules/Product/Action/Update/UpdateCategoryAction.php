@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UpdateCategoryAction
 {
+
     /**
-     * Execute action to update a category
+     * Execute the update of a category
      *
-     * @param  UpdateCategoryRequest  $request
-     *
+     * @param  UpdateCategoryDto  $dto
+     * @param int $id
+     * @return Category
      * @throws ModelNotFoundException
      */
     public function execute(UpdateCategoryDto $dto, int $id): Category
@@ -24,8 +26,8 @@ class UpdateCategoryAction
         }
 
         $data->update([
-            'name' => $dto->name,
-            'description' => $dto->description,
+            'name' => $dto->name ?? $data->name,
+            'description' => $dto->description ?? $data->description,
         ]);
 
         return $data;

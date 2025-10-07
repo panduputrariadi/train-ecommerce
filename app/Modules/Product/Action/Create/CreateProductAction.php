@@ -14,9 +14,10 @@ class CreateProductAction
     use HandlePhotoUploadTrait;
 
     /**
-     * Create a new product
+     * Execute the creation of a new product
      *
-     * @param  CreateProductRequest  $request
+     * @param  CreateProductDto  $dto
+     * @return Product
      */
     public function execute(CreateProductDto $dto): Product
     {

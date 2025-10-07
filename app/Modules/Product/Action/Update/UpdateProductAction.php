@@ -12,33 +12,30 @@ class UpdateProductAction
 {
     use HandlePhotoUploadTrait;
 
+
     /**
-     * Update a product
+     * Execute the update of a product
      *
-     * @param  UpdateProductRequest  $request
-     *
-     * @throws ModelNotFoundException
+     * @param  Product  $product
+     * @param  UpdateProductDto  $dto
+     * @return Product
      */
-    public function execute(string $code, UpdateProductDto $dto): Product
+    public function execute(Product $product, UpdateProductDto $dto): Product
     {
-        $product = Product::where('code', $code)->first();
-        if (! $product) {
-            throw new ModelNotFoundException('Product not found');
-        }
 
         $product->update([
-            'name' => $dto->name,
-            'description' => $dto->description,
-            'price' => $dto->price,
-            'stock' => $dto->stock,
-            'category_id' => $dto->categoryId,
+            'name' => $dto->name ?? $product->name,
+            'description' => $dto->description ?? $product->description,
+            'price' => $dto->price ?? $product->price,
+            'stock' => $dto->stock ?? $product->stock,
+            'category_id' => $dto->categoryId ?? $product->category_id,
         ]);
 
         $photoPath = $this->uploadPhoto(
             $dto->photo,
             'product-photo',
             $product->id,
-            $dto->name
+            $dto->name ?? $product->name
         );
 
         if ($photoPath) {
