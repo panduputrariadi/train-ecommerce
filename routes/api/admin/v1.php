@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Admin\Controllers\CategoryController;
+use App\Http\Admin\Controllers\DiscountController;
 use App\Http\Admin\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +16,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/products/{code}', [ProductController::class, 'getDetailProduct']);
     Route::patch('/admin/products/{code}', [ProductController::class, 'updateProduct']);
     Route::delete('/admin/products/{code}', [ProductController::class, 'deleteProduct']);
+
+    Route::post('/admin/discount', [DiscountController::class, 'createDiscount']);
+    Route::get('/admin/discount', [DiscountController::class, 'getDiscount']);
+    Route::post('admin/attach-discount', [DiscountController::class, 'attachDiscountToProducts']);
 });

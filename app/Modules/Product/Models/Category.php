@@ -22,7 +22,7 @@ class Category extends Model
     /**
      * Get the products associated with the category.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Product,$this>
      */
     public function products(): HasMany
     {

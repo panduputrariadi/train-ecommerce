@@ -9,28 +9,25 @@ class GetProductResource extends JsonResource
     public function toArray($request): array
     {
         $discountData = null;
+        $finalPrice = (int) $this->price;
 
+        //function dalam model
         if ($this->is_discount && $this->discounts->isNotEmpty()) {
-            $activeDiscount = $this->discounts
-                ->where('expired_at', '>', now())
-                ->sortByDesc('value')
-                ->first();
+            $activeDiscount = $this->discounts->sortByDesc('value')->first();
 
             if ($activeDiscount) {
-                $discountValue = $activeDiscount->value;
-                $discountType = $activeDiscount->type;
-
-                if ($discountType === 'percentage') {
-                    $finalPrice = $this->price - (($discountValue / 100) * $this->price);
-                } else {
-                    $finalPrice = $this->price - $discountValue;
-                }
-
                 $discountData = [
-                    'type' => $discountType,
-                    'value' => (int) $discountValue,
-                    'final_price' => max(0, (int) round($finalPrice)),
+                    'type' => $activeDiscount->type,
+                    'code' => $activeDiscount->code,
+                    'value' => (int) $activeDiscount->value,
+                    'expired_at' => $activeDiscount->expired_at,
                 ];
+
+                if ($activeDiscount->type === 'percentage') {
+                    $finalPrice = $this->price - ($this->price * $activeDiscount->value / 100);
+                } elseif ($activeDiscount->type === 'nominal') {
+                    $finalPrice = max(0, $this->price - $activeDiscount->value);
+                }
             }
         }
 
@@ -39,8 +36,8 @@ class GetProductResource extends JsonResource
             'code' => $this->code,
             'name' => $this->name,
             'price' => (int) $this->price,
+            'final_price' => (int) $finalPrice,
             'is_discount' => (bool) $this->is_discount,
-            'category' => $this->category,
             'discount' => $discountData,
         ];
     }
