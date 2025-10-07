@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Collections;
 
-use App\Http\Admin\Resources\GetProductResource;
+use App\Http\Admin\Resources\Read\GetProductResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class GetProductCollection extends ResourceCollection

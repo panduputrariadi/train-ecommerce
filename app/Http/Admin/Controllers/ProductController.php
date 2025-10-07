@@ -3,18 +3,18 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Collections\GetProductCollection;
-use App\Http\Admin\Resources\CreateProductResource;
-use App\Http\Admin\Resources\GetDetailProductResource;
-use App\Http\Admin\Resources\UpdateProductResource;
+use App\Http\Admin\Resources\Create\CreateProductResource;
+use App\Http\Admin\Resources\Detail\GetDetailProductResource;
+use App\Http\Admin\Resources\Update\UpdateProductResource;
 use App\Http\Controllers\Controller;
-use App\Modules\Product\Action\CreateProductAction;
-use App\Modules\Product\Action\DeleteProductAction;
-use App\Modules\Product\Action\GetDetailProductAction;
-use App\Modules\Product\Action\GetProductAction;
-use App\Modules\Product\Action\UpdateProductAction;
-use App\Modules\Product\Request\CreateProductRequest;
-use App\Modules\Product\Request\GetProductRequest;
-use App\Modules\Product\Request\UpdateProductRequest;
+use App\Modules\Product\Action\Create\CreateProductAction;
+use App\Modules\Product\Action\Delete\DeleteProductAction;
+use App\Modules\Product\Action\Detail\GetDetailProductAction;
+use App\Modules\Product\Action\Read\GetProductAction;
+use App\Modules\Product\Action\Update\UpdateProductAction;
+use App\Modules\Product\Request\Create\CreateProductRequest;
+use App\Modules\Product\Request\Read\GetProductRequest;
+use App\Modules\Product\Request\Update\UpdateProductRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
