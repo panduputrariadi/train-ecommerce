@@ -4,12 +4,14 @@ namespace App\Modules\Product\Action\Update;
 
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Update\UpdateProductRequest;
+use App\Modules\Share\Trait\HandlePhotoUploadTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UpdateProductAction
 {
+    use HandlePhotoUploadTrait;
 
     /**
      * Update a product
@@ -35,15 +37,14 @@ class UpdateProductAction
             'category_id' => $dto->categoryId,
         ]);
 
-        if ($dto->photo) {
-            if ($product->photo && Storage::disk('public')->exists($product->photo)) {
-                Storage::disk('public')->delete($product->photo);
-            }
+        $photoPath = $this->uploadPhoto(
+            $dto->photo,
+            'product-photo',
+            $product->id,
+            $dto->name
+        );
 
-            $slug = Str::slug($dto->name);
-            $filename = "{$product->id}_{$slug}.".$dto->photo->getClientOriginalExtension();
-            $photoPath = $dto->photo->storeAs('product-photo', $filename, 'public');
-
+        if ($photoPath) {
             $product->update(['photo' => $photoPath]);
         }
 

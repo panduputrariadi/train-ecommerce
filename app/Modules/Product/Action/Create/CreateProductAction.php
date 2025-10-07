@@ -4,12 +4,15 @@ namespace App\Modules\Product\Action\Create;
 
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Create\CreateProductRequest;
+use App\Modules\Share\Trait\HandlePhotoUploadTrait;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class CreateProductAction
 {
+
+    use HandlePhotoUploadTrait;
 
     /**
      * Create a new product
@@ -33,14 +36,15 @@ class CreateProductAction
             'created_by' => Auth::id(),
         ]);
 
-        $photoPath = null;
-        if ($dto->photo instanceof UploadedFile) {
-            $nameSlug = preg_replace('/[^a-z0-9\-]/', '', str_replace(' ', '-', strtolower($dto->name)));
-            $filename = "{$product->id}_{$nameSlug}.{$dto->photo->getClientOriginalExtension()}";
-            $photoPath = $dto->photo->storeAs('product-photo', $filename, 'public');
-            $product->update([
-                'photo' => $photoPath,
-            ]);
+        $photoPath = $this->uploadPhoto(
+            $dto->photo,
+            'product-photo',
+            $product->id,
+            $dto->name
+        );
+
+        if ($photoPath) {
+            $product->update(['photo' => $photoPath]);
         }
 
         return $product;

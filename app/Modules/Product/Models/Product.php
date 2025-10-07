@@ -27,6 +27,8 @@ class Product extends Model
         'created_by',
     ];
 
+    protected $appends = ['final_price', 'active_discount'];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -44,5 +46,42 @@ class Product extends Model
                 $query->whereNull('expired_at')
                     ->orWhere('expired_at', '>', now());
             });
+    }
+
+    public function getActiveDiscountAttribute(): ?array
+    {
+        $discount = $this->discounts->first();
+        if (!$this->is_discount || !$discount) {
+            return null;
+        }
+
+        return [
+            'type' => $discount->type,
+            'code' => $discount->code,
+            'value' => (int) $discount->value,
+            'expired_at' => $discount->expired_at,
+        ];
+    }
+
+    public function getFinalPriceAttribute(): int
+    {
+        $price = (int) $this->price;
+        $discount = $this->discounts->first();
+
+        if (!$this->is_discount || !$discount) {
+            return $price;
+        }
+
+        $calculateDisc = $discount;
+
+        if ($discount->type === 'percentage') {
+            return max(0, (int) ($price - ($price * $calculateDisc->value / 100)));
+        }
+
+        if ($discount->type === 'nominal') {
+            return max(0, (int) ($price - $calculateDisc->value));
+        }
+
+        return $price;
     }
 }

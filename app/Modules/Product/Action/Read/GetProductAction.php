@@ -21,7 +21,7 @@ class GetProductAction
         $search = $dto->search ?? '';
         $perPage = $dto->perPage ?? 10;
 
-        $query = Product::with(['discounts', 'category:id,name'])
+        $query = Product::with(['category:id,name'])
             ->when(filled($search), function ($q) use ($search) {
                 $q->where(function ($sub) use ($search) {
                     $sub->where('name', 'like', "%{$search}%")
