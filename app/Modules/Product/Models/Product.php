@@ -6,7 +6,6 @@ use App\Modules\Share\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -51,7 +50,7 @@ class Product extends Model
     public function getActiveDiscountAttribute(): ?array
     {
         $discount = $this->discounts->first();
-        if (!$this->is_discount || !$discount) {
+        if (! $this->is_discount || ! $discount) {
             return null;
         }
 
@@ -68,7 +67,7 @@ class Product extends Model
         $price = (int) $this->price;
         $discount = $this->discounts->first();
 
-        if (!$this->is_discount || !$discount) {
+        if (! $this->is_discount || ! $discount) {
             return $price;
         }
 

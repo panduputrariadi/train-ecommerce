@@ -22,8 +22,6 @@ class GetProductRequest extends FormRequest
 
     /**
      * Return a validated GetProductDto
-     *
-     * @return GetProductDto
      */
     public function validatedDto(): GetProductDto
     {

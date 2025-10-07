@@ -7,5 +7,6 @@ use App\Base\BaseDto;
 class AttachDiscountToProductDto extends BaseDto
 {
     public int $discountId;
+
     public array $productIds;
 }

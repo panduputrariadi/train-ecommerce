@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCategoryRequest extends FormRequest
 {
-
     /**
      * Validation rules for updating a category
      *
@@ -23,8 +22,6 @@ class UpdateCategoryRequest extends FormRequest
 
     /**
      * Return a validated UpdateCategoryDto
-     *
-     * @return UpdateCategoryDto
      */
     public function validatedDto(): UpdateCategoryDto
     {

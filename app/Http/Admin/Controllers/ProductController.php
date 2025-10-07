@@ -22,21 +22,24 @@ class ProductController extends Controller
 {
     public function createProduct(CreateProductRequest $request, CreateProductAction $action): CreateProductResource
     {
-        $product = DB::transaction(fn () => $action->execute($request));
+        $dto = $request->validatedDto();
+        $product = DB::transaction(fn () => $action->execute($dto));
 
         return new CreateProductResource($product);
     }
 
     public function getProduct(GetProductRequest $request, GetProductAction $action): GetProductCollection
     {
-        $data = $action->execute($request);
+        $dto = $request->validatedDto();
+        $data = $action->execute($dto);
 
         return new GetProductCollection($data);
     }
 
     public function updateProduct(string $code, UpdateProductRequest $request, UpdateProductAction $action): UpdateProductResource
     {
-        $product = DB::transaction(fn () => $action->execute($code, $request));
+        $dto = $request->validatedDto();
+        $product = DB::transaction(fn () => $action->execute($code, $dto));
 
         return new UpdateProductResource($product);
     }
@@ -54,12 +57,12 @@ class ProductController extends Controller
 
         if (! $deleted) {
             return response()->json([
-                'message' => 'Product not found'
+                'message' => 'Product not found',
             ], 404);
         }
 
         return response()->json([
-            'message' => 'success deleted product'
+            'message' => 'success deleted product',
         ]);
     }
 }

@@ -10,9 +10,9 @@ class CreateDiscountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type'       => ['required', 'string', 'in:percentage,nominal'],
-            'code'       => ['required', 'string', 'unique:discounts,code'],
-            'value'      => ['required', 'numeric', 'min:0'],
+            'type' => ['required', 'string', 'in:percentage,nominal'],
+            'code' => ['required', 'string', 'unique:discounts,code'],
+            'value' => ['required', 'numeric', 'min:0'],
             'expired_at' => ['nullable', 'date', 'after:now'],
         ];
     }

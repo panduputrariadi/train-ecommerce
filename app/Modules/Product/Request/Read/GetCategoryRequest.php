@@ -22,8 +22,6 @@ class GetCategoryRequest extends FormRequest
 
     /**
      * Return a validated GetCategoryDto
-     *
-     * @return GetCategoryDto
      */
     public function validatedDto(): GetCategoryDto
     {

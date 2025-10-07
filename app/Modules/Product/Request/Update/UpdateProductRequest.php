@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProductRequest extends FormRequest
 {
-
     /**
      * Validation rules for update product request.
      *
@@ -26,11 +25,8 @@ class UpdateProductRequest extends FormRequest
         ];
     }
 
-
     /**
      * Return a validated UpdateProductDto
-     *
-     * @return UpdateProductDto
      */
     public function validatedDto(): UpdateProductDto
     {

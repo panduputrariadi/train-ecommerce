@@ -2,19 +2,18 @@
 
 namespace App\Modules\Product\Action\Create;
 
+use App\Modules\Product\DTOs\Create\CreateDiscountDto;
 use App\Modules\Product\Models\Discount;
-use App\Modules\Product\Request\Create\CreateDiscountRequest;
 
 class CreateDiscountAction
 {
-    public function execute(CreateDiscountRequest $request): Discount
+    public function execute(CreateDiscountDto $dto): Discount
     {
-        $dto = $request->validatedDto();
 
         $discount = Discount::create([
-            'type'       => $dto->type,
-            'code'       => $dto->code,
-            'value'      => $dto->value,
+            'type' => $dto->type,
+            'code' => $dto->code,
+            'value' => $dto->value,
             'expired_at' => $dto->expired_at,
         ]);
 

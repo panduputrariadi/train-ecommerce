@@ -2,12 +2,11 @@
 
 namespace App\Modules\Product\Action\Update;
 
+use App\Modules\Product\DTOs\Update\UpdateProductDto;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Update\UpdateProductRequest;
 use App\Modules\Share\Trait\HandlePhotoUploadTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class UpdateProductAction
 {
@@ -16,18 +15,16 @@ class UpdateProductAction
     /**
      * Update a product
      *
-     * @param string $code
-     * @param UpdateProductRequest $request
-     * @return Product
+     * @param  UpdateProductRequest  $request
+     *
      * @throws ModelNotFoundException
      */
-    public function execute(string $code, UpdateProductRequest $request): Product
+    public function execute(string $code, UpdateProductDto $dto): Product
     {
         $product = Product::where('code', $code)->first();
         if (! $product) {
             throw new ModelNotFoundException('Product not found');
         }
-        $dto = $request->validatedDto();
 
         $product->update([
             'name' => $dto->name,

@@ -22,8 +22,6 @@ class CreateCategoryRequest extends FormRequest
 
     /**
      * Return a validated CreateCategoryDto
-     *
-     * @return CreateCategoryDto
      */
     public function validatedDto(): CreateCategoryDto
     {

@@ -2,16 +2,14 @@
 
 namespace App\Modules\Product\Action\Read;
 
+use App\Modules\Product\DTOs\Read\GetDiscountDto;
 use App\Modules\Product\Models\Discount;
-use App\Modules\Product\Request\Read\GetDiscountRequest;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetDiscountAction
 {
-    public function execute(GetDiscountRequest $request): LengthAwarePaginator
+    public function execute(GetDiscountDto $dto): LengthAwarePaginator
     {
-        $dto = $request->validatedDto();
-
         $search = $dto->search ?? '';
         $perPage = $dto->perPage ?? 10;
 

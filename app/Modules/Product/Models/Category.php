@@ -18,7 +18,6 @@ class Category extends Model
         'description',
     ];
 
-
     /**
      * Get the products associated with the category.
      *

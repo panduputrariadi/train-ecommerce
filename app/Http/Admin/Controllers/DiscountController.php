@@ -18,20 +18,25 @@ class DiscountController extends Controller
 {
     public function createDiscount(CreateDiscountRequest $request, CreateDiscountAction $action): CreateDiscountResource
     {
-        $discount = DB::transaction(fn () => $action->execute($request));
+        $dto = $request->validated();
+        $discount = DB::transaction(fn () => $action->execute($dto));
+
         return new CreateDiscountResource($discount);
     }
 
     public function getDiscount(GetDiscountRequest $request, GetDiscountAction $action): GetDiscountCollection
     {
-        $data = $action->execute($request);
+        $dto = $request->validated();
+        $data = $action->execute($dto);
 
         return new GetDiscountCollection($data);
     }
 
     public function attachDiscountToProducts(AttachDiscountToProductRequest $request, AttachDiscountToProductsAction $action): AttachDiscountToProductsResource
     {
-        $attachDiscount = DB::transaction(fn () => $action->execute($request));
+        $dto = $request->validated();
+        $attachDiscount = DB::transaction(fn () => $action->execute($dto));
+
         return new AttachDiscountToProductsResource($attachDiscount);
     }
 }

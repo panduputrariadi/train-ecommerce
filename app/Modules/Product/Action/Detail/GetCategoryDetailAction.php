@@ -7,12 +7,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class GetCategoryDetailAction
 {
-
     /**
      * Execute action to get category detail
      *
-     * @param int $id
-     * @return Category
      * @throws ModelNotFoundException
      */
     public function execute(int $id): Category

@@ -2,6 +2,7 @@
 
 namespace App\Modules\Product\Action\Read;
 
+use App\Modules\Product\DTOs\Read\GetProductDto;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Read\GetProductRequest;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -11,13 +12,11 @@ class GetProductAction
     /**
      * Execute the GetProductAction
      *
-     * @param GetProductRequest $request
+     * @param  GetProductRequest  $request
      * @return LengthAwarePaginator<int, Product>
      */
-    public function execute(GetProductRequest $request): LengthAwarePaginator
+    public function execute(GetProductDto $dto): LengthAwarePaginator
     {
-        $dto = $request->validatedDto();
-
         $search = $dto->search ?? '';
         $perPage = $dto->perPage ?? 10;
 

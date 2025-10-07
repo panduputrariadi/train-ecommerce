@@ -2,30 +2,26 @@
 
 namespace App\Modules\Product\Action\Create;
 
+use App\Modules\Product\DTOs\Create\CreateProductDto;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Create\CreateProductRequest;
+use App\Modules\Share\Helper\CodeGenerator;
 use App\Modules\Share\Trait\HandlePhotoUploadTrait;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class CreateProductAction
 {
-
     use HandlePhotoUploadTrait;
 
     /**
      * Create a new product
      *
-     * @param CreateProductRequest $request
-     * @return Product
-     *
+     * @param  CreateProductRequest  $request
      */
-    public function execute(CreateProductRequest $request): Product
+    public function execute(CreateProductDto $dto): Product
     {
-        $dto = $request->validatedDto();
         $product = Product::create([
-            'code' => Str::uuid(),
+            'code' => CodeGenerator::generate('products', 'PRD', $dto->name),
             'name' => $dto->name,
             'description' => $dto->description,
             'price' => $dto->price,
