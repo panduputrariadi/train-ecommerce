@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class GetDetailProductAction
 {
+
+    /**
+     * Execute action to get product detail
+     *
+     * @param string $code
+     * @return Product
+     * @throws ModelNotFoundException
+     */
     public function execute(string $code): Product
     {
         $data = Product::where('code', $code)->first();

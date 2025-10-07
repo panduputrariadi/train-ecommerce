@@ -8,6 +8,14 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetCategoryProductAction
 {
+
+    /**
+     * Execute the GetCategoryProductAction
+     *
+     * @param GetCategoryRequest $request
+     * @return LengthAwarePaginator<int, Category>
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
     public function execute(GetCategoryRequest $request): LengthAwarePaginator
     {
         $dto = $request->validatedDto();

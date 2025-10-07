@@ -10,6 +10,15 @@ use Illuminate\Support\Str;
 
 class UpdateProductAction
 {
+
+    /**
+     * Update a product
+     *
+     * @param string $code
+     * @param UpdateProductRequest $request
+     * @return Product
+     * @throws ModelNotFoundException
+     */
     public function execute(string $code, UpdateProductRequest $request): Product
     {
         $product = Product::where('code', $code)->first();

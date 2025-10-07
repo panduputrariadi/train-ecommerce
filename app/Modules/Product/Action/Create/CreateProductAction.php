@@ -10,6 +10,14 @@ use Illuminate\Support\Str;
 
 class CreateProductAction
 {
+
+    /**
+     * Create a new product
+     *
+     * @param CreateProductRequest $request
+     * @return Product
+     *
+     */
     public function execute(CreateProductRequest $request): Product
     {
         $dto = $request->validatedDto();

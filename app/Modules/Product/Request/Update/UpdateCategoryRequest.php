@@ -7,6 +7,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCategoryRequest extends FormRequest
 {
+
+    /**
+     * Validation rules for updating a category
+     *
+     * @return array<string, array<int, string>>
+     */
     public function rules(): array
     {
         return [
@@ -15,11 +21,11 @@ class UpdateCategoryRequest extends FormRequest
         ];
     }
 
-/**
- * Return a validated UpdateCategoryDto
- *
- * @return UpdateCategoryDto
- */
+    /**
+     * Return a validated UpdateCategoryDto
+     *
+     * @return UpdateCategoryDto
+     */
     public function validatedDto(): UpdateCategoryDto
     {
         return UpdateCategoryDto::fromArray($this->validated());

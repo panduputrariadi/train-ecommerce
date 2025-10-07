@@ -7,6 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCategoryRequest extends FormRequest
 {
+    /**
+     * Validation rules for creating a category
+     *
+     * @return array<string, array<int, string>>
+     */
     public function rules(): array
     {
         return [
@@ -15,6 +20,11 @@ class CreateCategoryRequest extends FormRequest
         ];
     }
 
+    /**
+     * Return a validated CreateCategoryDto
+     *
+     * @return CreateCategoryDto
+     */
     public function validatedDto(): CreateCategoryDto
     {
         return CreateCategoryDto::fromArray($this->validated());

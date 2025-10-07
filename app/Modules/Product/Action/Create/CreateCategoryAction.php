@@ -8,6 +8,13 @@ use Illuminate\Support\Str;
 
 class CreateCategoryAction
 {
+
+    /**
+     * Execute the creation of a new category
+     *
+     * @param CreateCategoryRequest $request
+     * @return Category
+     */
     public function execute(CreateCategoryRequest $request): Category
     {
         $dto = $request->validatedDto();

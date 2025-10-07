@@ -7,6 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateProductRequest extends FormRequest
 {
+    /**
+     * Return rules for validation
+     *
+     * @return array<string, array<int, string>|string>
+     */
     public function rules(): array
     {
         return [
@@ -20,6 +25,11 @@ class CreateProductRequest extends FormRequest
         ];
     }
 
+    /**
+     * Return a validated CreateProductDto
+     *
+     * @return CreateProductDto
+     */
     public function validatedDto(): CreateProductDto
     {
         return CreateProductDto::fromArray($this->validated());

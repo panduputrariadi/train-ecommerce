@@ -8,6 +8,12 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetProductAction
 {
+    /**
+     * Execute the GetProductAction
+     *
+     * @param GetProductRequest $request
+     * @return LengthAwarePaginator<int, Product>
+     */
     public function execute(GetProductRequest $request): LengthAwarePaginator
     {
         $dto = $request->validatedDto();
