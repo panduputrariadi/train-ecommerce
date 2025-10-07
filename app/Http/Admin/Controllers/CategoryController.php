@@ -3,17 +3,17 @@
 namespace App\Http\Admin\Controllers;
 
 use App\Http\Admin\Collections\GetCategoryProductCollection;
-use App\Http\Admin\Resources\CreateCategoryResource;
-use App\Http\Admin\Resources\GetCategoryDetailResource;
-use App\Http\Admin\Resources\UpdateCategoryResource;
+use App\Http\Admin\Resources\Create\CreateCategoryResource;
+use App\Http\Admin\Resources\Detail\GetCategoryDetailResource;
+use App\Http\Admin\Resources\Update\UpdateCategoryResource;
 use App\Http\Controllers\Controller;
-use App\Modules\Product\Action\CreateCategoryAction;
-use App\Modules\Product\Action\GetCategoryDetailAction;
-use App\Modules\Product\Action\GetCategoryProductAction;
-use App\Modules\Product\Action\UpdateCategoryAction;
-use App\Modules\Product\Request\CreateCategoryRequest;
-use App\Modules\Product\Request\GetCategoryRequest;
-use App\Modules\Product\Request\UpdateCategoryRequest;
+use App\Modules\Product\Action\Create\CreateCategoryAction;
+use App\Modules\Product\Action\Detail\GetCategoryDetailAction;
+use App\Modules\Product\Action\Read\GetCategoryProductAction;
+use App\Modules\Product\Action\Update\UpdateCategoryAction;
+use App\Modules\Product\Request\Create\CreateCategoryRequest;
+use App\Modules\Product\Request\Read\GetCategoryRequest;
+use App\Modules\Product\Request\Update\UpdateCategoryRequest;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller

@@ -2,7 +2,7 @@
 
 namespace App\Http\Admin\Collections;
 
-use App\Http\Admin\Resources\GetCategoryProductResource;
+use App\Http\Admin\Resources\Read\GetCategoryProductResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class GetCategoryProductCollection extends ResourceCollection
