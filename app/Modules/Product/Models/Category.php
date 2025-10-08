@@ -2,14 +2,13 @@
 
 namespace App\Modules\Product\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'categories';
 
@@ -19,6 +18,11 @@ class Category extends Model
         'description',
     ];
 
+    /**
+     * Get the products associated with the category.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Product,$this>
+     */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);

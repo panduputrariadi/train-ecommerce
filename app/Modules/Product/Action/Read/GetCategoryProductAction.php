@@ -2,16 +2,27 @@
 
 namespace App\Modules\Product\Action\Read;
 
+use App\Modules\Product\DTOs\Read\GetCategoryDto;
 use App\Modules\Product\Models\Category;
 use App\Modules\Product\Request\Read\GetCategoryRequest;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetCategoryProductAction
 {
-    public function execute(GetCategoryRequest $request): LengthAwarePaginator
-    {
-        $dto = $request->validatedDto();
 
+    /**
+     * Execute the GetCategoryProductAction
+     *
+     * @param GetCategoryDto $dto
+     * @return LengthAwarePaginator<int, Category>
+     *
+     * @note This function will return a LengthAwarePaginator of Category models.
+     * If the search parameter is filled, it will query the categories with
+     * name or slug like the search parameter.
+     * If the search parameter is empty, it will return all categories.
+     */
+    public function execute(GetCategoryDto $dto): LengthAwarePaginator
+    {
         $search = $dto->search ?? '';
         $perPage = $dto->perPage ?? 10;
 

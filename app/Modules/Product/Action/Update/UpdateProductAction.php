@@ -2,39 +2,43 @@
 
 namespace App\Modules\Product\Action\Update;
 
+use App\Modules\Product\DTOs\Update\UpdateProductDto;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Update\UpdateProductRequest;
+use App\Modules\Share\Trait\HandlePhotoUploadTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class UpdateProductAction
 {
-    public function execute(string $code, UpdateProductRequest $request): Product
+    use HandlePhotoUploadTrait;
+
+
+    /**
+     * Execute the update of a product
+     *
+     * @param  Product  $product
+     * @param  UpdateProductDto  $dto
+     * @return Product
+     */
+    public function execute(Product $product, UpdateProductDto $dto): Product
     {
-        $product = Product::where('code', $code)->first();
-        if (! $product) {
-            throw new ModelNotFoundException('Product not found');
-        }
-        $dto = $request->validatedDto();
 
         $product->update([
-            'name' => $dto->name,
-            'description' => $dto->description,
-            'price' => $dto->price,
-            'stock' => $dto->stock,
-            'category_id' => $dto->categoryId,
+            'name' => $dto->name ?? $product->name,
+            'description' => $dto->description ?? $product->description,
+            'price' => $dto->price ?? $product->price,
+            'stock' => $dto->stock ?? $product->stock,
+            'category_id' => $dto->categoryId ?? $product->category_id,
         ]);
 
-        if ($dto->photo) {
-            if ($product->photo && Storage::disk('public')->exists($product->photo)) {
-                Storage::disk('public')->delete($product->photo);
-            }
+        $photoPath = $this->uploadPhoto(
+            $dto->photo,
+            'product-photo',
+            $product->id,
+            $dto->name ?? $product->name
+        );
 
-            $slug = Str::slug($dto->name);
-            $filename = "{$product->id}_{$slug}.".$dto->photo->getClientOriginalExtension();
-            $photoPath = $dto->photo->storeAs('product-photo', $filename, 'public');
-
+        if ($photoPath) {
             $product->update(['photo' => $photoPath]);
         }
 

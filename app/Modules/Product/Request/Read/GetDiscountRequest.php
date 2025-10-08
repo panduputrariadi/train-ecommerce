@@ -2,10 +2,10 @@
 
 namespace App\Modules\Product\Request\Read;
 
-use App\Modules\Product\DTOs\Read\GetCategoryDto;
+use App\Modules\Product\DTOs\Read\GetDiscountDto;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetCategoryRequest extends FormRequest
+class GetDiscountRequest extends FormRequest
 {
     /**
      * Return validation rules for the GetCategoryRequest
@@ -20,11 +20,8 @@ class GetCategoryRequest extends FormRequest
         ];
     }
 
-    /**
-     * Return a validated GetCategoryDto
-     */
-    public function validatedDto(): GetCategoryDto
+    public function validatedDto(): GetDiscountDto
     {
-        return GetCategoryDto::fromArray($this->validated());
+        return GetDiscountDto::fromArray($this->validated());
     }
 }

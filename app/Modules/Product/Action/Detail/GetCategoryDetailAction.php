@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class GetCategoryDetailAction
 {
+    /**
+     * Execute action to get category detail
+     *
+     * @throws ModelNotFoundException
+     */
     public function execute(int $id): Category
     {
         $data = Category::withoutTrashed()->find($id);

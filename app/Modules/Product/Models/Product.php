@@ -3,7 +3,6 @@
 namespace App\Modules\Product\Models;
 
 use App\Modules\Share\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -11,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'products';
 
@@ -27,20 +26,96 @@ class Product extends Model
         'created_by',
     ];
 
+    protected $appends = ['final_price', 'active_discount'];
+
+    public function getRouteKeyName(): string
+    {
+        return 'code';
+    }
+
+    /**
+     * Get the category that owns the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Category, $this>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
+
+    /**
+     * Get the category that owns the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User, $this>
+     */
     public function created_by(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
+
+    /**
+     * Get the discounts associated with the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Discount,$this>
+     */
     public function discounts(): BelongsToMany
     {
         return $this->belongsToMany(Discount::class, 'discount_products')
-            ->withPivot(['created_by', 'created_at'])
-            ->withTimestamps();
+            ->where(function ($query) {
+                $query->whereNull('expired_at')
+                    ->orWhere('expired_at', '>', now());
+            });
+    }
+
+    /**
+     * Get the active discount of the product.
+     *
+     * @return array{
+     *     type: string,
+     *     code: string,
+     *     value: int,
+     *     expired_at: ?string
+     * }|null The active discount of the product, or null if no active discount is found.
+     */
+    public function getActiveDiscountAttribute(): ?array
+    {
+        $discount = $this->discounts->first();
+        if (! $this->is_discount || ! $discount) {
+            return null;
+        }
+
+        return [
+            'type' => $discount->type,
+            'code' => $discount->code,
+            'value' => (int) $discount->value,
+            'expired_at' => $discount->expired_at,
+        ];
+    }
+
+    /**
+     * Get the final price of the product.
+     *
+     * @return int The final price of the product.
+     */
+    public function getFinalPriceAttribute(): int
+    {
+        $price = (int) $this->price;
+        $discount = $this->discounts->first();
+
+        if (! $this->is_discount || ! $discount) {
+            return $price;
+        }
+
+        $calculateDisc = $discount;
+
+        if ($discount->type === 'percentage') {
+            return max(0, (int) ($price - ($price * $calculateDisc->value / 100)));
+        } else {
+            return max(0, (int) ($price - $calculateDisc->value));
+        }
+
+        // return $price;
     }
 }

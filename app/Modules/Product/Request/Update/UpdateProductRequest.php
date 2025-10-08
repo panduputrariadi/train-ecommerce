@@ -7,6 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProductRequest extends FormRequest
 {
+    /**
+     * Validation rules for update product request.
+     *
+     * @return array<string, array<int, string>|string>
+     */
     public function rules(): array
     {
         return [
@@ -20,6 +25,9 @@ class UpdateProductRequest extends FormRequest
         ];
     }
 
+    /**
+     * Return a validated UpdateProductDto
+     */
     public function validatedDto(): UpdateProductDto
     {
         return UpdateProductDto::fromArray($this->validated());

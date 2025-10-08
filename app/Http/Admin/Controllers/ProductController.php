@@ -12,6 +12,7 @@ use App\Modules\Product\Action\Delete\DeleteProductAction;
 use App\Modules\Product\Action\Detail\GetDetailProductAction;
 use App\Modules\Product\Action\Read\GetProductAction;
 use App\Modules\Product\Action\Update\UpdateProductAction;
+use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Create\CreateProductRequest;
 use App\Modules\Product\Request\Read\GetProductRequest;
 use App\Modules\Product\Request\Update\UpdateProductRequest;
@@ -22,44 +23,42 @@ class ProductController extends Controller
 {
     public function createProduct(CreateProductRequest $request, CreateProductAction $action): CreateProductResource
     {
-        $product = DB::transaction(fn () => $action->execute($request));
+        $dto = $request->validatedDto();
+        $product = DB::transaction(fn () => $action->execute($dto));
 
         return new CreateProductResource($product);
     }
 
     public function getProduct(GetProductRequest $request, GetProductAction $action): GetProductCollection
     {
-        $data = $action->execute($request);
+        $dto = $request->validatedDto();
+        $data = $action->execute($dto);
 
         return new GetProductCollection($data);
     }
 
-    public function updateProduct(string $code, UpdateProductRequest $request, UpdateProductAction $action): UpdateProductResource
+    public function getDetailProduct(Product $product, GetDetailProductAction $action): GetDetailProductResource
     {
-        $product = DB::transaction(fn () => $action->execute($code, $request));
+        $data = $action->execute($product);
 
-        return new UpdateProductResource($product);
+        return new GetDetailProductResource($data);
     }
 
-    public function getDetailProduct(string $code, GetDetailProductAction $action): GetDetailProductResource
+    public function updateProduct(Product $product, UpdateProductRequest $request, UpdateProductAction $action): UpdateProductResource
     {
-        $product = $action->execute($code);
+        $dto = $request->validatedDto();
 
-        return new GetDetailProductResource($product);
+        $updated = DB::transaction(fn () => $action->execute($product, $dto));
+
+        return new UpdateProductResource($updated);
     }
 
-    public function deleteProduct(string $code, DeleteProductAction $action): JsonResponse
+    public function deleteProduct(Product $product, DeleteProductAction $action): JsonResponse
     {
-        $deleted = $action->execute($code);
-
-        if (! $deleted) {
-            return response()->json([
-                'message' => 'Product not found'
-            ], 404);
-        }
+        DB::transaction(fn () => $action->execute($product));
 
         return response()->json([
-            'message' => 'success deleted product'
+            'message' => 'success deleted product',
         ]);
     }
 }

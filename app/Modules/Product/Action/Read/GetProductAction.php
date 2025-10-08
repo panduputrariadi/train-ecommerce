@@ -2,20 +2,28 @@
 
 namespace App\Modules\Product\Action\Read;
 
+use App\Modules\Product\DTOs\Read\GetProductDto;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Read\GetProductRequest;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetProductAction
 {
-    public function execute(GetProductRequest $request): LengthAwarePaginator
-    {
-        $dto = $request->validatedDto();
 
+    /**
+     * Execute the GetProductAction
+     *
+     * @param  GetProductDto  $dto
+     * @return LengthAwarePaginator<int, Product>
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function execute(GetProductDto $dto): LengthAwarePaginator
+    {
         $search = $dto->search ?? '';
         $perPage = $dto->perPage ?? 10;
 
-        $query = Product::with(['discounts', 'category:id,name'])
+        $query = Product::with(['category:id,name'])
             ->when(filled($search), function ($q) use ($search) {
                 $q->where(function ($sub) use ($search) {
                     $sub->where('name', 'like', "%{$search}%")

@@ -7,13 +7,20 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class GetDetailProductAction
 {
-    public function execute(string $code): Product
+
+    /**
+     * Execute action to get product detail
+     *
+     * @throws ModelNotFoundException
+     * @param  Product $product
+     * @return Product
+     */
+    public function execute(Product $product): Product
     {
-        $data = Product::where('code', $code)->first();
-        if (! $data) {
-            throw new ModelNotFoundException('Product not found');
+        if (! $product) {
+            throw new ModelNotFoundException('Product not found or invalid code');
         }
 
-        return $data;
+        return $product->load(['category:id,name']);
     }
 }
