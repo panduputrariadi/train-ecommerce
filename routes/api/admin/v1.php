@@ -24,5 +24,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/admin/customers', [CustomerController::class, 'index']);
     Route::patch('/admin/customers/{profile}/block', [CustomerController::class, 'blockCustomer']);
-    Route::patch('/admin/customers/{profile}/block', [CustomerController::class, 'unblockCustomer']);
+    Route::patch('/admin/customers/{profile}/unblock', [CustomerController::class, 'unblockCustomer']);
 });
