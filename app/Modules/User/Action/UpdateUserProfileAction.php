@@ -3,15 +3,14 @@
 namespace App\Modules\User\Action;
 
 use App\Modules\Share\Models\User;
-use App\Modules\User\Request\UpdateProfileRequest;
+use App\Modules\User\DTOs\UpdateProfileDto;
 use Illuminate\Support\Facades\Auth;
 
 class UpdateUserProfileAction
 {
-    public function execute(UpdateProfileRequest $request): User
+    public function execute(UpdateProfileDto $dto): User
     {
         $user = Auth::user();
-        $dto = $request->validatedDto();
 
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
