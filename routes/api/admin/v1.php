@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Admin\Controllers\CategoryController;
+use App\Http\Admin\Controllers\CustomerController;
 use App\Http\Admin\Controllers\DiscountController;
 use App\Http\Admin\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/admin/discount', [DiscountController::class, 'createDiscount']);
     Route::get('/admin/discount', [DiscountController::class, 'getDiscount']);
     Route::post('admin/attach-discount', [DiscountController::class, 'attachDiscountToProducts']);
+
+    Route::get('/admin/customers', [CustomerController::class, 'index']);
+    Route::patch('/admin/customers/{profile}/block', [CustomerController::class, 'blockCustomer']);
+    Route::patch('/admin/customers/{profile}/block', [CustomerController::class, 'unblockCustomer']);
 });
