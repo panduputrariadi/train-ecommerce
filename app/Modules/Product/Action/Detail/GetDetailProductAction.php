@@ -17,12 +17,10 @@ class GetDetailProductAction
      */
     public function execute(Product $product): Product
     {
-        $found = Product::where('code', $product)->first();
-
-        if (! $found) {
+        if (! $product) {
             throw new ModelNotFoundException('Product not found or invalid code');
         }
 
-        return $found->load(['category', 'discounts', 'created_by']);
+        return $product->load(['category:id,name']);
     }
 }
