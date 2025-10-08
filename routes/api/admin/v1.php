@@ -4,9 +4,10 @@ use App\Http\Admin\Controllers\CategoryController;
 use App\Http\Admin\Controllers\CustomerController;
 use App\Http\Admin\Controllers\DiscountController;
 use App\Http\Admin\Controllers\ProductController;
+use App\Modules\Share\Enum\UserRole;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:'.implode(',', UserRole::adminRoles())])->group(function () {
     Route::post('/admin/product-categories', [CategoryController::class, 'createCategory']);
     Route::get('/admin/product-categories', [CategoryController::class, 'getDataCategory']);
     Route::get('/admin/product-categories/{id}', [CategoryController::class, 'getCategoryDetail']);
