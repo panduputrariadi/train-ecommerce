@@ -5,6 +5,7 @@ namespace App\Modules\Auth\Service;
 use App\Modules\Auth\Request\CreateRegisterUserRequest;
 use App\Modules\Share\Enum\RoleIdUser;
 use App\Modules\Share\Enum\UserStatus;
+use App\Modules\Share\Helper\CodeGenerator;
 use App\Modules\Share\Models\User;
 use App\Modules\Share\Models\UserRole;
 use App\Modules\Share\Trait\HandlePhotoUploadTrait;
@@ -31,7 +32,10 @@ class RegisterUserService
             $dto->name
         );
 
+        $code = CodeGenerator::generate('user_profiles', 'UPR', $dto->name);
+
         $user->profile()->create([
+            'code' => $code,
             'name' => $dto->name,
             'otp_id' => $dto->otpId,
             'photo' => $photoPath,

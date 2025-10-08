@@ -16,7 +16,7 @@ class GetProductRequest extends FormRequest
     {
         return [
             'search' => ['nullable', 'string'],
-            'per_page' => ['nullable', 'string'],
+            'per_page' => ['nullable', 'int'],
         ];
     }
 

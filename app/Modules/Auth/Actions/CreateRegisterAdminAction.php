@@ -5,6 +5,7 @@ namespace App\Modules\Auth\Actions;
 use App\Modules\Auth\Request\CreateRegisterUserRequest;
 use App\Modules\Auth\Service\RegisterUserService;
 use App\Modules\Share\Enum\RoleIdUser;
+use App\Modules\Share\Helper\CodeGenerator;
 use App\Modules\Share\Models\User;
 
 class CreateRegisterAdminAction

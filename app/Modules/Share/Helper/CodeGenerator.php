@@ -3,33 +3,39 @@
 namespace App\Modules\Share\Helper;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Exception;
 
 class CodeGenerator
 {
     /**
+     * Generate unique, sequential, and prefixed code for any table.
      *
+     * Format example: PREFIX-00001-NAM-20251008
      *
-     * @param string $tableName
-     * @param string|null $prefix
-     * @param string|null $name
-     * @param string $columnName
+     * @param string $tableName   The target table name
+     * @param string|null $prefix Optional prefix (defaults to 3-letter from table name)
+     * @param string|null $name   Optional name used for suffix
+     * @param string $columnName  The column to check uniqueness (default: "code")
      * @return string
      */
-    public static function generate(string $tableName, ?string $prefix = null, ?string $name = null, string $columnName = 'code'): string
-    {
+    public static function generate(
+        string $tableName,
+        ?string $prefix = null,
+        ?string $name = null,
+        string $columnName = 'code'
+    ): string {
         try {
             if (!$prefix) {
                 $prefix = strtoupper(substr($tableName, 0, 3));
             }
-            return DB::transaction(function () use ($tableName, $prefix, $name, $columnName) {
-                DB::statement("LOCK TABLES {$tableName} WRITE");
 
+            return DB::transaction(function () use ($tableName, $prefix, $name, $columnName) {
                 $lastRecord = DB::table($tableName)
                     ->select($columnName)
                     ->orderByDesc('id')
+                    ->lockForUpdate()
                     ->first();
 
                 $lastNumber = 0;
@@ -44,6 +50,7 @@ class CodeGenerator
                 if (!empty($name)) {
                     $suffix = strtoupper(Str::slug(Str::limit($name, 3, ''), ''));
                 }
+
                 $datePart = now()->format('Ymd');
 
                 $code = "{$prefix}-{$nextNumber}"
@@ -58,8 +65,6 @@ class CodeGenerator
                     $uniqueSuffix = strtoupper(Str::random(4));
                     $code .= "-{$uniqueSuffix}";
                 }
-
-                DB::statement('UNLOCK TABLES');
 
                 return $code;
             });

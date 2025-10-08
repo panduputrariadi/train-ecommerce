@@ -15,13 +15,27 @@ class UserProfile extends Model
 
     protected $fillable = [
         'user_id',
+        'code',
         'name',
         'photo',
         'phone',
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'code';
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function scopeCustomer($query): void
+    {
+        $query->whereHas('user.roles', fn($q) =>
+            $q->where('slug', 'like', 'customer.%')
+        );
+    }
+
 }
