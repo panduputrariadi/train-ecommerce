@@ -20,7 +20,7 @@ class CategoryController extends Controller
 {
     public function createCategory(CreateCategoryRequest $request, CreateCategoryAction $action): CreateCategoryResource
     {
-        $dto = $request->validated();
+        $dto = $request->validatedDto();
         $data = DB::transaction(fn () => $action->execute($dto));
 
         return new CreateCategoryResource($data);
@@ -28,7 +28,7 @@ class CategoryController extends Controller
 
     public function getDataCategory(GetCategoryRequest $request, GetCategoryProductAction $action): GetCategoryProductCollection
     {
-        $dto = $request->validated();
+        $dto = $request->validatedDto();
         $categories = $action->execute($dto);
 
         return new GetCategoryProductCollection($categories);
@@ -43,7 +43,7 @@ class CategoryController extends Controller
 
     public function updateCategory(int $id, UpdateCategoryAction $action, UpdateCategoryRequest $request): UpdateCategoryResource
     {
-        $dto = $request->validated();
+        $dto = $request->validatedDto();
         $category = DB::transaction(fn () => $action->execute($dto, $id));
 
         return new UpdateCategoryResource($category);
