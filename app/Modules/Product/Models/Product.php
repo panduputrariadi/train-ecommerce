@@ -87,6 +87,7 @@ class Product extends Model
         }
 
         return [
+            'id' => $discount->id,
             'type' => $discount->type,
             'code' => $discount->code,
             'value' => (int) $discount->value,

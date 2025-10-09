@@ -15,7 +15,17 @@ class GetDiscountResource extends JsonResource
             'code' => $this->code,
             'value' => $this->value,
             'expired_at' => $this->expired_at,
-            'products' => $this->products,
+            'products' => $this->whenLoaded('products', function () {
+                return $this->products->map(function ($product) {
+                    return [
+                        'id' => $product->id,
+                        'code' => $product->code,
+                        'name' => $product->name,
+                        'price' => $product->price,
+                        'final_price' => $product->final_price,
+                    ];
+                });
+            }),
         ];
     }
 }
