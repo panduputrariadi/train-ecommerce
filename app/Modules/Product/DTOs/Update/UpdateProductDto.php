@@ -7,17 +7,17 @@ use Illuminate\Http\UploadedFile;
 
 class UpdateProductDto extends BaseDto
 {
-    public string $name;
+    public ?string $name;
 
     public ?string $description = null;
 
-    public int $price;
+    public ?int $price;
 
-    public int $stock;
+    public ?int $stock;
 
-    public int $categoryId;
+    public ?int $categoryId;
 
-    public bool $isDiscount;
+    public ?bool $isDiscount;
 
     public ?UploadedFile $photo = null;
 }
