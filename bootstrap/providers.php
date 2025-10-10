@@ -1,8 +1,7 @@
 <?php
 
-use App\Providers\OtpRateLimiterServiceProvider;
-
 return [
     App\Providers\AppServiceProvider::class,
-    OtpRateLimiterServiceProvider::class,
+    App\Providers\OtpRateLimiterServiceProvider::class,
+    App\Providers\TelescopeServiceProvider::class,
 ];

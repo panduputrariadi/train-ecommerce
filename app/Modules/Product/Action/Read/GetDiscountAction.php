@@ -24,7 +24,7 @@ class GetDiscountAction
         $search = $dto->search ?? '';
         $perPage = $dto->perPage ?? 10;
 
-        $query = Discount::with(['products'])->latest();
+        $query = Discount::with(['products.discounts'])->latest();
         if (filled($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('code', 'like', "%{$search}%")

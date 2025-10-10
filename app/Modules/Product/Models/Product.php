@@ -2,11 +2,13 @@
 
 namespace App\Modules\Product\Models;
 
+use App\Modules\Share\Helper\CodeGenerator;
 use App\Modules\Share\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -81,7 +83,10 @@ class Product extends Model
      */
     public function getActiveDiscountAttribute(): ?array
     {
-        $discount = $this->discounts->first();
+        $discount = $this->relationLoaded('discounts')
+            ? $this->discounts->first()
+            : $this->discounts()->first();
+
         if (! $this->is_discount || ! $discount) {
             return null;
         }
@@ -94,6 +99,7 @@ class Product extends Model
             'expired_at' => $discount->expired_at,
         ];
     }
+
 
     /**
      * Get the final price of the product.
@@ -118,5 +124,21 @@ class Product extends Model
         }
 
         // return $price;
+    }
+
+    /**
+     * Create a new product with auto-generated code.
+     */
+    public static function createWithCode(array $attributes): self
+    {
+        $attributes['code'] = CodeGenerator::generate(
+            'products',
+            'PRD',
+            $attributes['name']
+        );
+
+        $attributes['created_by'] = $attributes['created_by'] ?? Auth::id();
+
+        return static::create($attributes);
     }
 }

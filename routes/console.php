@@ -16,3 +16,4 @@ Schedule::call(function () {
     Otp::whereNull('verified_at')->where('created_at', '<', now()->subMinutes(10))->delete();
 })->everyTenMinutes();
 // Schedule::job(new DeleteExpiredOtpJob())->everyFiveMinutes();
+Schedule::command('telescope:prune')->daily();

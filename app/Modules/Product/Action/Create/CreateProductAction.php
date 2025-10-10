@@ -4,10 +4,7 @@ namespace App\Modules\Product\Action\Create;
 
 use App\Modules\Product\DTOs\Create\CreateProductDto;
 use App\Modules\Product\Models\Product;
-use App\Modules\Product\Request\Create\CreateProductRequest;
-use App\Modules\Share\Helper\CodeGenerator;
 use App\Modules\Share\Trait\HandlePhotoUploadTrait;
-use Illuminate\Support\Facades\Auth;
 
 class CreateProductAction
 {
@@ -21,8 +18,7 @@ class CreateProductAction
      */
     public function execute(CreateProductDto $dto): Product
     {
-        $product = Product::create([
-            'code' => CodeGenerator::generate('products', 'PRD', $dto->name),
+        $product = Product::createWithCode([
             'name' => $dto->name,
             'description' => $dto->description,
             'price' => $dto->price,
@@ -30,7 +26,6 @@ class CreateProductAction
             'is_discount' => $dto->isDiscount,
             'photo' => null,
             'category_id' => $dto->categoryId,
-            'created_by' => Auth::id(),
         ]);
 
         $photoPath = $this->uploadPhoto(
