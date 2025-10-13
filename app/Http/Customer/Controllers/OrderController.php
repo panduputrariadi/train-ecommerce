@@ -9,9 +9,12 @@ use App\Http\Customer\Resources\GetDetailOrderResource;
 use App\Modules\Order\Action\Create\CreateOrderAction;
 use App\Modules\Order\Action\Detail\GetDetailOrderAction;
 use App\Modules\Order\Action\Read\GetOrderActoin;
+use App\Modules\Order\Action\Read\GetOrderAdminAction;
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Request\CreateOrderRequest;
 use App\Modules\Order\Request\GetOrderRequest;
+use App\Modules\Payment\Action\Read\GetInvoiceCustomer;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -31,9 +34,25 @@ class OrderController extends Controller
         return new GetOrderCollection($data);
     }
 
+    public function getOrderAdmin(GetOrderRequest $request, GetOrderAdminAction $action): GetOrderCollection
+    {
+        $dto = $request->validatedDto();
+        $data = $action->execute($dto);
+        return new GetOrderCollection($data);
+    }
+
     public function detail(Order $order, GetDetailOrderAction $action): GetDetailOrderResource
     {
         $data = $action->execute($order);
         return new GetDetailOrderResource($data);
+    }
+
+    public function getOrderInvoice(Order $order, GetInvoiceCustomer $action)
+    {
+        $order = $action->execute($order);
+
+        $pdf = Pdf::loadView('pdf.order_invoice', ['order' => $order]);
+
+        return $pdf->download("invoice_{$order->code}.pdf");
     }
 }

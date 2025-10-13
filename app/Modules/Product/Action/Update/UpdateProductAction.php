@@ -5,7 +5,7 @@ namespace App\Modules\Product\Action\Update;
 use App\Modules\Product\DTOs\Update\UpdateProductDto;
 use App\Modules\Product\Models\Product;
 use App\Modules\Product\Request\Update\UpdateProductRequest;
-use App\Modules\Share\Trait\HandlePhotoUploadTrait;
+use App\Modules\Share\Traits\HandlePhotoUploadTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UpdateProductAction

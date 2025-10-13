@@ -8,8 +8,7 @@ use App\Modules\Share\Enum\UserStatus;
 use App\Modules\Share\Helper\CodeGenerator;
 use App\Modules\Share\Models\User;
 use App\Modules\Share\Models\UserRole;
-use App\Modules\Share\Trait\HandlePhotoUploadTrait;
-use Illuminate\Http\UploadedFile;
+use App\Modules\Share\Traits\HandlePhotoUploadTrait;
 
 class RegisterUserService
 {
