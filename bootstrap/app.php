@@ -1,6 +1,7 @@
 <?php
 
 use App\Modules\OTP\Provider\Command\CommandServiceProvider;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -47,6 +48,21 @@ return Application::configure(basePath: dirname(__DIR__))
                 'retry_after' => $retryAfter,
             ], 429, $headers);
         });
+
+        $toReadable = function (string $name): string {
+            return trim(preg_replace('/(?<!^)([A-Z])/', ' $1', $name));
+        };
+
+        $exceptions->render(function (ModelNotFoundException $e, $request) use ($toReadable) {
+            $modelClass = $e->getModel();
+            $modelName = $toReadable(class_basename($modelClass));
+
+            return response()->json([
+                'success' => false,
+                'message' => "{$modelName} not found",
+            ], 404);
+        });
+
     })->withProviders([
         CommandServiceProvider::class,
     ])

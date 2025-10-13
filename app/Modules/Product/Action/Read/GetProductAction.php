@@ -4,7 +4,6 @@ namespace App\Modules\Product\Action\Read;
 
 use App\Modules\Product\DTOs\Read\GetProductDto;
 use App\Modules\Product\Models\Product;
-use App\Modules\Product\Request\Read\GetProductRequest;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetProductAction
@@ -16,7 +15,6 @@ class GetProductAction
      * @param  GetProductDto  $dto
      * @return LengthAwarePaginator<int, Product>
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function execute(GetProductDto $dto): LengthAwarePaginator
     {
