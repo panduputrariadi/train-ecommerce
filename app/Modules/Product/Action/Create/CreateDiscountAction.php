@@ -19,7 +19,6 @@ class CreateDiscountAction
 
         $discount = Discount::create([
             'type' => $dto->type,
-            'code' => $dto->code,
             'value' => $dto->value,
             'expired_at' => $dto->expired_at,
         ]);

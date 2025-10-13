@@ -5,6 +5,7 @@ namespace App\Modules\Order\Models;
 use App\Modules\Order\Enum\OrderStatus;
 use App\Modules\Payment\Models\Payment;
 use App\Modules\Share\Models\User;
+use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasGenerateCode;
 
     protected $table = 'orders';
 
@@ -34,6 +35,16 @@ class Order extends Model
     public function getRouteKeyName(): string
     {
         return 'code';
+    }
+
+    protected function getCodePrefix(): string
+    {
+        return 'ORD';
+    }
+
+    public function getCodeName(): string
+    {
+        return $this->user->profile->name;
     }
 
     public function user(): BelongsTo

@@ -60,7 +60,7 @@ class CreateOrderAction
         return Order::firstOrCreate(
             ['user_id' => $userId, 'status' => OrderStatus::PENDING],
             [
-                'code'         => CodeGenerator::generate('orders', 'ORD', Auth::user()->profile->name),
+                // 'code'         => CodeGenerator::generate('orders', 'ORD', Auth::user()->profile->name),
                 'status'       => OrderStatus::PENDING,
                 'sub_total'    => 0,
                 'tax_amount'   => 0,

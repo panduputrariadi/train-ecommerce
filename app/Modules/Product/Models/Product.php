@@ -4,6 +4,7 @@ namespace App\Modules\Product\Models;
 
 use App\Modules\Share\Helper\CodeGenerator;
 use App\Modules\Share\Models\User;
+use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasGenerateCode;
 
     protected $table = 'products';
 
@@ -33,6 +34,16 @@ class Product extends Model
     public function getRouteKeyName(): string
     {
         return 'code';
+    }
+
+    protected function getCodePrefix(): string
+    {
+        return 'PRD';
+    }
+
+    public function getCodeNamde(): string
+    {
+        return $this->name;
     }
 
     /**

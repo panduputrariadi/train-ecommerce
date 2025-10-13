@@ -2,13 +2,14 @@
 
 namespace App\Modules\Product\Models;
 
+use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasGenerateCode;
 
     protected $table = 'categories';
 
@@ -18,6 +19,29 @@ class Category extends Model
         'name',
         'description',
     ];
+
+    /**
+     * Get the prefix code for the category.
+     *
+     * @return string
+     */
+    protected function getCodePrefix(): string
+    {
+        return 'CAT';
+    }
+
+    /**
+     * Get the name of the category.
+     *
+     * This method returns the name of the category as a string.
+     * If the category does not have a name, it returns null.
+     *
+     * @return string|null
+     */
+    public function getCodeName(): ?string
+    {
+        return $this->name;
+    }
 
     /**
      * Get the products associated with the category.

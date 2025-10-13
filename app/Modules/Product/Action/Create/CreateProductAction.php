@@ -18,7 +18,7 @@ class CreateProductAction
      */
     public function execute(CreateProductDto $dto): Product
     {
-        $product = Product::createWithCode([
+        $product = Product::create([
             'name' => $dto->name,
             'description' => $dto->description,
             'price' => $dto->price,
