@@ -5,6 +5,7 @@ namespace App\Modules\Payment\Models;
 use App\Modules\Order\Models\Order;
 use App\Modules\Payment\Enum\PaymentStatus;
 use App\Modules\Share\Models\User;
+use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Payment extends Model
 {
-    use HasFactory, HasGenerateCode;
+    use HasFactory, HasGenerateCode, HasActivityUser;
 
     protected $fillable = [
         'code',

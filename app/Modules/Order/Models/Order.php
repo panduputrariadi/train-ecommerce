@@ -5,6 +5,7 @@ namespace App\Modules\Order\Models;
 use App\Modules\Order\Enum\OrderStatus;
 use App\Modules\Payment\Models\Payment;
 use App\Modules\Share\Models\User;
+use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use SoftDeletes, HasGenerateCode;
+    use SoftDeletes, HasGenerateCode, HasActivityUser;
 
     protected $table = 'orders';
 

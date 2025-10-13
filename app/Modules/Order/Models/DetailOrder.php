@@ -3,13 +3,14 @@
 namespace App\Modules\Order\Models;
 
 use App\Modules\Product\Models\Product;
+use App\Modules\Share\Traits\HasActivityUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DetailOrder extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasActivityUser;
 
     protected $table = 'detail_orders';
 

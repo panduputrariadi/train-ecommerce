@@ -2,13 +2,14 @@
 
 namespace App\Modules\Product\Models;
 
+use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Discount extends Model
 {
-    use HasGenerateCode;
+    use HasGenerateCode, HasActivityUser;
 
     protected $fillable = ['type', 'code', 'value', 'expired_at'];
 

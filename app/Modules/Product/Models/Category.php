@@ -2,6 +2,7 @@
 
 namespace App\Modules\Product\Models;
 
+use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use SoftDeletes, HasGenerateCode;
+    use SoftDeletes, HasGenerateCode, HasActivityUser;
 
     protected $table = 'categories';
 

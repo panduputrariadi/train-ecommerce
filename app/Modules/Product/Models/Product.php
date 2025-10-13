@@ -4,6 +4,7 @@ namespace App\Modules\Product\Models;
 
 use App\Modules\Share\Helper\CodeGenerator;
 use App\Modules\Share\Models\User;
+use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
-    use SoftDeletes, HasGenerateCode;
+    use SoftDeletes, HasGenerateCode, HasActivityUser;
 
     protected $table = 'products';
 
