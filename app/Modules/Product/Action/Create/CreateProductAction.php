@@ -4,7 +4,7 @@ namespace App\Modules\Product\Action\Create;
 
 use App\Modules\Product\DTOs\Create\CreateProductDto;
 use App\Modules\Product\Models\Product;
-use App\Modules\Share\Trait\HandlePhotoUploadTrait;
+use App\Modules\Share\Traits\HandlePhotoUploadTrait;
 
 class CreateProductAction
 {

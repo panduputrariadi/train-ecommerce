@@ -3,10 +3,12 @@
 namespace App\Modules\Order\Models;
 
 use App\Modules\Order\Enum\OrderStatus;
+use App\Modules\Payment\Models\Payment;
 use App\Modules\Share\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
@@ -42,5 +44,10 @@ class Order extends Model
     public function details(): HasMany
     {
         return $this->hasMany(DetailOrder::class);
+    }
+
+    public function payment(): HasOne
+    {
+        return $this->hasOne(Payment::class);
     }
 }
