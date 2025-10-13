@@ -33,46 +33,91 @@ class Payment extends Model
         'status' => PaymentStatus::class,
     ];
 
+    /**
+     * Get the name of the route key for the payment.
+     *
+     * @return string
+     */
     public function getRouteKeyName(): string
     {
         return 'code';
     }
 
+    /**
+     * Get the prefix code of the payment.
+     *
+     * @return string
+     */
     protected function getCodePrefix(): string
     {
         return 'PAY';
     }
 
+    /**
+     * Get the name of the customer who made the payment.
+     *
+     * @return string|null
+     */
     public function getCodeName(): ?string
     {
         return optional($this->order->user->profile)->name;
     }
 
+    /**
+     * Get the order that owns the payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class, 'order_id');
     }
 
+    /**
+     * Get the payment method that owns the payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function method(): BelongsTo
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
     }
 
+    /**
+     * Get the bank account that owns the payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function bankAccount(): BelongsTo
     {
         return $this->belongsTo(BankAccount::class, 'bank_account_id');
     }
 
+    /**
+     * Relation to the user who created the payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * Relation to the user who verified the payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function verifier(): BelongsTo
     {
         return $this->belongsTo(User::class, 'verified_by');
     }
 
+    /**
+     * Relation to payment receipt
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function receipts(): HasMany
     {
         return $this->hasMany(PaymentReceipt::class, 'payment_id');

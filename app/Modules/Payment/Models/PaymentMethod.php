@@ -20,11 +20,21 @@ class PaymentMethod extends Model
         'is_active' => 'boolean',
     ];
 
+    /**
+     * Get the bank accounts of the payment method.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function bankAccounts(): HasMany
     {
         return $this->hasMany(BankAccount::class, 'payment_method_id');
     }
 
+    /**
+     * Get the payments of the payment method.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class, 'payment_method_id');

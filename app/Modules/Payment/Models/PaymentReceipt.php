@@ -21,6 +21,11 @@ class PaymentReceipt extends Model
         'uploaded_at' => 'datetime',
     ];
 
+    /**
+     * Get the payment that owns the payment receipt.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class, 'payment_id');

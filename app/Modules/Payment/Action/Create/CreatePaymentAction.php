@@ -14,6 +14,12 @@ class CreatePaymentAction
 {
     use HandlePhotoUploadTrait;
 
+    /**
+     * Execute the creation of a new payment
+     *
+     * @param CreatePaymentDto $dto
+     * @return Payment
+     */
     public function execute(CreatePaymentDto $dto): Payment
     {
         $order = Order::findOrFail($dto->orderId);

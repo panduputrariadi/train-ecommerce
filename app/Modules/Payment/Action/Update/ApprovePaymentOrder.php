@@ -8,6 +8,12 @@ use App\Modules\Payment\Models\Payment;
 
 class ApprovePaymentOrder
 {
+    /**
+     * Update payment status to COMPLETED and update order status to COMPLETED.
+     *
+     * @param Payment $code
+     * @return Payment
+     */
     public function execute(Payment $code): Payment
     {
         $code->update(['status' => PaymentStatus::COMPLETED]);
