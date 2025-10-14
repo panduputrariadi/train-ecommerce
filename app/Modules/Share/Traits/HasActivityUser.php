@@ -15,29 +15,29 @@ trait HasActivityUser
     protected static function bootHasActivityUser(): void
     {
         // Cache user id sekali saja per request
-        $userId = Auth::id();
+        // $userId = Auth::user();
 
-        static::created(function (Model $model) use ($userId) {
+        static::created(function (Model $model) {
             static::recordActivity('created', $model, 'Record created', [
                 'data' => $model->getAttributes(),
-            ], $userId);
+            ], Auth::id());
         });
 
-        static::updated(function (Model $model) use ($userId) {
+        static::updated(function (Model $model) {
             $changes = $model->getChanges();
 
             if (! empty($changes)) {
                 static::recordActivity('updated', $model, 'Record updated', [
                     'before' => $model->getOriginal(),
                     'after'  => $changes,
-                ], $userId);
+                ], Auth::id());
             }
         });
 
-        static::deleted(function (Model $model) use ($userId) {
+        static::deleted(function (Model $model) {
             static::recordActivity('deleted', $model, 'Record deleted', [
                 'data' => $model->getOriginal(),
-            ], $userId);
+            ], Auth::id());
         });
     }
 
@@ -49,10 +49,10 @@ trait HasActivityUser
         Model $model,
         string $message,
         array $extra = [],
-        ?int $userId = null
     ): void {
         // Gunakan afterCommit agar tidak mengganggu transaksi utama
-        DB::afterCommit(function () use ($type, $model, $message, $extra, $userId) {
+        DB::afterCommit(function () use ($type, $model, $message, $extra) {
+            return;
             LogActivityUser::create([
                 'type'        => $type,
                 'description' => [
@@ -61,8 +61,26 @@ trait HasActivityUser
                     'message'  => $message,
                     'data'     => $extra,
                 ],
-                'user_id'     => $userId,
+                'user_id'     => Auth::id(),
                 'created_at'  => now(),
+            ]);
+        });
+    }
+
+     public function logActivity(string $type, string $message, array $extra = []): void
+    {
+        DB::afterCommit(function () use ($type, $message, $extra) {
+            $userId = Auth::id();
+            LogActivityUser::create([
+                'type' => $type,
+                'description' => [
+                    'model' => class_basename($this),
+                    'model_id' => $this->getKey(),
+                    'message' => $message,
+                    'data' => $extra,
+                ],
+                'user_id' => $userId,
+                'created_at' => now(),
             ]);
         });
     }
