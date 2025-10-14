@@ -78,4 +78,25 @@ class Order extends Model
     {
         return $this->hasOne(Payment::class);
     }
+
+    public function scopeSearch($query, ?string $search): void
+    {
+        if (blank($search)) {
+            return;
+        }
+
+        $query->where(function ($q) use ($search) {
+            $q->where('code', 'like', "%{$search}%")
+                ->orWhere('note', 'like', "%{$search}%")
+                ->orWhereHas('details.product', function ($q2) use ($search) {
+                    $q2->where('name', 'like', "%{$search}%");
+                })
+                ->orWhereHas('details', function ($q3) use ($search) {
+                    $q3->where('product_data', 'like', "%{$search}%");
+                })
+                ->orWhereHas('details.product', function ($q3) use ($search) {
+                    $q3->where('name', 'like', "%{$search}%");
+                });
+        });
+    }
 }
