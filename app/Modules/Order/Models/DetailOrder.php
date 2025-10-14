@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DetailOrder extends Model
 {
-    use SoftDeletes, HasActivityUser;
+    use SoftDeletes;
 
     protected $table = 'detail_orders';
 

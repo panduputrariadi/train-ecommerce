@@ -13,7 +13,7 @@ class LogActivityUser extends Model
         'user_id'
     ];
 
-    protected $cast = [
+    protected $casts = [
         'description' => 'array'
     ];
 

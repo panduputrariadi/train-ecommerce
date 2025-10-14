@@ -121,21 +121,20 @@ class Product extends Model
     public function getFinalPriceAttribute(): int
     {
         $price = (int) $this->price;
-        $discount = $this->discounts->first();
+
+        $discount = $this->relationLoaded('discounts')
+            ? $this->discounts->first()
+            : $this->discounts()->first();
 
         if (! $this->is_discount || ! $discount) {
             return $price;
         }
 
-        $calculateDisc = $discount;
-
         if ($discount->type === 'percentage') {
-            return max(0, (int) ($price - ($price * $calculateDisc->value / 100)));
-        } else {
-            return max(0, (int) ($price - $calculateDisc->value));
+            return max(0, (int) ($price - ($price * $discount->value / 100)));
         }
 
-        // return $price;
+        return max(0, (int) ($price - $discount->value));
     }
 
     /**

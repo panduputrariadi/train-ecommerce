@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
-    use SoftDeletes, HasGenerateCode, HasActivityUser;
+    use SoftDeletes, HasGenerateCode;
 
     protected $table = 'orders';
 
@@ -45,8 +46,23 @@ class Order extends Model
 
     public function getCodeName(): string
     {
-        return $this->user->profile->name;
+        $user = Auth::user();
+        return $user?->profile?->name ?? 'UNKNOWN';
     }
+
+    public static function createWithUser(array $attributes, $user): self
+    {
+        $attributes['code'] = self::generateCode(
+            'orders',
+            'ORD',
+            $user->profile->name ?? 'UNKNOWN'
+        );
+
+        $attributes['user_id'] = $user->id;
+
+        return static::create($attributes);
+    }
+
 
     public function user(): BelongsTo
     {

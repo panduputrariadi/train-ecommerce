@@ -56,9 +56,17 @@ trait HasGenerateCode
                     . ($suffix ? "-{$suffix}" : '')
                     . "-{$datePart}";
 
-                if (DB::table($tableName)->where($columnName, $code)->exists()) {
+                $alreadyExists = DB::table($tableName)
+                    ->select($columnName)
+                    ->where($columnName, $code)
+                    ->limit(1)
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($alreadyExists) {
                     $code .= '-' . strtoupper(Str::random(4));
                 }
+
 
                 return $code;
             });
