@@ -2,6 +2,7 @@
 
 namespace App\Modules\Order\Models;
 
+use App\Modules\Order\Casts\ProductDataCast;
 use App\Modules\Product\Models\Product;
 use App\Modules\Share\Traits\HasActivityUser;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,10 @@ class DetailOrder extends Model
         'order_id',
         'product_id',
         'discount_id',
+    ];
+
+    protected $casts = [
+        'product_data' => ProductDataCast::class,
     ];
 
     public function order(): BelongsTo
