@@ -15,10 +15,12 @@ use App\Modules\Order\Request\CreateOrderRequest;
 use App\Modules\Order\Request\GetOrderRequest;
 use App\Modules\Payment\Action\Read\GetInvoiceCustomer;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    use AuthorizesRequests;
     public function store(CreateOrderRequest $request, CreateOrderAction $action): CreateOrderResource
     {
         $dto = $request->validatedDto();
@@ -34,21 +36,17 @@ class OrderController extends Controller
         return new GetOrderCollection($data);
     }
 
-    public function getOrderAdmin(GetOrderRequest $request, GetOrderAdminAction $action): GetOrderCollection
-    {
-        $dto = $request->validatedDto();
-        $data = $action->execute($dto);
-        return new GetOrderCollection($data);
-    }
-
     public function detail(Order $order, GetDetailOrderAction $action): GetDetailOrderResource
     {
+        $this->authorize('view', $order);
         $data = $action->execute($order);
         return new GetDetailOrderResource($data);
     }
 
     public function getOrderInvoice(Order $order, GetInvoiceCustomer $action)
     {
+        $this->authorize('downloadInvoice', $order);
+
         $order = $action->execute($order);
 
         $pdf = Pdf::loadView('pdf.order_invoice', ['order' => $order]);

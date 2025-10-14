@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Modules\Order\Models\Order;
+use App\Modules\Order\Policies\OrderPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 // use Laravel\Sanctum\Sanctum;
@@ -25,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Sanctum::useTokenAuthentication();
+        Gate::policy(Order::class, OrderPolicy::class);
     }
 }

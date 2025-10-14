@@ -6,7 +6,7 @@ use App\Base\BaseValueObject;
 
 class ProductData extends BaseValueObject
 {
-    public int $id;
+    public ?int $id = 0;
     public string $code;
     public string $name;
     public ?string $photo = null;

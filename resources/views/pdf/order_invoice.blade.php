@@ -39,13 +39,13 @@
         <tbody>
             @foreach ($order->details as $item)
                 @php
-                    $snapshot = $item->product_data ? json_decode($item->product_data, true) : null;
+                    $snapshot = $item->product_data;
                 @endphp
                 <tr>
-                    <td>{{ $snapshot['name'] ?? $item->product->name ?? 'N/A' }}</td>
+                    <td>{{ $snapshot?->name ?? $item->product->name ?? 'N/A' }}</td>
                     <td>{{ $item->quantity }}</td>
                     <td class="text-right">
-                        {{ number_format($snapshot['price'] ?? $item->unit_price, 2, '.', ',') }}
+                        {{ number_format($snapshot?->price ?? $item->unit_price, 2, '.', ',') }}
                     </td>
                     <td class="text-right">
                         {{ number_format($item->discount_amount ?? 0, 2, '.', ',') }}
@@ -54,6 +54,7 @@
                         {{ number_format($item->total_price, 2, '.', ',') }}
                     </td>
                 </tr>
+
             @endforeach
         </tbody>
     </table>

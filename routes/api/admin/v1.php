@@ -3,9 +3,9 @@
 use App\Http\Admin\Controllers\CategoryController;
 use App\Http\Admin\Controllers\CustomerController;
 use App\Http\Admin\Controllers\DiscountController;
+use App\Http\Admin\Controllers\OrderAdminController;
 use App\Http\Admin\Controllers\PaymentAdminController;
 use App\Http\Admin\Controllers\ProductController;
-use App\Http\Customer\Controllers\OrderController;
 use App\Modules\Share\Enum\UserRole;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +29,7 @@ Route::middleware(['auth:sanctum', 'role:'.implode(',', UserRole::adminRoles())]
     Route::patch('/admin/customers/{profile}/block', [CustomerController::class, 'blockCustomer']);
     Route::patch('/admin/customers/{profile}/unblock', [CustomerController::class, 'unblockCustomer']);
 
-    Route::get('/admin/orders', [OrderController::class, 'getOrderAdmin']);
+    Route::get('/admin/orders', [OrderAdminController::class, 'getOrderAdmin']);
     Route::patch('/admin/{code}/approve', [PaymentAdminController::class, 'approvePayment']);
     Route::patch('/admin/{code}/decline', [PaymentAdminController::class, 'declinePayment']);
     Route::get('/admin/orders/{code}', [PaymentAdminController::class, 'getDetailOrderPayment']);
