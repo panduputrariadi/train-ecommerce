@@ -8,5 +8,5 @@ class UpdateCategoryDto extends BaseDto
 {
     public ?string $name;
 
-    public string $description;
+    public ?string $description;
 }

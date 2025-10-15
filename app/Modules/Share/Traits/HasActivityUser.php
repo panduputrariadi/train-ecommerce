@@ -52,7 +52,6 @@ trait HasActivityUser
     ): void {
         // Gunakan afterCommit agar tidak mengganggu transaksi utama
         DB::afterCommit(function () use ($type, $model, $message, $extra) {
-            return;
             LogActivityUser::create([
                 'type'        => $type,
                 'description' => [
