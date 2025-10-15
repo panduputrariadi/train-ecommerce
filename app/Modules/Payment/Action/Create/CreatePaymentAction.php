@@ -2,6 +2,7 @@
 
 namespace App\Modules\Payment\Action\Create;
 
+use App\Modules\Order\Enum\OrderStatus;
 use App\Modules\Order\Models\Order;
 use App\Modules\Payment\DTOs\Create\CreatePaymentDto;
 use App\Modules\Payment\Enum\PaymentStatus;
@@ -49,6 +50,7 @@ class CreatePaymentAction
                 'uploaded_at' => now(),
             ]);
         }
+        $order->update(['status' => OrderStatus::PROCESSING]);
 
         return $payment;
     }

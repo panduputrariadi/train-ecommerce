@@ -152,4 +152,23 @@ class Product extends Model
 
         return static::create($attributes);
     }
+
+    /**
+     * Scope a query to search products by name or code.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $search
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, ?string $search = null)
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where(function ($sub) use ($search) {
+            $sub->where('name', 'like', "%{$search}%")
+                ->orWhere('code', 'like', "%{$search}%");
+        });
+    }
 }
