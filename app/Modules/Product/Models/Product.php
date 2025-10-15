@@ -184,13 +184,82 @@ class Product extends Model
      */
     public function scopeSearch($query, ?string $search = null)
     {
-        if (empty($search)) {
-            return $query;
-        }
+        return $query->when(
+            $search,
+            fn ($q) => $q->where(fn ($sub) => $sub->where('name', 'like', "%{$search}%")
+                                                ->orWhere('code', 'like', "%{$search}%"))
+        );
+    }
 
-        return $query->where(function ($sub) use ($search) {
-            $sub->where('name', 'like', "%{$search}%")
-                ->orWhere('code', 'like', "%{$search}%");
-        });
+    /**
+     * Scope a query to filter products by category id.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $categoryId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfCategory($query, $categoryId)
+    {
+        return $query->when($categoryId, fn ($q) => $q->where('category_id', $categoryId));
+    }
+
+
+    /**
+     * Scope a query to filter products by whether they have a discount or not.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param bool $isDiscounted Whether the product has a discount or not.
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDiscounted($query, $isDiscounted = null)
+    {
+        return $query->when(
+            $isDiscounted !== null,
+            fn ($q) => $q->where('is_discount', (bool) $isDiscounted)
+        );
+    }
+    /**
+     * Scope a query to filter products by price range.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int|null $min The minimum price of the products.
+     * @param int|null $max The maximum price of the products.
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePriceBetween($query, $min = null, $max = null)
+    {
+        return $query
+            ->when($min !== null, fn ($q) => $q->where('price', '>=', (int) $min))
+            ->when($max !== null, fn ($q) => $q->where('price', '<=', (int) $max));
+    }
+
+    /**
+     * Scope a query to filter products by whether they are in stock or not.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param bool $inStock Whether the product is in stock or not.
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeInStock($query, $inStock = null)
+    {
+        return $query->when(
+            $inStock !== null,
+            fn ($q) => $inStock ? $q->where('stock', '>', 0) : $q->where('stock', 0)
+        );
+    }
+
+    /**
+     * Scope a query to filter products by creation date range.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \DateTimeInterface|string|null $from The start date of the creation date range.
+     * @param \DateTimeInterface|string|null $to The end date of the creation date range.
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCreatedBetween($query, $from = null, $to = null)
+    {
+        return $query
+            ->when($from, fn ($q) => $q->whereDate('created_at', '>=', $from))
+            ->when($to, fn ($q) => $q->whereDate('created_at', '<=', $to));
     }
 }

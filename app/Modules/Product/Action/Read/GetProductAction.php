@@ -3,6 +3,7 @@
 namespace App\Modules\Product\Action\Read;
 
 use App\Modules\Product\DTOs\Read\GetProductDto;
+use App\Modules\Product\Filters\ProductFilter;
 use App\Modules\Product\Models\Product;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -18,11 +19,8 @@ class GetProductAction
      */
     public function execute(GetProductDto $dto): LengthAwarePaginator
     {
-        $search = $dto->search ?? '';
-        $perPage = $dto->perPage ?? 10;
+        $query = ProductFilter::apply($dto);
 
-        $query = Product::with(['category:id,name'])->search($search);
-
-        return $query->paginate($perPage);
+        return $query->paginate($dto->perPage ?? 10);
     }
 }

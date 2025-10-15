@@ -16,7 +16,15 @@ class GetProductRequest extends FormRequest
     {
         return [
             'search' => ['nullable', 'string'],
-            'per_page' => ['nullable', 'int'],
+            'per_page' => ['nullable', 'int', 'max:100'],
+            'category_id' => ['nullable', 'int'],
+            'created_by' => ['nullable', 'int'],
+            'min_price' => ['nullable', 'numeric', 'min:0'],
+            'max_price' => ['nullable', 'numeric'],
+            'has_discount' => ['nullable', 'boolean'],
+            'created_from' => ['nullable', 'date'],
+            'created_to' => ['nullable', 'date'],
+            'in_stock' => ['nullable', 'boolean'],
         ];
     }
 
