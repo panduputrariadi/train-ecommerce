@@ -4,7 +4,9 @@ namespace App\Modules\Product\Action\Create;
 
 use App\Modules\Product\DTOs\Create\AttachDiscountToProductDto;
 use App\Modules\Product\Models\DiscountProduct;
+use App\Modules\Product\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AttachDiscountToProductsAction
 {
@@ -14,18 +16,34 @@ class AttachDiscountToProductsAction
      * @param  AttachDiscountToProductDto  $dto
      * @return  DiscountProduct
      */
-    public function execute(AttachDiscountToProductDto $dto): DiscountProduct
+    public function execute(AttachDiscountToProductDto $dto): void
     {
-        $data = null;
-        foreach ($dto->productIds as $productId) {
-            $data = DiscountProduct::query()->create([
-                'product_id' => $productId,
-                'discount_id' => $dto->discountId,
-                'created_by' => Auth::id(),
-            ]);
-            $data->product()->where('id', $productId)->update(['is_discount' => true]);
+        $productIds = $dto->productIds;
+        $discountId = $dto->discountId;
+        $userId = Auth::id();
+
+        if (empty($productIds)) {
+            return;
         }
 
-        return $data;
+        $productIds = array_unique($productIds);
+
+        $now = now();
+        $discountProductData = [];
+
+        foreach ($productIds as $productId) {
+            $discountProductData[] = [
+                'product_id' => $productId,
+                'discount_id' => $discountId,
+                'created_by' => $userId,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        DB::table('discount_products')->insert($discountProductData);
+
+        Product::whereIn('id', $productIds)
+            ->update(['is_discount' => true]);
     }
 }
