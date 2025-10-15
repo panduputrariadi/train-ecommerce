@@ -4,11 +4,12 @@ namespace App\Modules\Product\Action\Create;
 
 use App\Modules\Product\DTOs\Create\CreateProductDto;
 use App\Modules\Product\Models\Product;
-use App\Modules\Share\Traits\HandlePhotoUploadTrait;
+use App\Modules\Share\Traits\HandleMultiplePhotoUploadTrait;
+use Illuminate\Support\Facades\Auth;
 
 class CreateProductAction
 {
-    use HandlePhotoUploadTrait;
+    use HandleMultiplePhotoUploadTrait;
 
     /**
      * Execute the creation of a new product
@@ -24,21 +25,18 @@ class CreateProductAction
             'price' => $dto->price,
             'stock' => $dto->stock,
             'is_discount' => $dto->isDiscount,
-            'photo' => null,
             'category_id' => $dto->categoryId,
+            'created_by' => Auth::id(),
         ]);
 
-        $photoPath = $this->uploadPhoto(
-            $dto->photo,
-            'product-photo',
-            $product->id,
-            $dto->name
-        );
-
-        if ($photoPath) {
-            $product->update(['photo' => $photoPath]);
+        if (! empty($dto->photos)) {
+            $this->uploadMultiplePhotos(
+                photos: $dto->photos,
+                directory: 'product-photos',
+                imageable: $product,
+                nameForSlug: $dto->name
+            );
         }
-
         return $product;
     }
 }

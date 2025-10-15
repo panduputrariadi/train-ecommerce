@@ -3,12 +3,14 @@
 namespace App\Modules\Product\Models;
 
 use App\Modules\Share\Helper\CodeGenerator;
+use App\Modules\Share\Models\Image;
 use App\Modules\Share\Models\User;
 use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
@@ -81,6 +83,26 @@ class Product extends Model
                 $query->whereNull('expired_at')
                     ->orWhere('expired_at', '>', now());
             });
+    }
+
+    /**
+     * Get all images associated with the product.
+     */
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
+    /**
+     * Get the primary/featured image of the product.
+     */
+    public function getPhotoAttribute(): ?string
+    {
+        $image = $this->relationLoaded('images')
+            ? $this->images->first()
+            : $this->images()->first();
+
+        return $image?->path;
     }
 
     /**

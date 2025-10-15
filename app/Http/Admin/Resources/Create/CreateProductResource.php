@@ -17,8 +17,8 @@ class CreateProductResource extends JsonResource
             'stock' => $this->stock,
             'is_discount' => $this->is_discount,
             'description' => $this->description,
-            'photo' => url('storage/'.$this->photo),
             'category' => $this->category,
+            // 'images' => $this->images->map(fn($img) => $img->url)
         ];
     }
 }
