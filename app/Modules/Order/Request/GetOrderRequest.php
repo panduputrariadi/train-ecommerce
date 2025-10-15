@@ -7,6 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class GetOrderRequest extends FormRequest
 {
+    /**
+     * Return validation rules for the GetOrderRequest
+     *
+     * @return array<string, string|array<int, string>>
+     */
     public function rules(): array
     {
         return [
@@ -15,6 +20,12 @@ class GetOrderRequest extends FormRequest
         ];
     }
 
+
+    /**
+     * Return a validated GetOrderDto
+     *
+     * @return GetOrderDto
+     */
     public function validatedDto(): GetOrderDto
     {
         return GetOrderDto::fromArray($this->validated());

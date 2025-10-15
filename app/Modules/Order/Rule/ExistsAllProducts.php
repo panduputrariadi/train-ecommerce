@@ -7,14 +7,20 @@ use Illuminate\Support\Facades\DB;
 
 class ExistsAllProducts implements ValidationRule
 {
+    /**
+     * Validate if all products in the given array exist or are not invalid.
+     *
+     * @param string $attribute
+     * @param mixed $value
+     * @param \Closure $fail
+     * @return void
+     */
     public function validate(string $attribute, mixed $value, \Closure $fail): void
     {
-        // Jika $value bukan array of array, abaikan (mencegah error Undefined key)
         if (!is_array($value) || !isset($value[0]['product_id'])) {
             return;
         }
 
-        // Ambil semua product_id unik dari items
         $ids = collect($value)
             ->pluck('product_id')
             ->filter()
@@ -25,12 +31,10 @@ class ExistsAllProducts implements ValidationRule
             return;
         }
 
-        // Hitung jumlah produk valid di DB
         $count = DB::table('products')
             ->whereIn('id', $ids)
             ->count();
 
-        // Jika jumlah tidak cocok, berarti ada product_id yang tidak valid
         if ($count !== $ids->count()) {
             $fail('Some products do not exist or are invalid.');
         }

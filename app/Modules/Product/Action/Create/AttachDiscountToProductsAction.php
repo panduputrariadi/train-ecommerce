@@ -14,7 +14,7 @@ class AttachDiscountToProductsAction
      * Attach discount to products
      *
      * @param  AttachDiscountToProductDto  $dto
-     * @return  DiscountProduct
+     * @return  void
      */
     public function execute(AttachDiscountToProductDto $dto): void
     {

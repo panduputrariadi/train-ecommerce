@@ -8,16 +8,22 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateOrderRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
         return true;
     }
 
+
     /**
-     * Validation rules.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, array<string, int>>
      */
     public function rules(): array
     {
@@ -30,8 +36,11 @@ class CreateOrderRequest extends FormRequest
         ];
     }
 
+
     /**
-     * Convert validated input to DTO.
+     * Return a validated CreateOrderDto
+     *
+     * @return CreateOrderDto
      */
     public function validatedDto(): CreateOrderDto
     {

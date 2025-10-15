@@ -15,7 +15,11 @@ class LoginUserAction
         $dto = $request->validatedLogin();
         $user = User::where('email', $dto->email)->firstOrFail();
 
-        $token = $user->createToken('api_token_user')->plainTextToken;
+        $token = $user->createToken(
+            name: 'api_token_user',
+            abilities: ['*'],
+            expiresAt: now()->addDay()
+        )->plainTextToken;
 
         return [
             'user' => $user,

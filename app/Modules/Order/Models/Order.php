@@ -34,22 +34,51 @@ class Order extends Model
         'status' => OrderStatus::class
     ];
 
+    /**
+     * Get the name of the route key for the order.
+     *
+     * @return string
+     */
     public function getRouteKeyName(): string
     {
         return 'code';
     }
 
+    /**
+     * Get the prefix code for the order.
+     *
+     * This method returns the prefix code for the order, which is 'ORD'.
+     *
+     * @return string
+     */
     protected function getCodePrefix(): string
     {
         return 'ORD';
     }
 
+    /**
+     * Get the name of the user who made the order.
+     *
+     * If the user is logged in, this method returns the user's name.
+     * Otherwise, it returns 'UNKNOWN'.
+     *
+     * @return string
+     */
     public function getCodeName(): string
     {
         $user = Auth::user();
         return $user?->profile?->name ?? 'UNKNOWN';
     }
 
+    /**
+     * Create a new order with the given attributes and associate it with the given user.
+     *
+     * This method generates a code for the order using the given user's name (or 'UNKNOWN' if the user is not logged in).
+     *
+     * @param array $attributes The attributes for the order.
+     * @param \App\Modules\Share\Models\User $user The user to associate with the order.
+     * @return self The created order.
+     */
     public static function createWithUser(array $attributes, $user): self
     {
         $attributes['code'] = self::generateCode(
@@ -63,22 +92,43 @@ class Order extends Model
         return static::create($attributes);
     }
 
-
+    /**
+     * Get the user associated with the order.
+     *
+     * @return \App\Modules\Share\Models\User
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the details of the order.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function details(): HasMany
     {
         return $this->hasMany(DetailOrder::class);
     }
 
+    /**
+     * Get the payment associated with the order.
+     *
+     * @return \App\Modules\Payment\Models\Payment
+     */
     public function payment(): HasOne
     {
         return $this->hasOne(Payment::class);
     }
 
+    /**
+     * Scope a query to search orders by code, note, product name or product data.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string|null $search
+     * @return void
+     */
     public function scopeSearch($query, ?string $search): void
     {
         if (blank($search)) {

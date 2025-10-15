@@ -7,32 +7,52 @@ use App\Modules\Share\Models\User;
 
 class OrderPolicy
 {
+
     /**
-     * Tentukan apakah user bisa melihat order ini.
+     * Check if user can view order
+     *
+     * @param User $user The user to check.
+     * @param Order $order The order to check.
+     * @return bool Whether the user can view the order.
      */
     public function view(User $user, Order $order): bool
     {
         return $order->user_id === $user->id;
     }
 
+
     /**
-     * Tentukan apakah user bisa mendownload invoice order ini.
+     * Check if user can download invoice of order
+     *
+     * @param User $user The user to check.
+     * @param Order $order The order to check.
+     * @return bool Whether the user can download the invoice.
      */
     public function downloadInvoice(User $user, Order $order): bool
     {
         return $order->user_id === $user->id;
     }
 
+
     /**
-     * Tentukan apakah user bisa mengupdate/mengelola order ini.
+     * Check if user can update order
+     *
+     * @param User $user The user to check.
+     * @param Order $order The order to check.
+     * @return bool Whether the user can update the order.
      */
     public function update(User $user, Order $order): bool
     {
         return $order->user_id === $user->id;
     }
 
+
     /**
-     * Tentukan apakah user bisa menghapus order ini.
+     * Check if user can delete order
+     *
+     * @param User $user The user to check
+     * @param Order $order The order to check
+     * @return bool Whether the user can delete the order
      */
     public function delete(User $user, Order $order): bool
     {

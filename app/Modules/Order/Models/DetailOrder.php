@@ -30,11 +30,20 @@ class DetailOrder extends Model
         'product_data' => ProductDataCast::class,
     ];
 
+    /**
+     * Get the order that owns the detail order
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
+    /**
+     * Get the product that owns the detail order.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
