@@ -14,6 +14,7 @@ class LoginUserResource extends JsonResource
         parent::__construct($resource);
         $this->token = $token;
     }
+
     /**
      * Transform the resource into an array.
      *
@@ -23,7 +24,7 @@ class LoginUserResource extends JsonResource
     {
         return [
             'user' => $this->resource,
-            'token' => $this->token
+            'token' => $this->token,
         ];
     }
 }

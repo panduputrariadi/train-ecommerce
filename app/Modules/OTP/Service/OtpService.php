@@ -14,14 +14,14 @@ class OtpService
         $otpCode = random_int(100000, 999999);
 
         $otp = Otp::create([
-            'email'      => $email,
-            'otp'        => $otpCode,
-            'type'       => TypeOtp::TYPE_EMAIL,
-            'used_for'   => $usedFor,
+            'email' => $email,
+            'otp' => $otpCode,
+            'type' => TypeOtp::TYPE_EMAIL,
+            'used_for' => $usedFor,
             'expired_at' => now()->addMinutes(5),
         ]);
 
-        SendOtpEmailJob::dispatch($email, $otpCode, $usedFor->value);
+        SendOtpEmailJob::dispatch($email, (string) $otpCode, $usedFor->value);
 
         return $otp;
     }

@@ -11,5 +11,6 @@ class UserRole extends Pivot
     use HasFactory, SoftDeletes;
 
     protected $table = 'user_roles';
+
     protected $fillable = ['user_id', 'role_id'];
 }

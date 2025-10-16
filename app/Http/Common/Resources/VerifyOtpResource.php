@@ -19,7 +19,7 @@ class VerifyOtpResource extends JsonResource
             'id' => $this->id,
             'email' => $this->email,
             'updated_at' => $this->updated_at,
-            'verified_at' => $this->verified_at
+            'verified_at' => $this->verified_at,
         ];
     }
 }

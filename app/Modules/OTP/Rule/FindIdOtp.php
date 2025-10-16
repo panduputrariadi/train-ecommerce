@@ -20,16 +20,19 @@ class FindIdOtp implements ValidationRule
 
         if (! $otpIdRecord) {
             $fail('id not found');
+
             return;
         }
 
         if ($otpIdRecord->verified_at !== null) {
             $fail('id already used');
+
             return;
         }
 
         if ($otpIdRecord->expired_at <= now()) {
             $fail('id expired');
+
             return;
         }
     }

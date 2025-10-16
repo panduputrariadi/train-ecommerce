@@ -2,17 +2,17 @@
 
 namespace App\Modules\Share\Models;
 
-use App\Modules\Share\Models\UserProfile;
-use App\Modules\Share\Models\Role;
 use App\Modules\Share\Enum\UserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'email',
@@ -25,6 +25,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**
+     * @property UserStatus $status
+     */
     protected function casts(): array
     {
         return [
@@ -34,15 +37,15 @@ class User extends Authenticatable
         ];
     }
 
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class, 'user_id');
     }
 
-    public function roles()
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id')
-                    ->withTimestamps()
-                    ->withTrashed();
+            ->withTimestamps()
+            ->withTrashed();
     }
 }

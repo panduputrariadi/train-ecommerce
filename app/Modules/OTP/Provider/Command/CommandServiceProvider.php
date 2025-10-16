@@ -2,8 +2,8 @@
 
 namespace App\Modules\OTP\Provider\Command;
 
-use Illuminate\Support\ServiceProvider;
 use App\Modules\OTP\Command\DeleteExpiredOtp;
+use Illuminate\Support\ServiceProvider;
 
 class CommandServiceProvider extends ServiceProvider
 {

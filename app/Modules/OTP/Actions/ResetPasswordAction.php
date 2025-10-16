@@ -2,13 +2,13 @@
 
 namespace App\Modules\OTP\Actions;
 
-use App\Modules\Auth\Models\User;
 use App\Modules\OTP\Models\Otp;
 use App\Modules\OTP\Requests\ResetPasswordRequest;
+use App\Modules\Share\Models\User;
 
 class ResetPasswordAction
 {
-    public function execute(ResetPasswordRequest $request)
+    public function execute(ResetPasswordRequest $request): User
     {
         $dto = $request->validateDto();
         $otp = Otp::findOrFail($dto->otpId);
@@ -19,6 +19,7 @@ class ResetPasswordAction
 
         $otp->verified_at = now();
         $otp->save();
+
         return $user;
     }
 }

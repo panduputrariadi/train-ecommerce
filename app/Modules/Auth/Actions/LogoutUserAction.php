@@ -10,9 +10,11 @@ class LogoutUserAction
     {
         $user = $request->user();
 
-        if ($user && $user->currentAccessToken()) {
-            $user->currentAccessToken()->delete();
+        if ($user === null) {
+            return;
         }
+
+        $user->currentAccessToken()?->delete();
 
     }
 }

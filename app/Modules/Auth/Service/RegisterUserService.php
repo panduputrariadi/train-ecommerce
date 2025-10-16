@@ -5,33 +5,39 @@ namespace App\Modules\Auth\Service;
 use App\Modules\Auth\Request\CreateRegisterUserRequest;
 use App\Modules\Share\Enum\RoleIdUser;
 use App\Modules\Share\Enum\UserStatus;
+use App\Modules\Share\Helper\CodeGenerator;
 use App\Modules\Share\Models\User;
 use App\Modules\Share\Models\UserRole;
-use Illuminate\Http\UploadedFile;
+use App\Modules\Share\Traits\HandlePhotoUploadTrait;
 
 class RegisterUserService
 {
+    use HandlePhotoUploadTrait;
+
     public function register(CreateRegisterUserRequest $request, RoleIdUser $roleId): User
     {
         $dto = $request->validatedDto();
         $user = User::create([
-            'email'    => $dto->email,
+            'email' => $dto->email,
             'password' => $dto->password,
-            'status'   => UserStatus::ACTIVE,
+            'status' => UserStatus::ACTIVE,
         ]);
 
-        $photoPath = null;
-        if ($dto->photo instanceof UploadedFile) {
-            $nameSlug = preg_replace('/[^a-z0-9\-]/', '', str_replace(' ', '-', strtolower($dto->name)));
-            $filename = "{$user->id}_{$nameSlug}.{$dto->photo->getClientOriginalExtension()}";
-            $photoPath = $dto->photo->storeAs('profile-photos', $filename, 'public');
-        }
+        $photoPath = $this->uploadPhoto(
+            $dto->photo,
+            'profile-photos',
+            $user->id,
+            $dto->name
+        );
+
+        $code = CodeGenerator::generate('user_profiles', 'UPR', $dto->name);
 
         $user->profile()->create([
-            'name'   => $dto->name,
+            'code' => $code,
+            'name' => $dto->name,
             'otp_id' => $dto->otpId,
-            'photo'  => $photoPath,
-            'phone'  => $dto->phone,
+            'photo' => $photoPath,
+            'phone' => $dto->phone,
         ]);
 
         UserRole::create([
