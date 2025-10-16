@@ -11,9 +11,9 @@
     <p>Berikut detail pesanan Anda:</p>
 
     <ul>
-        <li><strong>Kode Order:</strong> {{ $order->code }}</li>
-        <li><strong>Total:</strong> Rp {{ number_format($order->grand_total, 0, ',', '.') }}</li>
-        <li><strong>Status:</strong> {{ $order->status->getLabel() }} </li>
+        <li><strong>Kode Order:</strong> {{ $payment->order->code }}</li>
+        <li><strong>Total:</strong> Rp {{ number_format($payment->order->grand_total, 0, ',', '.') }}</li>
+        <li><strong>Status:</strong> {{ $payment->order->status->getLabel() }} </li>
     </ul>
 
     <p>Invoice PDF terlampir pada email ini.</p>

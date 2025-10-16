@@ -23,15 +23,18 @@ class PaymentCompleteJob implements ShouldQueue
 
     public function handle(): void
     {
-        $order = $this->payment->order;
+        $payment = $this->payment->loadMissing(['order.user.profile']);
+        $order = $payment->order;
+        $user = $order->user;
 
-        if (! $order || ! $order->user) {
-            return;
-        }
+        $data = [
+            'payment' => $payment->toArray(),
+            'order' => $order->toArray(),
+            'user' => $user->toArray(),
+            'profile' => $user->profile?->toArray(),
+        ];
 
-        // Kirim email invoice
-        Mail::to($order->user->email)->queue(
-            new PaymentCompleteMail($this->payment, $order)
-        );
+        Mail::to($user->email)->queue(new PaymentCompleteMail($data));
     }
+
 }

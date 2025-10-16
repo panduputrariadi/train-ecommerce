@@ -2,8 +2,6 @@
 
 namespace App\Modules\Payment\Mails;
 
-use App\Modules\Order\Models\Order;
-use App\Modules\Payment\Models\Payment;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -13,29 +11,28 @@ class PaymentCompleteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public Payment $payment;
-    public Order $order;
-    public $user;
+    public array $data;
 
-    public function __construct(Payment $payment, Order $order)
+    public function __construct(array $data)
     {
-        $this->payment = $payment;
-        $this->order = $order;
-        $this->user = $order->user;
+        $this->data = $data;
     }
 
     public function build()
     {
         $pdf = Pdf::loadView('emails.payment.invoice', [
-            'order' => $this->order,
-            'payment' => $this->payment,
-            'user' => $this->user,
+            'payment' => $this->data['payment'],
+            'order' => $this->data['order'],
+            'user' => $this->data['user'],
+            'profile' => $this->data['profile'],
         ]);
 
-        return $this->subject('Invoice Pembayaran #' . $this->order->code)
-            ->view('emails.payment.complete')
-            ->attachData($pdf->output(), "Invoice-{$this->order->code}.pdf", [
-                'mime' => 'application/pdf',
-            ]);
+        return $this->subject('Invoice Pembayaran #' . $this->data['order']['code'])
+            ->view('emails.payment.complete', $this->data)
+            ->attachData(
+                $pdf->output(),
+                "Invoice-{$this->data['order']['code']}.pdf",
+                ['mime' => 'application/pdf']
+            );
     }
 }
