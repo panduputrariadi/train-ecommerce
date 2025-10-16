@@ -120,7 +120,7 @@ class Product extends Model
     {
         $discount = $this->relationLoaded('discounts')
             ? $this->discounts->first()
-            : $this->discounts()->first();
+            : null;
 
         if (! $this->is_discount || ! $discount) {
             return null;
@@ -146,7 +146,7 @@ class Product extends Model
 
         $discount = $this->relationLoaded('discounts')
             ? $this->discounts->first()
-            : $this->discounts()->first();
+            : null;
 
         if (! $this->is_discount || ! $discount) {
             return $price;

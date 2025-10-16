@@ -15,9 +15,9 @@ class CreatePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order_id' => ['required', 'exists:orders,id'],
+            // 'order_id' => ['required', 'exists:orders,id'],
             'payment_method_id' => ['required', 'exists:payment_methods,id'],
-            'paid_amount' => ['required', 'numeric', 'min:1'],
+            'paid_amount' => 'required_if:payment_method_id,1',
             'notes' => ['nullable', 'string'],
             'bank_account_id' => ['nullable', 'exists:bank_accounts,id'],
             'evidence_file' => ['nullable', 'file', 'mimes:png,jpg,pdf,jpeg', 'max:2048'],

@@ -7,11 +7,11 @@ use Illuminate\Http\UploadedFile;
 
 class CreatePaymentDto extends BaseDto
 {
-    public int $orderId;
+    // public ?int $orderId;
 
     public int $paymentMethodId;
 
-    public int $paidAmount;
+    public ?int $paidAmount;
 
     public ?string $notes = null;
 

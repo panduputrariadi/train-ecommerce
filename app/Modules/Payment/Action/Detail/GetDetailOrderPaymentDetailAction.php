@@ -12,7 +12,6 @@ class GetDetailOrderPaymentDetailAction
      */
     public function execute(Order $code)
     {
-
         return $code->load(['payment.receipts', 'payment.method', 'payment.bankAccount']);
     }
 }
