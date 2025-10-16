@@ -29,7 +29,7 @@ trait HasActivityUser
             if (! empty($changes)) {
                 static::recordActivity('updated', $model, 'Record updated', [
                     'before' => $model->getOriginal(),
-                    'after'  => $changes,
+                    'after' => $changes,
                 ], Auth::id());
             }
         });
@@ -53,20 +53,20 @@ trait HasActivityUser
         // Gunakan afterCommit agar tidak mengganggu transaksi utama
         DB::afterCommit(function () use ($type, $model, $message, $extra) {
             LogActivityUser::create([
-                'type'        => $type,
+                'type' => $type,
                 'description' => [
-                    'model'    => class_basename($model),
+                    'model' => class_basename($model),
                     'model_id' => $model->getKey(),
-                    'message'  => $message,
-                    'data'     => $extra,
+                    'message' => $message,
+                    'data' => $extra,
                 ],
-                'user_id'     => Auth::id(),
-                'created_at'  => now(),
+                'user_id' => Auth::id(),
+                'created_at' => now(),
             ]);
         });
     }
 
-     public function logActivity(string $type, string $message, array $extra = []): void
+    public function logActivity(string $type, string $message, array $extra = []): void
     {
         DB::afterCommit(function () use ($type, $message, $extra) {
             $userId = Auth::id();

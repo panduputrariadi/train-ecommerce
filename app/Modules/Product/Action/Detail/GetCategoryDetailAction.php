@@ -8,7 +8,6 @@ class GetCategoryDetailAction
 {
     /**
      * Execute action to get category detail
-     *
      */
     public function execute(int $id): Category
     {

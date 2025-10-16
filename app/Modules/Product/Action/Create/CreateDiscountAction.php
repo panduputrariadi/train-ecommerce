@@ -7,12 +7,8 @@ use App\Modules\Product\Models\Discount;
 
 class CreateDiscountAction
 {
-
     /**
      * Create a new discount
-     *
-     * @param  CreateDiscountDto  $dto
-     * @return Discount
      */
     public function execute(CreateDiscountDto $dto): Discount
     {

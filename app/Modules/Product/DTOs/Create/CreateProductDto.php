@@ -19,5 +19,6 @@ class CreateProductDto extends BaseDto
 
     public bool $isDiscount;
 
+    /** array<UploadedFile> */
     public ?array $photos = null;
 }

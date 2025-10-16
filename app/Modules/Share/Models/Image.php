@@ -20,8 +20,6 @@ class Image extends Model
 
     /**
      * Get the full URL to the image using Laravel Storage.
-     *
-     * @return string|null
      */
     public function getUrlAttribute(): ?string
     {

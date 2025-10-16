@@ -17,7 +17,7 @@ class GetOrderResource extends JsonResource
             'tax_amount' => $this->tax_amount,
             'grand_total' => $this->grand_total,
             'note' => $this->note,
-            'details' => $this->details
+            'details' => $this->details,
         ];
     }
 }

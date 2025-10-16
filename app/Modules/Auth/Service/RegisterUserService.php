@@ -12,7 +12,6 @@ use App\Modules\Share\Traits\HandlePhotoUploadTrait;
 
 class RegisterUserService
 {
-
     use HandlePhotoUploadTrait;
 
     public function register(CreateRegisterUserRequest $request, RoleIdUser $roleId): User

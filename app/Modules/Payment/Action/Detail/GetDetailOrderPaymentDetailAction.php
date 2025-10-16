@@ -9,7 +9,6 @@ class GetDetailOrderPaymentDetailAction
     /**
      * @param  string  $orderCode
      * @return \App\Modules\Payment\Models\Payment|null
-     *
      */
     public function execute(Order $code)
     {

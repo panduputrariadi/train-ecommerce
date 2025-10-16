@@ -12,7 +12,7 @@ class UnblockCustomerAction
     {
         $user = $profile->user;
 
-        if (!$user->roles()->where('slug', 'like', 'customer.%')->exists()) {
+        if (! $user->roles()->where('slug', 'like', 'customer.%')->exists()) {
             throw new Exception('Not a customer');
         }
 

@@ -28,8 +28,6 @@ class AttachDiscountToProductRequest extends FormRequest
 
     /**
      * Return a validated AttachDiscountToProductDto
-     *
-     * @return AttachDiscountToProductDto
      */
     public function validatedDto(): AttachDiscountToProductDto
     {

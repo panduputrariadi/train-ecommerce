@@ -2,17 +2,30 @@
 
 namespace App\Modules\Product\Filters;
 
-use Illuminate\Database\Eloquent\Builder;
 use App\Modules\Product\DTOs\Read\GetProductDto;
 use App\Modules\Product\Models\Product;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductFilter
 {
+    /**
+     * Construct a new ProductFilter instance.
+     *
+     * @param  Builder  $query  The product query builder.
+     * @param  GetProductDto  $dto  The get product DTO.
+     */
     public function __construct(
         protected Builder $query,
         protected GetProductDto $dto
     ) {}
 
+    /**
+     * Apply filters to a product query.
+     *
+     *
+     * @note This function will return a Builder instance of Product model,
+     * filtered by the given GetProductDto.
+     */
     public static function apply(GetProductDto $dto): Builder
     {
         return Product::with(['category:id,name', 'discounts'])

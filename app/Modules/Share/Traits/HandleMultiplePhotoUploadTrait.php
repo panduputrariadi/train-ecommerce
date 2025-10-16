@@ -13,10 +13,6 @@ trait HandleMultiplePhotoUploadTrait
      * Upload multiple photos and attach them to a polymorphic model.
      *
      * @param  array  $photos  Array of UploadedFile|string (base64)
-     * @param  string  $directory
-     * @param  \Illuminate\Database\Eloquent\Model  $imageable
-     * @param  string  $nameForSlug
-     * @return void
      */
     public function uploadMultiplePhotos(array $photos, string $directory, Model $imageable, string $nameForSlug): void
     {
@@ -27,9 +23,11 @@ trait HandleMultiplePhotoUploadTrait
         $imageRecords = [];
 
         foreach ($photos as $photo) {
-            if (! $photo) continue;
+            if (! $photo) {
+                continue;
+            }
 
-            $filename = "{$entityId}_{$slug}_" . Str::random(8);
+            $filename = "{$entityId}_{$slug}_".Str::random(8);
             $path = null;
 
             if ($photo instanceof UploadedFile) {

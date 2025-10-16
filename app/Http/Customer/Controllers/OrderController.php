@@ -9,7 +9,6 @@ use App\Http\Customer\Resources\GetDetailOrderResource;
 use App\Modules\Order\Action\Create\CreateOrderAction;
 use App\Modules\Order\Action\Detail\GetDetailOrderAction;
 use App\Modules\Order\Action\Read\GetOrderActoin;
-use App\Modules\Order\Action\Read\GetOrderAdminAction;
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Request\CreateOrderRequest;
 use App\Modules\Order\Request\GetOrderRequest;
@@ -21,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
     use AuthorizesRequests;
+
     public function store(CreateOrderRequest $request, CreateOrderAction $action): CreateOrderResource
     {
         $dto = $request->validatedDto();
@@ -33,6 +33,7 @@ class OrderController extends Controller
     {
         $dto = $request->validatedDto();
         $data = $action->execute($dto);
+
         return new GetOrderCollection($data);
     }
 
@@ -40,6 +41,7 @@ class OrderController extends Controller
     {
         $this->authorize('view', $order);
         $data = $action->execute($order);
+
         return new GetDetailOrderResource($data);
     }
 

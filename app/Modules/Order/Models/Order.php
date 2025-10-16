@@ -5,7 +5,6 @@ namespace App\Modules\Order\Models;
 use App\Modules\Order\Enum\OrderStatus;
 use App\Modules\Payment\Models\Payment;
 use App\Modules\Share\Models\User;
-use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
-    use SoftDeletes, HasGenerateCode;
+    use HasGenerateCode, SoftDeletes;
 
     protected $table = 'orders';
 
@@ -31,13 +30,11 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'status' => OrderStatus::class
+        'status' => OrderStatus::class,
     ];
 
     /**
      * Get the name of the route key for the order.
-     *
-     * @return string
      */
     public function getRouteKeyName(): string
     {
@@ -48,8 +45,6 @@ class Order extends Model
      * Get the prefix code for the order.
      *
      * This method returns the prefix code for the order, which is 'ORD'.
-     *
-     * @return string
      */
     protected function getCodePrefix(): string
     {
@@ -61,12 +56,11 @@ class Order extends Model
      *
      * If the user is logged in, this method returns the user's name.
      * Otherwise, it returns 'UNKNOWN'.
-     *
-     * @return string
      */
     public function getCodeName(): string
     {
         $user = Auth::user();
+
         return $user?->profile?->name ?? 'UNKNOWN';
     }
 
@@ -75,8 +69,8 @@ class Order extends Model
      *
      * This method generates a code for the order using the given user's name (or 'UNKNOWN' if the user is not logged in).
      *
-     * @param array $attributes The attributes for the order.
-     * @param \App\Modules\Share\Models\User $user The user to associate with the order.
+     * @param  array  $attributes  The attributes for the order.
+     * @param  \App\Modules\Share\Models\User  $user  The user to associate with the order.
      * @return self The created order.
      */
     public static function createWithUser(array $attributes, $user): self
@@ -104,8 +98,6 @@ class Order extends Model
 
     /**
      * Get the details of the order.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function details(): HasMany
     {
@@ -125,9 +117,7 @@ class Order extends Model
     /**
      * Scope a query to search orders by code, note, product name or product data.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string|null $search
-     * @return void
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      */
     public function scopeSearch($query, ?string $search): void
     {

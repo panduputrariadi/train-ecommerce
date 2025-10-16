@@ -13,9 +13,6 @@ class CreateProductAction
 
     /**
      * Execute the creation of a new product
-     *
-     * @param  CreateProductDto  $dto
-     * @return Product
      */
     public function execute(CreateProductDto $dto): Product
     {
@@ -37,6 +34,7 @@ class CreateProductAction
                 nameForSlug: $dto->name
             );
         }
+
         return $product;
     }
 }

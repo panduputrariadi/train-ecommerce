@@ -4,20 +4,14 @@ namespace App\Modules\Product\Action\Update;
 
 use App\Modules\Product\DTOs\Update\UpdateProductDto;
 use App\Modules\Product\Models\Product;
-use App\Modules\Product\Request\Update\UpdateProductRequest;
 use App\Modules\Share\Traits\HandlePhotoUploadTrait;
 
 class UpdateProductAction
 {
     use HandlePhotoUploadTrait;
 
-
     /**
      * Execute the update of a product
-     *
-     * @param  Product  $product
-     * @param  UpdateProductDto  $dto
-     * @return Product
      */
     public function execute(Product $product, UpdateProductDto $dto): Product
     {

@@ -6,12 +6,8 @@ use App\Modules\Product\Models\Product;
 
 class GetDetailProductAction
 {
-
     /**
      * Execute action to get product detail
-     *
-     * @param  Product $product
-     * @return Product
      */
     public function execute(Product $product): Product
     {

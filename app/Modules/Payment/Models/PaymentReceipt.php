@@ -23,8 +23,6 @@ class PaymentReceipt extends Model
 
     /**
      * Get the payment that owns the payment receipt.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function payment(): BelongsTo
     {

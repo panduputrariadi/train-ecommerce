@@ -7,13 +7,8 @@ use App\Modules\Product\Models\Category;
 
 class UpdateCategoryAction
 {
-
     /**
      * Execute the update of a category
-     *
-     * @param  UpdateCategoryDto  $dto
-     * @param int $id
-     * @return Category
      */
     public function execute(UpdateCategoryDto $dto, int $id): Category
     {

@@ -14,7 +14,7 @@ class CategoryObserver
         }
 
         if (empty($category->code) && method_exists($category, 'generateCode')) {
-            $category->code = $category->generateCode();
+            $category->code = $category->generateCode('CAT');
         }
 
         if (auth()->check() && $category->isFillable('created_by')) {

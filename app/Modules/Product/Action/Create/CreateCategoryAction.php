@@ -8,12 +8,8 @@ use Illuminate\Support\Str;
 
 class CreateCategoryAction
 {
-
     /**
      * Execute the create of a category
-     *
-     * @param CreateCategoryDto $dto
-     * @return Category
      */
     public function execute(CreateCategoryDto $dto): Category
     {

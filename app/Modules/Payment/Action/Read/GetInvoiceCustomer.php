@@ -8,9 +8,6 @@ class GetInvoiceCustomer
 {
     /**
      * Execute and return an order.
-     *
-     * @param Order $order
-     * @return Order
      */
     public function execute(Order $order): Order
     {

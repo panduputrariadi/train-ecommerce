@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LogActivityUser extends Model
 {
-    protected $fillable =  [
+    protected $fillable = [
         'type',
         'description',
-        'user_id'
+        'user_id',
     ];
 
     protected $casts = [
-        'description' => 'array'
+        'description' => 'array',
     ];
 
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

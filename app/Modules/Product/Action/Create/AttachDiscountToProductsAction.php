@@ -3,7 +3,6 @@
 namespace App\Modules\Product\Action\Create;
 
 use App\Modules\Product\DTOs\Create\AttachDiscountToProductDto;
-use App\Modules\Product\Models\DiscountProduct;
 use App\Modules\Product\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,9 +11,6 @@ class AttachDiscountToProductsAction
 {
     /**
      * Attach discount to products
-     *
-     * @param  AttachDiscountToProductDto  $dto
-     * @return  void
      */
     public function execute(AttachDiscountToProductDto $dto): void
     {

@@ -22,8 +22,6 @@ class PaymentMethod extends Model
 
     /**
      * Get the bank accounts of the payment method.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function bankAccounts(): HasMany
     {
@@ -32,8 +30,6 @@ class PaymentMethod extends Model
 
     /**
      * Get the payments of the payment method.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function payments(): HasMany
     {

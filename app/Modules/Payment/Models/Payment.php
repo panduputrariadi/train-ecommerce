@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Payment extends Model
 {
-    use HasFactory, HasGenerateCode, HasActivityUser;
+    use HasActivityUser, HasFactory, HasGenerateCode;
 
     protected $fillable = [
         'code',
@@ -36,8 +36,6 @@ class Payment extends Model
 
     /**
      * Get the name of the route key for the payment.
-     *
-     * @return string
      */
     public function getRouteKeyName(): string
     {
@@ -46,8 +44,6 @@ class Payment extends Model
 
     /**
      * Get the prefix code of the payment.
-     *
-     * @return string
      */
     protected function getCodePrefix(): string
     {
@@ -56,8 +52,6 @@ class Payment extends Model
 
     /**
      * Get the name of the customer who made the payment.
-     *
-     * @return string|null
      */
     public function getCodeName(): ?string
     {
@@ -66,8 +60,6 @@ class Payment extends Model
 
     /**
      * Get the order that owns the payment.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function order(): BelongsTo
     {
@@ -76,8 +68,6 @@ class Payment extends Model
 
     /**
      * Get the payment method that owns the payment.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function method(): BelongsTo
     {
@@ -86,8 +76,6 @@ class Payment extends Model
 
     /**
      * Get the bank account that owns the payment.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function bankAccount(): BelongsTo
     {
@@ -96,8 +84,6 @@ class Payment extends Model
 
     /**
      * Relation to the user who created the payment.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function creator(): BelongsTo
     {
@@ -106,8 +92,6 @@ class Payment extends Model
 
     /**
      * Relation to the user who verified the payment.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function verifier(): BelongsTo
     {
@@ -116,8 +100,6 @@ class Payment extends Model
 
     /**
      * Relation to payment receipt
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function receipts(): HasMany
     {

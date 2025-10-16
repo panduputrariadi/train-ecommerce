@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateDiscountRequest extends FormRequest
 {
-
     /**
      * Validation rules for creating a discount
      *

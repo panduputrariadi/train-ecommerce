@@ -13,7 +13,7 @@ class GetCustomerResource extends JsonResource
             'code' => $this->code,
             'name' => $this->name,
             'photo' => $this->photo,
-            'phone' => $this->phone
+            'phone' => $this->phone,
         ];
     }
 }

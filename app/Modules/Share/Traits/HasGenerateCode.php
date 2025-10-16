@@ -2,10 +2,10 @@
 
 namespace App\Modules\Share\Traits;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Exception;
 
 trait HasGenerateCode
 {
@@ -32,7 +32,7 @@ trait HasGenerateCode
     public static function generateCode(string $tableName, ?string $prefix = null, ?string $name = null, string $columnName = 'code'): string
     {
         try {
-            if (!$prefix) {
+            if (! $prefix) {
                 $prefix = strtoupper(substr($tableName, 0, 3));
             }
 
@@ -53,8 +53,8 @@ trait HasGenerateCode
                 $datePart = now()->format('Ymd');
 
                 $code = "{$prefix}-{$nextNumber}"
-                    . ($suffix ? "-{$suffix}" : '')
-                    . "-{$datePart}";
+                    .($suffix ? "-{$suffix}" : '')
+                    ."-{$datePart}";
 
                 $alreadyExists = DB::table($tableName)
                     ->select($columnName)
@@ -64,15 +64,15 @@ trait HasGenerateCode
                     ->first();
 
                 if ($alreadyExists) {
-                    $code .= '-' . strtoupper(Str::random(4));
+                    $code .= '-'.strtoupper(Str::random(4));
                 }
-
 
                 return $code;
             });
         } catch (Exception $e) {
-            Log::error("Code generation failed for {$tableName}: " . $e->getMessage());
-            return strtoupper($prefix ?? 'GEN') . '-' . Str::uuid()->toString();
+            Log::error("Code generation failed for {$tableName}: ".$e->getMessage());
+
+            return strtoupper($prefix ?? 'GEN').'-'.Str::uuid()->toString();
         }
     }
 

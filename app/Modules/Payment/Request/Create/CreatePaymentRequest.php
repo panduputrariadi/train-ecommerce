@@ -25,8 +25,6 @@ class CreatePaymentRequest extends FormRequest
 
     /**
      * Return a validated CreatePaymentDto
-     *
-     * @return CreatePaymentDto
      */
     public function validatedDto(): CreatePaymentDto
     {

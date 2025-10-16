@@ -14,13 +14,13 @@ class ChangePasswordAction
     {
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             throw ValidationException::withMessages([
                 'auth' => ['Unauthenticated.'],
             ]);
         }
 
-        if (!Hash::check($dto->currentPassword, $user->password)) {
+        if (! Hash::check($dto->currentPassword, $user->password)) {
             throw ValidationException::withMessages([
                 'current_password' => ['Old password is incorrect.'],
             ]);

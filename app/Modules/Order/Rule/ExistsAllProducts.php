@@ -9,15 +9,10 @@ class ExistsAllProducts implements ValidationRule
 {
     /**
      * Validate if all products in the given array exist or are not invalid.
-     *
-     * @param string $attribute
-     * @param mixed $value
-     * @param \Closure $fail
-     * @return void
      */
     public function validate(string $attribute, mixed $value, \Closure $fail): void
     {
-        if (!is_array($value) || !isset($value[0]['product_id'])) {
+        if (! is_array($value) || ! isset($value[0]['product_id'])) {
             return;
         }
 

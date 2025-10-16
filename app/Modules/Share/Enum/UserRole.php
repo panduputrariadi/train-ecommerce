@@ -27,7 +27,7 @@ enum UserRole: string
 
     public static function isCustomer(): array
     {
-        return[
+        return [
             self::CUSTOMER_REGULAR->value,
             self::CUSTOMER_PREMIUM->value,
             self::CUSTOMER_GUEST->value,
@@ -38,5 +38,4 @@ enum UserRole: string
     {
         return array_column(self::cases(), 'value');
     }
-
 }

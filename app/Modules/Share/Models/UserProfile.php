@@ -33,9 +33,7 @@ class UserProfile extends Model
 
     public function scopeCustomer($query): void
     {
-        $query->whereHas('user.roles', fn($q) =>
-            $q->where('slug', 'like', 'customer.%')
+        $query->whereHas('user.roles', fn ($q) => $q->where('slug', 'like', 'customer.%')
         );
     }
-
 }

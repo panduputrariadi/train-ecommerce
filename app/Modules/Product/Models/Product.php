@@ -7,6 +7,7 @@ use App\Modules\Share\Models\Image;
 use App\Modules\Share\Models\User;
 use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
-    use SoftDeletes, HasGenerateCode, HasActivityUser;
+    use HasActivityUser, HasGenerateCode, SoftDeletes;
 
     protected $table = 'products';
 
@@ -59,7 +60,6 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-
     /**
      * Get the category that owns the product.
      *
@@ -69,7 +69,6 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
-
 
     /**
      * Get the discounts associated with the product.
@@ -86,7 +85,9 @@ class Product extends Model
     }
 
     /**
-     * Get all images associated with the product.
+     * Get the images associated with the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<Image, $this>
      */
     public function images(): MorphMany
     {
@@ -94,7 +95,7 @@ class Product extends Model
     }
 
     /**
-     * Get the primary/featured image of the product.
+     * Get the photo attribute.
      */
     public function getPhotoAttribute(): ?string
     {
@@ -134,7 +135,6 @@ class Product extends Model
         ];
     }
 
-
     /**
      * Get the final price of the product.
      *
@@ -160,7 +160,13 @@ class Product extends Model
     }
 
     /**
-     * Create a new product with auto-generated code.
+     * Create a new product with the given attributes and generate a code for it.
+     *
+     * The code is generated using the CodeGenerator class, with the prefix 'PRD' and the product name.
+     * The created_by attribute is automatically set to the current authenticated user's ID if it is not provided.
+     *
+     * @param  array  $attributes  The attributes for the new product.
+     * @return self The created product.
      */
     public static function createWithCode(array $attributes): self
     {
@@ -178,24 +184,22 @@ class Product extends Model
     /**
      * Scope a query to search products by name or code.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $search
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSearch($query, ?string $search = null)
+    public function scopeSearch(Builder $query, ?string $search = null)
     {
         return $query->when(
             $search,
             fn ($q) => $q->where(fn ($sub) => $sub->where('name', 'like', "%{$search}%")
-                                                ->orWhere('code', 'like', "%{$search}%"))
+                ->orWhere('code', 'like', "%{$search}%"))
         );
     }
 
     /**
      * Scope a query to filter products by category id.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $categoryId
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int  $categoryId
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOfCategory($query, $categoryId)
@@ -203,12 +207,11 @@ class Product extends Model
         return $query->when($categoryId, fn ($q) => $q->where('category_id', $categoryId));
     }
 
-
     /**
      * Scope a query to filter products by whether they have a discount or not.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param bool $isDiscounted Whether the product has a discount or not.
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  bool  $isDiscounted  Whether the product has a discount or not.
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeDiscounted($query, $isDiscounted = null)
@@ -218,12 +221,13 @@ class Product extends Model
             fn ($q) => $q->where('is_discount', (bool) $isDiscounted)
         );
     }
+
     /**
      * Scope a query to filter products by price range.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int|null $min The minimum price of the products.
-     * @param int|null $max The maximum price of the products.
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int|null  $min  The minimum price of the products.
+     * @param  int|null  $max  The maximum price of the products.
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePriceBetween($query, $min = null, $max = null)
@@ -236,8 +240,8 @@ class Product extends Model
     /**
      * Scope a query to filter products by whether they are in stock or not.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param bool $inStock Whether the product is in stock or not.
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  bool  $inStock  Whether the product is in stock or not.
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeInStock($query, $inStock = null)
@@ -251,9 +255,9 @@ class Product extends Model
     /**
      * Scope a query to filter products by creation date range.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \DateTimeInterface|string|null $from The start date of the creation date range.
-     * @param \DateTimeInterface|string|null $to The end date of the creation date range.
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \DateTimeInterface|string|null  $from  The start date of the creation date range.
+     * @param  \DateTimeInterface|string|null  $to  The end date of the creation date range.
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCreatedBetween($query, $from = null, $to = null)

@@ -16,9 +16,9 @@ class SalesReportExport implements FromView, ShouldAutoSize, WithTitle
     /**
      * Constructor
      *
-     * @param string|null $startDate The start date of the payment orders to export
-     * @param string|null $endDate The end date of the payment orders to export
-     * @param string|null $status The status of the payment orders to export
+     * @param  string|null  $startDate  The start date of the payment orders to export
+     * @param  string|null  $endDate  The end date of the payment orders to export
+     * @param  string|null  $status  The status of the payment orders to export
      */
     public function __construct(
         protected ?string $startDate = null,
@@ -30,8 +30,6 @@ class SalesReportExport implements FromView, ShouldAutoSize, WithTitle
      * Return a view instance for the sales report export
      *
      * The view will contain the payment orders with the given status and date range
-     *
-     * @return \Illuminate\Contracts\View\View
      */
     public function view(): View
     {

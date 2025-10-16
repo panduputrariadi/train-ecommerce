@@ -11,7 +11,7 @@ class CreatePaymentResource extends JsonResource
     {
         return [
             'amount' => $this->amount,
-            'status' => $this->status
+            'status' => $this->status,
         ];
     }
 }

@@ -11,7 +11,6 @@ class GetDiscountAction
     /**
      * Execute the GetDiscountAction
      *
-     * @param GetDiscountDto $dto
      * @return LengthAwarePaginator<int, Discount>
      *
      * @note This function will return a LengthAwarePaginator of Discount models.

@@ -16,15 +16,12 @@ class GetOrderRequest extends FormRequest
     {
         return [
             'search' => ['nullable', 'string'],
-            'per_page' => ['nullable', 'integer', 'max:100']
+            'per_page' => ['nullable', 'integer', 'max:100'],
         ];
     }
 
-
     /**
      * Return a validated GetOrderDto
-     *
-     * @return GetOrderDto
      */
     public function validatedDto(): GetOrderDto
     {

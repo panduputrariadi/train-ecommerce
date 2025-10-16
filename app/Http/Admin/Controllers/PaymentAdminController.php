@@ -16,32 +16,34 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class PaymentAdminController extends Controller
 {
-
     public function approvePayment(Payment $code, ApprovePaymentOrder $action): JsonResponse
     {
         $action->execute($code);
+
         return response()->json([
-            'message' => 'Success approve payment'
+            'message' => 'Success approve payment',
         ]);
     }
 
     public function declinePayment(Payment $code, DeclinePaymentOrder $action): JsonResponse
     {
         $action->execute($code);
+
         return response()->json([
-            'message' => 'Success approve payment'
+            'message' => 'Success approve payment',
         ]);
     }
 
     public function getDetailOrderPayment(Order $code, GetDetailOrderPaymentDetailAction $action): GetDetailOrderPaymentResource
     {
         $order = $action->execute($code);
+
         return new GetDetailOrderPaymentResource($order->payment);
     }
 
     public function export(Request $request)
     {
-        $fileName = 'sales_report_' . now()->format('Ymd_His') . '.xlsx';
+        $fileName = 'sales_report_'.now()->format('Ymd_His').'.xlsx';
 
         return Excel::download(
             new SalesReportExport(

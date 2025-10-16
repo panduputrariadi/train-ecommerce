@@ -22,11 +22,8 @@ class BankAccount extends Model
         'is_active' => 'boolean',
     ];
 
-
     /**
      * Get the payment method that owns the bank account.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function method(): BelongsTo
     {

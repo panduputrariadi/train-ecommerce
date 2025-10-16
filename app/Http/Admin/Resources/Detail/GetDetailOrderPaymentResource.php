@@ -37,15 +37,15 @@ class GetDetailOrderPaymentResource extends JsonResource
             }),
 
             'receipts' => $this->whenLoaded('receipts', function () {
-                    return $this->receipts->map(function ($receipt) {
-                        return [
-                            'id' => $receipt->id,
-                            'file_path' => url(Storage::url($receipt->file_path)),
-                            'mime_type' => $receipt->mime_type,
-                            'uploaded_at' => $receipt->uploaded_at?->format('Y-m-d H:i:s'),
-                        ];
-                    });
-                }),
+                return $this->receipts->map(function ($receipt) {
+                    return [
+                        'id' => $receipt->id,
+                        'file_path' => url(Storage::url($receipt->file_path)),
+                        'mime_type' => $receipt->mime_type,
+                        'uploaded_at' => $receipt->uploaded_at?->format('Y-m-d H:i:s'),
+                    ];
+                });
+            }),
 
             'creator' => $this->whenLoaded('creator', function () {
                 return [

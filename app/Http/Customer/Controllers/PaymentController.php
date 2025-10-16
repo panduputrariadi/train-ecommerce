@@ -13,7 +13,8 @@ class PaymentController extends Controller
     public function store(CreatePaymentRequest $request, CreatePaymentAction $action): CreatePaymentResource
     {
         $dto = $request->validatedDto();
-        $data = DB::transaction(fn ()=> $action->execute($dto));
+        $data = DB::transaction(fn () => $action->execute($dto));
+
         return new CreatePaymentResource($data);
     }
 }

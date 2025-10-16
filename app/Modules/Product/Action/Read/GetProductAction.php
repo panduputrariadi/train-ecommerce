@@ -9,13 +9,10 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetProductAction
 {
-
     /**
      * Execute the GetProductAction
      *
-     * @param  GetProductDto  $dto
      * @return LengthAwarePaginator<int, Product>
-     *
      */
     public function execute(GetProductDto $dto): LengthAwarePaginator
     {

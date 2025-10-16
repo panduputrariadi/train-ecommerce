@@ -4,8 +4,8 @@ namespace App\Modules\Order\Action\Create;
 
 use App\Modules\Order\DTOs\CreateOrderDto;
 use App\Modules\Order\Enum\OrderStatus;
-use App\Modules\Order\Models\Order;
 use App\Modules\Order\Models\DetailOrder;
+use App\Modules\Order\Models\Order;
 use App\Modules\Product\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,15 +22,15 @@ class CreateOrderAction
 
         [$detailData, $subTotal] = $this->buildDetailOrders($order, $aggregatedItems, $products);
 
-        if (!empty($detailData)) {
+        if (! empty($detailData)) {
             DetailOrder::insert($detailData);
         }
 
         [$taxAmount, $grandTotal] = $this->calculateTotals($subTotal);
 
         $order->update([
-            'sub_total'   => $subTotal,
-            'tax_amount'  => $taxAmount,
+            'sub_total' => $subTotal,
+            'tax_amount' => $taxAmount,
             'grand_total' => $grandTotal,
         ]);
 
@@ -43,11 +43,11 @@ class CreateOrderAction
     private function createOrder(CreateOrderDto $dto, $user): Order
     {
         return Order::createWithUser([
-            'status'      => OrderStatus::PENDING,
-            'sub_total'   => 0,
-            'tax_amount'  => 0,
+            'status' => OrderStatus::PENDING,
+            'sub_total' => 0,
+            'tax_amount' => 0,
             'grand_total' => 0,
-            'note'        => $dto->note,
+            'note' => $dto->note,
         ], $user);
     }
 
@@ -58,10 +58,11 @@ class CreateOrderAction
     {
         $productIds = collect($dto->items)->pluck('product_id')->unique();
 
-        $data =  Product::with(['discounts'])
+        $data = Product::with(['discounts'])
             ->whereIn('id', $productIds)
             ->get()
             ->keyBy('id');
+
         return $data;
     }
 
@@ -72,9 +73,9 @@ class CreateOrderAction
     {
         return collect($dto->items)
             ->groupBy('product_id')
-            ->map(fn($items) => [
+            ->map(fn ($items) => [
                 'product_id' => $items->first()['product_id'],
-                'quantity'   => $items->sum('quantity'),
+                'quantity' => $items->sum('quantity'),
             ])
             ->values();
     }
@@ -89,7 +90,9 @@ class CreateOrderAction
 
         foreach ($aggregatedItems as $item) {
             $product = $products->get($item['product_id']);
-            if (!$product) continue;
+            if (! $product) {
+                continue;
+            }
 
             $snapshot = $this->makeProductSnapshot($product);
             $unitPrice = (float) $snapshot['final_price'];
@@ -104,16 +107,16 @@ class CreateOrderAction
             );
 
             $detailData[] = [
-                'order_id'        => $order->id,
-                'product_id'      => $product->id,
-                'discount_id'     => $discountId,
-                'quantity'        => $qty,
-                'unit_price'      => $unitPrice,
+                'order_id' => $order->id,
+                'product_id' => $product->id,
+                'discount_id' => $discountId,
+                'quantity' => $qty,
+                'unit_price' => $unitPrice,
                 'discount_amount' => $discountAmount,
-                'total_price'     => $totalPrice,
-                'product_data'    => json_encode($snapshot),
-                'created_at'      => now(),
-                'updated_at'      => now(),
+                'total_price' => $totalPrice,
+                'product_data' => json_encode($snapshot),
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
 
             $subTotal += $totalPrice;
@@ -140,13 +143,13 @@ class CreateOrderAction
     private function makeProductSnapshot(Product $product): array
     {
         return [
-            'id'              => $product->id,
-            'code'            => $product->code,
-            'name'            => $product->name,
-            'price'           => (float) $product->price,
-            'final_price'     => (float) $product->final_price,
+            'id' => $product->id,
+            'code' => $product->code,
+            'name' => $product->name,
+            'price' => (float) $product->price,
+            'final_price' => (float) $product->final_price,
             'active_discount' => $product->active_discount,
-            'photo'           => $product->photo,
+            'photo' => $product->photo,
         ];
     }
 
@@ -155,14 +158,16 @@ class CreateOrderAction
      */
     private function calculateDiscountAmount(float $basePrice, ?array $discount, int $qty): float
     {
-        if (!$discount) return 0;
+        if (! $discount) {
+            return 0;
+        }
 
         $value = (float) ($discount['value'] ?? 0);
 
         return match ($discount['type']) {
             'percentage' => round($basePrice * ($value / 100) * $qty, 2),
-            'nominal'    => round($value * $qty, 2),
-            default      => 0,
+            'nominal' => round($value * $qty, 2),
+            default => 0,
         };
     }
 }

@@ -4,7 +4,6 @@ namespace App\Modules\Order\Models;
 
 use App\Modules\Order\Casts\ProductDataCast;
 use App\Modules\Product\Models\Product;
-use App\Modules\Share\Traits\HasActivityUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,7 +31,6 @@ class DetailOrder extends Model
 
     /**
      * Get the order that owns the detail order
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function order(): BelongsTo
     {
@@ -41,8 +39,6 @@ class DetailOrder extends Model
 
     /**
      * Get the product that owns the detail order.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product(): BelongsTo
     {

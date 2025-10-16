@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ */
 class Category extends Model
 {
-    use SoftDeletes, HasGenerateCode, HasActivityUser;
+    use HasActivityUser, HasGenerateCode, SoftDeletes;
 
     protected $table = 'categories';
 
@@ -23,8 +27,6 @@ class Category extends Model
 
     /**
      * Get the prefix code for the category.
-     *
-     * @return string
      */
     protected function getCodePrefix(): string
     {
@@ -36,8 +38,6 @@ class Category extends Model
      *
      * This method returns the name of the category as a string.
      * If the category does not have a name, it returns null.
-     *
-     * @return string|null
      */
     public function getCodeName(): ?string
     {

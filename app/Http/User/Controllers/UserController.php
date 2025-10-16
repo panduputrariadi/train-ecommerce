@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function getProfile(): UserProfileResource
     {
-        $action = new UserProfile();
+        $action = new UserProfile;
         $user = $action->execute();
 
         return new UserProfileResource($user);
@@ -24,7 +24,8 @@ class UserController extends Controller
     public function updateUser(UpdateProfileRequest $request, UpdateUserProfileAction $action): UserProfileResource
     {
         $dto = $request->validatedDto();
-        $data = DB::transaction(fn ()=> $action->execute($dto));
+        $data = DB::transaction(fn () => $action->execute($dto));
+
         return new UserProfileResource($data);
     }
 

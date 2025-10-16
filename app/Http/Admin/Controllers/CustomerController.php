@@ -24,16 +24,18 @@ class CustomerController extends Controller
     public function blockCustomer(UserProfile $profile, BlockCustomerAction $action): JsonResponse
     {
         $action->execute($profile);
+
         return response()->json([
-            'message' => 'Success block customer'
+            'message' => 'Success block customer',
         ]);
     }
 
     public function unblockCustomer(UserProfile $profile, UnblockCustomerAction $action): JsonResponse
     {
         $action->execute($profile);
+
         return response()->json([
-            'message' => 'Success block customer'
+            'message' => 'Success block customer',
         ]);
     }
 }

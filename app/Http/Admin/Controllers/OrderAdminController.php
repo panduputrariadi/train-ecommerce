@@ -13,6 +13,7 @@ class OrderAdminController extends Controller
     {
         $dto = $request->validatedDto();
         $data = $action->execute($dto);
+
         return new GetOrderCollection($data);
     }
 }
