@@ -17,9 +17,8 @@ class PaymentService
 {
     use HandlePhotoUploadTrait;
 
-    public function processPayment(CreatePaymentDto $dto): Payment
+    public function processPayment(Order $order,CreatePaymentDto $dto): Payment
     {
-        $order = Order::findOrFail($dto->orderId);
         return match ((int)$dto->paymentMethodId) {
             1 => $this->handleCashPayment($order, $dto),
             2 => $this->handleTransferPayment($order, $dto),
@@ -34,7 +33,7 @@ class PaymentService
     {
         if ($dto->paidAmount < $order->grand_total) {
             throw ValidationException::withMessages([
-                'Paid amount is less than grand total',
+                'paid_amount' => 'Paid amount is less than grand total',
             ]);
         }
 

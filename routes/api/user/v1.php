@@ -15,5 +15,5 @@ Route::middleware(['auth:sanctum', 'role:'.implode(',', UserRole::isCustomer())]
     Route::get('/orders', [OrderController::class, 'get']);
     Route::get('/orders/{order}/pdf', [OrderController::class, 'getOrderInvoice']);
 
-    Route::post('/payments', [PaymentController::class, 'store']);
+    Route::post('/orders/{order}/payments', [PaymentController::class, 'store']);
 });

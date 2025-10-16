@@ -17,8 +17,8 @@ class CreatePaymentAction
     use HandlePhotoUploadTrait;
 
     public function __construct(protected PaymentService $service){}
-    public function execute(CreatePaymentDto $dto): Payment
+    public function execute(Order $order,CreatePaymentDto $dto): Payment
     {
-        return $this->service->processPayment($dto);
+        return $this->service->processPayment($order,$dto);
     }
 }
