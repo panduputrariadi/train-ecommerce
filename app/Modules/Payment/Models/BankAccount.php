@@ -2,6 +2,7 @@
 
 namespace App\Modules\Payment\Models;
 
+use Database\Factories\BankAccountFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,10 @@ class BankAccount extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+    protected static function newFactory(): BankAccountFactory
+    {
+        return BankAccountFactory::new();
+    }
 
     /**
      * Get the payment method that owns the bank account.

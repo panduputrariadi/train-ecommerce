@@ -18,4 +18,6 @@ class CreatePaymentDto extends BaseDto
     public ?string $type_file = null;
 
     public ?UploadedFile $evidenceFile = null;
+
+    public ?int $bankAccountId = null;
 }
