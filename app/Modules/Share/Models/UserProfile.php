@@ -2,6 +2,7 @@
 
 namespace App\Modules\Share\Models;
 
+use Database\Factories\UserProfileFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +25,11 @@ class UserProfile extends Model
     public function getRouteKeyName(): string
     {
         return 'code';
+    }
+
+    protected static function newFactory(): UserProfileFactory
+    {
+        return UserProfileFactory::new();
     }
 
     public function user(): BelongsTo

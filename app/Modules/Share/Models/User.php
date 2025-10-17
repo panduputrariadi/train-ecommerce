@@ -3,6 +3,7 @@
 namespace App\Modules\Share\Models;
 
 use App\Modules\Share\Enum\UserStatus;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -24,6 +25,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
+    }
 
     /**
      * @property UserStatus $status
