@@ -10,14 +10,19 @@ use App\Modules\Payment\Action\Update\ApprovePaymentOrder;
 use App\Modules\Payment\Action\Update\DeclinePaymentOrder;
 use App\Modules\Payment\Export\SalesReportExport;
 use App\Modules\Payment\Models\Payment;
+use App\Modules\Share\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PaymentAdminController extends Controller
 {
+    use AuthorizesRequests;
+
     public function approvePayment(Payment $code, ApprovePaymentOrder $action): JsonResponse
     {
+        $this->authorize('paymentDecission', User::class);
         $action->execute($code);
 
         return response()->json([
@@ -27,6 +32,7 @@ class PaymentAdminController extends Controller
 
     public function declinePayment(Payment $code, DeclinePaymentOrder $action): JsonResponse
     {
+        $this->authorize('paymentDecission', User::class);
         $action->execute($code);
 
         return response()->json([

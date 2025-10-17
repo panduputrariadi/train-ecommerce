@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Policies\OrderPolicy;
+use App\Modules\Payment\Policies\PaymentPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // Sanctum::useTokenAuthentication();
         Gate::policy(Order::class, OrderPolicy::class);
+        Gate::policy(Order::class, PaymentPolicy::class);
     }
 }
