@@ -5,6 +5,7 @@ namespace App\Modules\Payment\Services;
 use App\Modules\Order\Enum\OrderStatus;
 use App\Modules\Order\Models\Order;
 use App\Modules\Payment\DTOs\Create\CreatePaymentDto;
+use App\Modules\Payment\Enum\PaymentMethod;
 use App\Modules\Payment\Enum\PaymentStatus;
 use App\Modules\Payment\Models\BankAccount;
 use App\Modules\Payment\Models\Payment;
@@ -20,8 +21,8 @@ class PaymentService
     public function processPayment(Order $order,CreatePaymentDto $dto): Payment
     {
         return match ((int)$dto->paymentMethodId) {
-            1 => $this->handleCashPayment($order, $dto),
-            2 => $this->handleTransferPayment($order, $dto),
+            PaymentMethod::CASH=> $this->handleCashPayment($order, $dto),
+            PaymentMethod::TRANSFER=> $this->handleTransferPayment($order, $dto),
             default => throw ValidationException::withMessages([
                 'payment_method_id' => 'Payment method not found',
             ]),
@@ -39,7 +40,7 @@ class PaymentService
 
         $payment = Payment::create([
             'order_id' => $order->id,
-            'payment_method_id' => $dto->paymentMethodId,
+            'payment_method_id' => $dto->paymentMethodId->value,
             'amount' => $dto->paidAmount,
             'status' => PaymentStatus::COMPLETED,
             'note' => $dto->notes,
@@ -64,7 +65,7 @@ class PaymentService
         $dto->paidAmount = $grandTotal;
         $payment = Payment::create([
             'order_id' => $order->id,
-            'payment_method_id' => $dto->paymentMethodId,
+            'payment_method_id' => $dto->paymentMethodId->value,
             'bank_account_id' => $dto->bankAccountId,
             'amount' => $grandTotal,
             'status' => PaymentStatus::PENDING,

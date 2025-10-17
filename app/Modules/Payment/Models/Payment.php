@@ -3,6 +3,7 @@
 namespace App\Modules\Payment\Models;
 
 use App\Modules\Order\Models\Order;
+use App\Modules\Payment\Enum\PaymentMethod;
 use App\Modules\Payment\Enum\PaymentStatus;
 use App\Modules\Share\Models\User;
 use App\Modules\Share\Traits\HasActivityUser;
@@ -32,6 +33,7 @@ class Payment extends Model
     protected $casts = [
         'paid_at' => 'datetime',
         'status' => PaymentStatus::class,
+        'payment_method_id' => PaymentMethod::class,
     ];
 
     /**

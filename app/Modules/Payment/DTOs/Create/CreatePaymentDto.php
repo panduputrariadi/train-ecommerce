@@ -3,13 +3,14 @@
 namespace App\Modules\Payment\DTOs\Create;
 
 use App\Base\BaseDto;
+use App\Modules\Payment\Enum\PaymentMethod;
 use Illuminate\Http\UploadedFile;
 
 class CreatePaymentDto extends BaseDto
 {
     // public ?int $orderId;
 
-    public int $paymentMethodId;
+    public PaymentMethod $paymentMethodId;
 
     public ?int $paidAmount;
 
