@@ -15,6 +15,8 @@ use App\Modules\Order\Request\GetOrderRequest;
 use App\Modules\Payment\Action\Read\GetInvoiceCustomer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -44,6 +46,16 @@ class OrderController extends Controller
         $data = $action->execute($order);
 
         return new GetDetailOrderResource($data);
+    }
+
+    public function deleteOrder(Order $order): JsonResponse
+    {
+        $this->authorize('delete', $order);
+        $order->delete();
+
+        return response()->json([
+            'message' => 'Order deleted successfully',
+        ]);
     }
 
     public function getOrderInvoice(Order $order, GetInvoiceCustomer $action)

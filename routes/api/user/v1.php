@@ -14,6 +14,7 @@ Route::middleware(['auth:sanctum', 'role:'.implode(',', UserRole::isCustomer())]
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders', [OrderController::class, 'get']);
     Route::get('/orders/{order}/pdf', [OrderController::class, 'getOrderInvoice']);
+    Route::delete('/orders/{order}', [OrderController::class, 'deleteOrder']);
 
     Route::post('/orders/{order}/payments', [PaymentController::class, 'store']);
 });
