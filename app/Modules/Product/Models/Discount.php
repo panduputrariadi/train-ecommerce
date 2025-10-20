@@ -4,12 +4,14 @@ namespace App\Modules\Product\Models;
 
 use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
+use Database\Factories\DiscountFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Discount extends Model
 {
-    use HasActivityUser, HasGenerateCode;
+    use HasActivityUser, HasGenerateCode, HasFactory;
 
     protected $fillable = ['type', 'code', 'value', 'expired_at'];
 
@@ -25,6 +27,11 @@ class Discount extends Model
     public function getCodeName(): string
     {
         return $this->type;
+    }
+
+    protected static function newFactory(): DiscountFactory
+    {
+        return DiscountFactory::new();
     }
 
     /**

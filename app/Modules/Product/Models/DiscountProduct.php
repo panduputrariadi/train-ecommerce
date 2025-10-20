@@ -3,11 +3,14 @@
 namespace App\Modules\Product\Models;
 
 use App\Modules\Share\Models\User;
+use Database\Factories\DiscountProductFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DiscountProduct extends Model
 {
+    use HasFactory;
     protected $table = 'discount_products';
 
     protected $fillable = [
@@ -15,6 +18,11 @@ class DiscountProduct extends Model
         'product_id',
         'created_by',
     ];
+
+    protected static function newFactory(): DiscountProductFactory
+    {
+        return DiscountProductFactory::new();
+    }
 
     /**
      * Get the discount that owns the discount product.

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('name');
             $table->text('description');
-            $table->integer('price');
+            $table->float('price');
             $table->integer('stock');
             $table->string('photo')->nullable();
             $table->boolean('is_discount')->default(false);

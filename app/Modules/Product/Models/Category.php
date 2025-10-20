@@ -4,6 +4,8 @@ namespace App\Modules\Product\Models;
 
 use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
+use Database\Factories\CategoryFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Category extends Model
 {
-    use HasActivityUser, HasGenerateCode, SoftDeletes;
+    use HasActivityUser, HasGenerateCode, SoftDeletes, HasFactory;
 
     protected $table = 'categories';
 
@@ -24,6 +26,11 @@ class Category extends Model
         'name',
         'description',
     ];
+
+    protected static function newFactory(): CategoryFactory
+    {
+        return CategoryFactory::new();
+    }
 
     /**
      * Get the prefix code for the category.

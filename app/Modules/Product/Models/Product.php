@@ -7,7 +7,9 @@ use App\Modules\Share\Models\Image;
 use App\Modules\Share\Models\User;
 use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
-    use HasActivityUser, HasGenerateCode, SoftDeletes;
+    use HasActivityUser, HasGenerateCode, SoftDeletes, HasFactory;
 
     protected $table = 'products';
 
@@ -34,6 +36,11 @@ class Product extends Model
     ];
 
     protected $appends = ['final_price', 'active_discount'];
+
+    protected static function newFactory(): ProductFactory
+    {
+        return ProductFactory::new();
+    }
 
     public function getRouteKeyName(): string
     {
