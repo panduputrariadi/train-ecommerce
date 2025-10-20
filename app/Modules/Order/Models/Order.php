@@ -2,6 +2,7 @@
 
 namespace App\Modules\Order\Models;
 
+use App\Modules\Order\Casts\AddressDataCast;
 use App\Modules\Order\Enum\OrderStatus;
 use App\Modules\Payment\Models\Payment;
 use App\Modules\Share\Models\User;
@@ -27,10 +28,12 @@ class Order extends Model
         'grand_total',
         'note',
         'user_id',
+        'user_data',
     ];
 
     protected $casts = [
         'status' => OrderStatus::class,
+        'user_data' => AddressDataCast::class,
     ];
 
     /**

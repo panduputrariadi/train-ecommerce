@@ -9,4 +9,6 @@ class CreateOrderDto extends BaseDto
     public array $items;
 
     public ?string $note;
+
+    public ?int $addressId;
 }

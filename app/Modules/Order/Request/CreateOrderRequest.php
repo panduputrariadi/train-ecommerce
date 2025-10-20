@@ -26,6 +26,7 @@ class CreateOrderRequest extends FormRequest
         return [
             'note' => 'nullable|string',
             'items' => ['required', 'array', 'min:1', new ExistsAllProducts],
+            'address_id' => 'required|integer',
             'items.*.product_id' => 'required|integer',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.discount_amount' => 'nullable|numeric|min:0',

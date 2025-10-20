@@ -10,8 +10,7 @@ class UserProfile
     public function execute(): User
     {
         $user = Auth::user();
-        $user->load('profile', 'roles');
-
+        $user->load('profile', 'roles', 'addresses');
         return $user;
     }
 }

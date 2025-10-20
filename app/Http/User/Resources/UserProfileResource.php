@@ -21,6 +21,16 @@ class UserProfileResource extends JsonResource
                     'slug' => $role->slug,
                     'name' => $role->name,
                 ] : null,
+                'addresses' => $this->addresses->map(function ($address) {
+                    return [
+                        'id' => $address->id,
+                        'address' => $address->address,
+                        'city' => $address->city,
+                        'state' => $address->state,
+                        'zip_code' => $address->zip_code,
+                        'is_default' => $address->is_default,
+                    ];
+                }),
             ],
         ];
     }

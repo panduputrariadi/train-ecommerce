@@ -31,7 +31,7 @@ class OrderController extends Controller
 
     public function get(GetOrderRequest $request, GetOrderActoin $action): GetOrderCollection
     {
-        $this->authorize('view', Order::class);
+        // $this->authorize('view', Order::class);
         $dto = $request->validatedDto();
         $data = $action->execute($dto);
 

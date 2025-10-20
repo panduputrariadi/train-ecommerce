@@ -10,7 +10,7 @@ class GetOrderResource extends JsonResource
     public function toArray(Request $request)
     {
         return [
-            'id' => $this->id,
+            'user_id' => $this->user_id,
             'code' => $this->code,
             'status' => $this->status,
             'sub_total' => $this->sub_total,
@@ -18,6 +18,7 @@ class GetOrderResource extends JsonResource
             'grand_total' => $this->grand_total,
             'note' => $this->note,
             'details' => $this->details,
+            'user_data_address' => $this->user_data
         ];
     }
 }
