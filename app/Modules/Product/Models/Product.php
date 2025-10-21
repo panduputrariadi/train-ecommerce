@@ -108,7 +108,7 @@ class Product extends Model
     {
         $image = $this->relationLoaded('images')
             ? $this->images->first()
-            : $this->images()->first();
+            : null;
 
         return $image?->path;
     }
