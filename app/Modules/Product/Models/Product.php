@@ -37,21 +37,41 @@ class Product extends Model
 
     protected $appends = ['final_price', 'active_discount'];
 
+    /**
+     * Create a new factory instance for the Product model.
+     *
+     * @return \Database\Factories\ProductFactory
+     */
     protected static function newFactory(): ProductFactory
     {
         return ProductFactory::new();
     }
 
+    /**
+     * Get the route key name for the model.
+     *
+     * @return string
+     */
     public function getRouteKeyName(): string
     {
         return 'code';
     }
 
+    /**
+     * Get the prefix for the code.
+     *
+     * @return string
+     */
     protected function getCodePrefix(): string
     {
         return 'PRD';
     }
 
+    /**
+     * Get the name for the code.
+     *
+     * @return string
+     */
     public function getCodeNamde(): string
     {
         return $this->name;
