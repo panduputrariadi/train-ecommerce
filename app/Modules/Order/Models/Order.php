@@ -62,9 +62,7 @@ class Order extends Model
      */
     public function getCodeName(): string
     {
-        $user = Auth::user();
-
-        return $user?->profile?->name ?? 'UNKNOWN';
+        return Auth::user()->load(['profile', 'roles']);
     }
 
     /**

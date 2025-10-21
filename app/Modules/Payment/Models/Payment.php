@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 class Payment extends Model
 {
@@ -57,7 +58,7 @@ class Payment extends Model
      */
     public function getCodeName(): ?string
     {
-        return optional($this->order->user->profile)->name;
+        return Auth::user()->load(['profile', 'roles']);
     }
 
     /**
