@@ -86,7 +86,7 @@
     <h3>Payment Information</h3>
     @if ($order->payment)
         <p>
-            <strong>Method:</strong> {{ $order->payment->method->name ?? 'N/A' }}<br>
+            <strong>Method:</strong> {{ $order->payment->method->name ?? $order->payment->payment_method_id }}<br>
             <strong>Amount:</strong> ${{ number_format($order->payment->amount, 2, '.', ',') }}<br>
             <strong>Status:</strong> {{ ucfirst($order->payment->status->value) }}<br>
             @if ($order->payment->paid_at)
