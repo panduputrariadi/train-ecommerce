@@ -37,14 +37,24 @@ trait HasGenerateCode
             }
 
             return DB::transaction(function () use ($tableName, $prefix, $name, $columnName) {
+                // $lastRecord = DB::table($tableName)
+                //     ->select($columnName)
+                //     ->orderByDesc('id')
+                //     ->lockForUpdate()
+                //     ->first();
                 $lastRecord = DB::table($tableName)
-                    ->select($columnName)
-                    ->orderByDesc('id')
-                    ->lockForUpdate()
-                    ->first();
+                        ->select($columnName)
+                        ->where($columnName, 'like', "{$prefix}-%")
+                        ->orderByDesc('id')
+                        ->lockForUpdate()
+                        ->first();
+
 
                 $lastNumber = 0;
-                if ($lastRecord && preg_match("/{$prefix}-(\d+)-/", $lastRecord->{$columnName}, $matches)) {
+                // if ($lastRecord && preg_match("/{$prefix}-(\d+)-/", $lastRecord->{$columnName}, $matches)) {
+                //     $lastNumber = (int) $matches[1];
+                // }
+                if ($lastRecord && preg_match("/{$prefix}-(\d+)/", $lastRecord->{$columnName}, $matches)) {
                     $lastNumber = (int) $matches[1];
                 }
 

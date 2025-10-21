@@ -11,7 +11,7 @@ class GetInvoiceCustomer
      */
     public function execute(Order $order): Order
     {
-        return $order->load([
+        return $order->loadMissing([
             'user.profile',
             'details.product',
             'payment.method',
