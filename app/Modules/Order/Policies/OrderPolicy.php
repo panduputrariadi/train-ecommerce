@@ -54,4 +54,16 @@ class OrderPolicy
     {
         return $order->user_id === $user->id;
     }
+
+    /**
+     * Check if user can make payment for order
+     *
+     * @param  User  $user  The user to check
+     * @param  Order  $order  The order to check
+     * @return bool Whether the user can make payment for the order
+     */
+    public function storePayment(User $user, Order $order): bool
+    {
+        return $order->user_id === $user->id;
+    }
 }
