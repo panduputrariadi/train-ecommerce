@@ -16,7 +16,7 @@ class CreatePaymentRequest extends FormRequest
     {
         return [
             // 'order_id' => ['required', 'exists:orders,id'],
-            'payment_method_id' => ['required', 'exists:payment_methods,id'],
+            'payment_method_id' => ['required', 'in:Cash,Bank Transfer'],
             'paid_amount' => 'required_if:payment_method_id,1',
             'notes' => ['nullable', 'string'],
             'bank_account_id' => ['nullable', 'exists:bank_accounts,id'],

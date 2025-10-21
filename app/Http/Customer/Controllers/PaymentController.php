@@ -8,6 +8,7 @@ use App\Modules\Order\Models\Order;
 use App\Modules\Payment\Action\Create\CreatePaymentAction;
 use App\Modules\Payment\Request\Create\CreatePaymentRequest;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller

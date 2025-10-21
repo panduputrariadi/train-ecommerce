@@ -58,6 +58,9 @@ class CreateOrderAction
     private function createOrder(CreateOrderDto $dto, $user): Order
     {
         $selectedAddress = $user->addresses->where('user_id',$dto->addressId)->first();
+        if (! $selectedAddress) {
+            $selectedAddress = $user->addresses->first();
+        }
         $snapshot = $this->makeAddressSnapshot($selectedAddress);
         return Order::create([
             'user_id' => $user->id,

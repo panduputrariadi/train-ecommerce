@@ -2,10 +2,10 @@
 
 namespace App\Modules\Payment\Enum;
 
-enum PaymentMethod: int
+enum PaymentMethodEnum: string
 {
-    case CASH = 1;
-    case TRANSFER = 2;
+    case CASH = 'Cash';
+    case TRANSFER = 'Bank Transfer';
 
     public function label(): string
     {

@@ -31,6 +31,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // Sanctum::useTokenAuthentication();
         Gate::policy(Order::class, OrderPolicy::class);
-        Gate::policy(Payment::class, PaymentPolicy::class);
+        Gate::policy(Order::class, PaymentPolicy::class);
     }
 }
