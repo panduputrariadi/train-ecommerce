@@ -14,6 +14,7 @@ class SendPaymentInvoiceListener implements ShouldQueue
      */
     public function handle(PaymentCompleted $event): void
     {
-        Bus::dispatch(new PaymentCompleteJob($event->payment));
+        // Bus::dispatch(new PaymentCompleteJob($event->payment));
+        PaymentCompleteJob::dispatch($event->payment);
     }
 }
