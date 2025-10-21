@@ -37,6 +37,13 @@ class Product extends Model
 
     protected $appends = ['final_price', 'active_discount'];
 
+    protected $casts = [
+        'price' => 'float',
+        'stock' => 'integer',
+        'is_discount' => 'boolean',
+    ];
+
+
     /**
      * Create a new factory instance for the Product model.
      *
@@ -72,7 +79,7 @@ class Product extends Model
      *
      * @return string
      */
-    public function getCodeNamde(): string
+    public function getCodeName(): string
     {
         return $this->name;
     }
@@ -157,7 +164,7 @@ class Product extends Model
             'id' => $discount->id,
             'type' => $discount->type,
             'code' => $discount->code,
-            'value' => (int) $discount->value,
+            'value' => (float) $discount->value,
             'expired_at' => $discount->expired_at,
         ];
     }
@@ -165,12 +172,11 @@ class Product extends Model
     /**
      * Get the final price of the product.
      *
-     * @return int The final price of the product.
+     * @return float The final price of the product.
      */
-    public function getFinalPriceAttribute(): int
+    public function getFinalPriceAttribute(): float
     {
-        $price = (int) $this->price;
-
+        $price = $this->price;
         $discount = $this->relationLoaded('discounts')
             ? $this->discounts->first()
             : null;
@@ -179,12 +185,11 @@ class Product extends Model
             return $price;
         }
 
-        if ($discount->type === 'percentage') {
-            return max(0, (int) ($price - ($price * $discount->value / 100)));
-        }
-
-        return max(0, (int) ($price - $discount->value));
+        return $discount->type === 'percentage'
+            ? max(0, $price - ($price * $discount->value / 100))
+            : max(0, $price - $discount->value);
     }
+
 
     /**
      * Create a new product with the given attributes and generate a code for it.

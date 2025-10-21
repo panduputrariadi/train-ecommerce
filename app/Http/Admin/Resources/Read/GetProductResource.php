@@ -12,8 +12,8 @@ class GetProductResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'name' => $this->name,
-            'price' => (int) $this->price,
-            'final_price' => (int) $this->final_price,
+            'price' => (float) $this->price,
+            'final_price' => (float) $this->final_price,
             'is_discount' => (bool) $this->is_discount,
             'discount' => $this->active_discount,
         ];
