@@ -17,8 +17,7 @@ class CreateOrderAction
      * Execute the creation of a new order.
      *
      * @param  CreateOrderDto  $dto  The validated CreateOrderDto.
-     *
-     * @return Order  The created order.
+     * @return Order The created order.
      */
     public function execute(CreateOrderDto $dto): Order
     {
@@ -45,7 +44,6 @@ class CreateOrderAction
         return $order->fresh();
     }
 
-
     /**
      * Create a new order with the given attributes and associate it with the given user.
      *
@@ -53,15 +51,16 @@ class CreateOrderAction
      *
      * @param  CreateOrderDto  $dto  The validated CreateOrderDto.
      * @param  \App\Modules\Share\Models\User  $user  The user to associate with the order.
-     * @return Order  The created order.
+     * @return Order The created order.
      */
     private function createOrder(CreateOrderDto $dto, $user): Order
     {
-        $selectedAddress = $user->addresses->where('user_id',$dto->addressId)->first();
+        $selectedAddress = $user->addresses->where('user_id', $dto->addressId)->first();
         if (! $selectedAddress) {
             $selectedAddress = $user->addresses->first();
         }
         $snapshot = $this->makeAddressSnapshot($selectedAddress);
+
         return Order::create([
             'user_id' => $user->id,
             'status' => OrderStatus::PENDING,
@@ -73,13 +72,12 @@ class CreateOrderAction
         ], $user);
     }
 
-
     /**
      * Retrieve products from database based on product_ids in CreateOrderDto.
      * Products are retrieved with their discounts.
      *
      * @param  CreateOrderDto  $dto  The validated CreateOrderDto.
-     * @return \Illuminate\Support\Collection  A collection of products keyed by product_id.
+     * @return \Illuminate\Support\Collection A collection of products keyed by product_id.
      */
     private function getProducts(CreateOrderDto $dto)
     {
@@ -97,7 +95,7 @@ class CreateOrderAction
      * Aggregate items by product_id.
      *
      * @param  CreateOrderDto  $dto  The validated CreateOrderDto.
-     * @return \Illuminate\Support\Collection  A collection of aggregated items.
+     * @return \Illuminate\Support\Collection A collection of aggregated items.
      */
     private function aggregateItems(CreateOrderDto $dto)
     {
@@ -110,14 +108,13 @@ class CreateOrderAction
             ->values();
     }
 
-
     /**
      * Build detail orders based on aggregated items and products.
      *
      * @param  Order  $order  The order to attach the detail orders to.
      * @param  \Illuminate\Support\Collection  $aggregatedItems  A collection of aggregated items keyed by product_id.
      * @param  \Illuminate\Support\Collection  $products  A collection of products keyed by product_id.
-     * @return array  An array containing the detail orders and the sub total of the detail orders.
+     * @return array An array containing the detail orders and the sub total of the detail orders.
      */
     private function buildDetailOrders(Order $order, $aggregatedItems, $products): array
     {
@@ -165,7 +162,7 @@ class CreateOrderAction
      * Calculate sub total and grand total.
      *
      * @param  float  $subTotal  The sub total of the detail orders.
-     * @return array  An array containing the tax amount and grand total.
+     * @return array An array containing the tax amount and grand total.
      */
     private function calculateTotals(float $subTotal): array
     {
@@ -180,7 +177,7 @@ class CreateOrderAction
      * Make a snapshot of a product.
      *
      * @param  Product  $product  The product to make a snapshot of.
-     * @return array  An array containing the snapshot of the product.
+     * @return array An array containing the snapshot of the product.
      */
     private function makeProductSnapshot(Product $product): array
     {
@@ -201,7 +198,7 @@ class CreateOrderAction
      * @param  float  $basePrice  The base price of the product.
      * @param  array|null  $discount  The discount applied to the product.
      * @param  int  $qty  The quantity of the product.
-     * @return float  The discount amount.
+     * @return float The discount amount.
      */
     private function calculateDiscountAmount(float $basePrice, ?array $discount, int $qty): float
     {
@@ -224,7 +221,7 @@ class CreateOrderAction
      * This method creates an array containing the id, name, email, phone, and address of the given user.
      *
      * @param  User  $user  The user to make a snapshot of.
-     * @return array  An array containing the snapshot of the user.
+     * @return array An array containing the snapshot of the user.
      */
     private function makeAddressSnapshot(Address $address): array
     {

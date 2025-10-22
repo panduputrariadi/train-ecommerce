@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DiscountProduct extends Model
 {
     use HasFactory;
+
     protected $table = 'discount_products';
 
     protected $fillable = [

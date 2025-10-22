@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 
 class PaymentCompleteJob implements ShouldQueue
 {
-    use Queueable, InteractsWithQueue, SerializesModels, Dispatchable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public Payment $payment;
 
@@ -37,5 +37,4 @@ class PaymentCompleteJob implements ShouldQueue
 
         Mail::to($user->email)->queue(new PaymentCompleteMail($data));
     }
-
 }

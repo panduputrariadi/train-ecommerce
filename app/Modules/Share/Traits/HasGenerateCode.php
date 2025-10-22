@@ -43,12 +43,11 @@ trait HasGenerateCode
                 //     ->lockForUpdate()
                 //     ->first();
                 $lastRecord = DB::table($tableName)
-                        ->select($columnName)
-                        ->where($columnName, 'like', "{$prefix}-%")
-                        ->orderByDesc('id')
-                        ->lockForUpdate()
-                        ->first();
-
+                    ->select($columnName)
+                    ->where($columnName, 'like', "{$prefix}-%")
+                    ->orderByDesc('id')
+                    ->lockForUpdate()
+                    ->first();
 
                 $lastNumber = 0;
                 // if ($lastRecord && preg_match("/{$prefix}-(\d+)-/", $lastRecord->{$columnName}, $matches)) {

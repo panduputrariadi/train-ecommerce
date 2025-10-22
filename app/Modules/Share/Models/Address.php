@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     use HasFactory;
+
     protected $table = 'addresses';
 
     protected $fillable = [
@@ -33,5 +34,4 @@ class Address extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

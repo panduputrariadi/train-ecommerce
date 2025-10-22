@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Category extends Model
 {
-    use HasActivityUser, HasGenerateCode, SoftDeletes, HasFactory;
+    use HasActivityUser, HasFactory, HasGenerateCode, SoftDeletes;
 
     protected $table = 'categories';
 

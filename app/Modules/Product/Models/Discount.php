@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Discount extends Model
 {
-    use HasActivityUser, HasGenerateCode, HasFactory;
+    use HasActivityUser, HasFactory, HasGenerateCode;
 
     protected $fillable = ['type', 'code', 'value', 'expired_at'];
 

@@ -11,6 +11,7 @@ class UserProfile
     {
         $user = Auth::user();
         $user->load('profile', 'roles', 'addresses');
+
         return $user;
     }
 }

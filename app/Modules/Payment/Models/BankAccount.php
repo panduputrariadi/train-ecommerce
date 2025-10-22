@@ -22,6 +22,7 @@ class BankAccount extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
     protected static function newFactory(): BankAccountFactory
     {
         return BankAccountFactory::new();

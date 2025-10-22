@@ -2,7 +2,6 @@
 
 namespace App\Modules\Payment\Policies;
 
-use App\Modules\Order\Models\Order;
 use App\Modules\Share\Enum\UserRole;
 use App\Modules\Share\Models\User;
 
@@ -20,7 +19,7 @@ class PaymentPolicy
 
         $adminRoleValues = UserRole::adminRoles();
 
-        $hasAdminRole = !empty(array_intersect($userRoleValues, $adminRoleValues));
+        $hasAdminRole = ! empty(array_intersect($userRoleValues, $adminRoleValues));
 
         return $hasAdminRole;
     }

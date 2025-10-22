@@ -7,7 +7,6 @@ use App\Modules\Payment\DTOs\Create\CreatePaymentDto;
 use App\Modules\Payment\Enum\PaymentMethodEnum;
 use App\Modules\Payment\Factories\PaymentFactory;
 use App\Modules\Payment\Models\Payment;
-use Illuminate\Support\Facades\Auth;
 
 class PaymentService
 {
@@ -15,6 +14,7 @@ class PaymentService
     {
         $method = PaymentMethodEnum::from($dto->paymentMethodId);
         $processor = PaymentFactory::make($method);
+
         return $processor->handle($order, $dto);
     }
 }

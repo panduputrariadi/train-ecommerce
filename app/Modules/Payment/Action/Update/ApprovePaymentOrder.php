@@ -18,6 +18,7 @@ class ApprovePaymentOrder
         $code->order->update(['status' => OrderStatus::COMPLETED]);
 
         event(new PaymentCompleted($code));
+
         return $code;
     }
 }

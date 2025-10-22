@@ -27,7 +27,7 @@ class PaymentCompleteMail extends Mailable
             'profile' => $this->data['profile'],
         ]);
 
-        return $this->subject('Invoice Pembayaran #' . $this->data['order']['code'])
+        return $this->subject('Invoice Pembayaran #'.$this->data['order']['code'])
             ->view('emails.payment.complete', $this->data)
             ->attachData(
                 $pdf->output(),

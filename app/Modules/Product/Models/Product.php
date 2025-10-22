@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
-    use HasActivityUser, HasGenerateCode, SoftDeletes, HasFactory;
+    use HasActivityUser, HasFactory, HasGenerateCode, SoftDeletes;
 
     protected $table = 'products';
 
@@ -43,11 +43,8 @@ class Product extends Model
         'is_discount' => 'boolean',
     ];
 
-
     /**
      * Create a new factory instance for the Product model.
-     *
-     * @return \Database\Factories\ProductFactory
      */
     protected static function newFactory(): ProductFactory
     {
@@ -56,8 +53,6 @@ class Product extends Model
 
     /**
      * Get the route key name for the model.
-     *
-     * @return string
      */
     public function getRouteKeyName(): string
     {
@@ -66,8 +61,6 @@ class Product extends Model
 
     /**
      * Get the prefix for the code.
-     *
-     * @return string
      */
     protected function getCodePrefix(): string
     {
@@ -76,8 +69,6 @@ class Product extends Model
 
     /**
      * Get the name for the code.
-     *
-     * @return string
      */
     public function getCodeName(): string
     {
@@ -189,7 +180,6 @@ class Product extends Model
             ? max(0, $price - ($price * $discount->value / 100))
             : max(0, $price - $discount->value);
     }
-
 
     /**
      * Create a new product with the given attributes and generate a code for it.

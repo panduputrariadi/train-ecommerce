@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 class PaymentMethodRule implements ValidationRule
 {
     protected ?string $fileField;
+
     protected ?string $fileValue;
 
     public function __construct(?string $fileField = null, ?string $fileValue = null)
@@ -18,8 +19,8 @@ class PaymentMethodRule implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ((int)$value === 2 && empty($this->fileValue)) {
-            $fail("Must upload evidence of payment");
+        if ((int) $value === 2 && empty($this->fileValue)) {
+            $fail('Must upload evidence of payment');
         }
     }
 }
