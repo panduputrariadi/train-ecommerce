@@ -7,6 +7,8 @@ use App\Modules\Order\Enum\OrderStatus;
 use App\Modules\Order\Models\DetailOrder;
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Services\PriceCalculateService;
+use App\Modules\Order\SnapShots\AddressSnapshot;
+use App\Modules\Order\SnapShots\ProductSnapShot;
 use App\Modules\Product\Models\Product;
 use App\Modules\Share\Models\Address;
 use App\Modules\Share\Models\User;
@@ -176,15 +178,7 @@ class CreateOrderAction
      */
     private function makeProductSnapshot(Product $product): array
     {
-        return [
-            'id' => $product->id,
-            'code' => $product->code,
-            'name' => $product->name,
-            'price' => (float) $product->price,
-            'final_price' => (float) $product->final_price,
-            'active_discount' => $product->active_discount,
-            'photo' => $product->photo,
-        ];
+        return ProductSnapShot::fromModel($product)->toArray();
     }
 
     /**
@@ -197,12 +191,6 @@ class CreateOrderAction
      */
     private function makeAddressSnapshot(Address $address): array
     {
-        return [
-            'address' => $address->address,
-            'city' => $address->city,
-            'state' => $address->state,
-            'country' => $address->country,
-            'zip_code' => $address->zip_code,
-        ];
+        return AddressSnapshot::fromModel($address)->toArray();
     }
 }
