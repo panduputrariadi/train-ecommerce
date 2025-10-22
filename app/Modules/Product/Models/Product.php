@@ -7,6 +7,7 @@ use App\Modules\Share\Models\Image;
 use App\Modules\Share\Models\User;
 use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
+use App\Modules\Share\Traits\HasShortMorphType;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
-    use HasActivityUser, HasFactory, HasGenerateCode, SoftDeletes;
+    use HasActivityUser, HasFactory, HasGenerateCode, SoftDeletes, HasShortMorphType;
 
     protected $table = 'products';
 
