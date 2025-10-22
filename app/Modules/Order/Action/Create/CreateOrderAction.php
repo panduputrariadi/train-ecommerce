@@ -41,7 +41,7 @@ class CreateOrderAction
             'grand_total' => $grandTotal,
         ]);
 
-        return $order->fresh();
+        return $order;
     }
 
     /**

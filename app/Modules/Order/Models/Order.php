@@ -6,6 +6,7 @@ use App\Modules\Order\Casts\AddressDataCast;
 use App\Modules\Order\Enum\OrderStatus;
 use App\Modules\Payment\Models\Payment;
 use App\Modules\Share\Models\User;
+use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
-    use HasGenerateCode, SoftDeletes;
+    use HasGenerateCode, SoftDeletes, HasActivityUser;
 
     protected $table = 'orders';
 
@@ -35,6 +36,8 @@ class Order extends Model
         'status' => OrderStatus::class,
         'user_data' => AddressDataCast::class,
     ];
+
+    protected bool $skipCreatedLog = true;
 
     /**
      * Get the name of the route key for the order.
@@ -62,7 +65,7 @@ class Order extends Model
      */
     public function getCodeName(): string
     {
-        return Auth::user()->load(['profile', 'roles']);
+        return Auth::user()->loadMissing(['profile', 'roles']);
     }
 
     /**

@@ -18,6 +18,9 @@ trait HasActivityUser
         // $userId = Auth::user();
 
         static::created(function (Model $model) {
+            if (property_exists($model, 'skipCreatedLog') && $model->skipCreatedLog === true) {
+                return;
+            }
             static::recordActivity('created', $model, 'Record created', [
                 'data' => $model->getAttributes(),
             ], Auth::id());
