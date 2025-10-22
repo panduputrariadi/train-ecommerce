@@ -5,5 +5,4 @@ return [
     App\Providers\OtpRateLimiterServiceProvider::class,
     App\Providers\TelescopeServiceProvider::class,
     App\Providers\ModuleServiceProvider::class,
-    App\Modules\Share\Provider\BasePolymorphyServiceProvider::class,
 ];
