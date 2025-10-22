@@ -6,6 +6,7 @@ use App\Modules\Order\DTOs\CreateOrderDto;
 use App\Modules\Order\Enum\OrderStatus;
 use App\Modules\Order\Models\DetailOrder;
 use App\Modules\Order\Models\Order;
+use App\Modules\Order\Services\PriceCalculateService;
 use App\Modules\Product\Models\Product;
 use App\Modules\Share\Models\Address;
 use App\Modules\Share\Models\User;
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CreateOrderAction
 {
+    private PriceCalculateService $priceCalculator;
+
+    public function __construct(PriceCalculateService $priceCalculator)
+    {
+        $this->priceCalculator = $priceCalculator;
+    }
+
     /**
      * Execute the creation of a new order.
      *
@@ -33,7 +41,9 @@ class CreateOrderAction
             DetailOrder::insert($detailData);
         }
 
-        [$taxAmount, $grandTotal] = $this->calculateTotals($subTotal);
+        $totals = $this->priceCalculator->calculateTotals($subTotal);
+        $taxAmount = $totals['tax_amount'];
+        $grandTotal = $totals['grand_total'];
 
         $order->update([
             'sub_total' => $subTotal,
@@ -133,7 +143,7 @@ class CreateOrderAction
 
             $totalPrice = $unitPrice * $qty;
             $discountId = $snapshot['active_discount']['id'] ?? null;
-            $discountAmount = $this->calculateDiscountAmount(
+            $discountAmount = $this->priceCalculator->calculateDiscountAmount(
                 $snapshot['price'],
                 $snapshot['active_discount'],
                 $qty
@@ -159,21 +169,6 @@ class CreateOrderAction
     }
 
     /**
-     * Calculate sub total and grand total.
-     *
-     * @param  float  $subTotal  The sub total of the detail orders.
-     * @return array An array containing the tax amount and grand total.
-     */
-    private function calculateTotals(float $subTotal): array
-    {
-        $taxRate = config('order.tax_rate', 10);
-        $taxAmount = round($subTotal * $taxRate / 100, 2);
-        $grandTotal = $subTotal + $taxAmount;
-
-        return [$taxAmount, $grandTotal];
-    }
-
-    /**
      * Make a snapshot of a product.
      *
      * @param  Product  $product  The product to make a snapshot of.
@@ -190,29 +185,6 @@ class CreateOrderAction
             'active_discount' => $product->active_discount,
             'photo' => $product->photo,
         ];
-    }
-
-    /**
-     * Calculate discount amount based on discount type and quantity.
-     *
-     * @param  float  $basePrice  The base price of the product.
-     * @param  array|null  $discount  The discount applied to the product.
-     * @param  int  $qty  The quantity of the product.
-     * @return float The discount amount.
-     */
-    private function calculateDiscountAmount(float $basePrice, ?array $discount, int $qty): float
-    {
-        if (! $discount) {
-            return 0;
-        }
-
-        $value = (float) ($discount['value'] ?? 0);
-
-        return match ($discount['type']) {
-            'percentage' => round($basePrice * ($value / 100) * $qty, 2),
-            'nominal' => round($value * $qty, 2),
-            default => 0,
-        };
     }
 
     /**
