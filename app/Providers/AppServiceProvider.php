@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Policies\OrderPolicy;
+use App\Modules\Payment\Channels\PaymentGroupChannel;
 use App\Modules\Payment\Models\Payment;
 use App\Modules\Payment\Policies\PaymentPolicy;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -41,6 +43,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->app->make(ChannelManager::class)->extend('paymentGroup', function ($app) {
+            return new PaymentGroupChannel($app);
+        });
         // Sanctum::useTokenAuthentication();
         Gate::policy(Order::class, OrderPolicy::class);
         Gate::policy(Payment::class, PaymentPolicy::class);

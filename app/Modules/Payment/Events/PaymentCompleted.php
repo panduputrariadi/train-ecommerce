@@ -14,6 +14,6 @@ class PaymentCompleted
 
     public function __construct(Payment $payment)
     {
-        $this->payment = $payment;
+        $this->payment = $payment->loadMissing(['order.user']);
     }
 }
