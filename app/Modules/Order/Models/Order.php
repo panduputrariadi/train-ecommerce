@@ -8,6 +8,7 @@ use App\Modules\Payment\Models\Payment;
 use App\Modules\Share\Models\User;
 use App\Modules\Share\Traits\HasActivityUser;
 use App\Modules\Share\Traits\HasGenerateCode;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -142,5 +143,32 @@ class Order extends Model
                     $q3->where('name', 'like', "%{$search}%");
                 });
         });
+    }
+    
+    /**
+     * Scope a query to filter orders by creation date range.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \DateTimeInterface|string|null  $from  The start date of the creation date range.
+     * @param  \DateTimeInterface|string|null  $to  The end date of the creation date range.
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCreatedBetween($query, $from = null, $to = null): Builder
+    {
+        return $query
+            ->when($from, fn ($q) => $q->whereDate('created_at', '>=', $from))
+            ->when($to, fn ($q) => $q->whereDate('created_at', '<=', $to));
+    }
+
+    /**
+     * Scope a query to filter orders by status.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $status  The status to filter by.
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeStatus($query, String $status): Builder
+    {
+        return $query->when($status, fn ($q) => $q->where('status', $status));
     }
 }
