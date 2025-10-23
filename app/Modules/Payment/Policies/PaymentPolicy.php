@@ -15,12 +15,10 @@ class PaymentPolicy
      */
     public function paymentDecission(User $user): bool
     {
-        $userRoleValues = $user->roles()->pluck('name')->toArray();
+        $userRoleValues = array_map('strtolower', $user->roles()->pluck('slug')->toArray());
+        $adminRoleValues = array_map('strtolower', UserRole::adminRoles());
 
-        $adminRoleValues = UserRole::adminRoles();
-
-        $hasAdminRole = ! empty(array_intersect($userRoleValues, $adminRoleValues));
-
-        return $hasAdminRole;
+        return ! empty(array_intersect($userRoleValues, $adminRoleValues));
     }
+
 }

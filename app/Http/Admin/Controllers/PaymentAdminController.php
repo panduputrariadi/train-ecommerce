@@ -14,6 +14,7 @@ use App\Modules\Share\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PaymentAdminController extends Controller
@@ -22,7 +23,8 @@ class PaymentAdminController extends Controller
 
     public function approvePayment(Payment $code, ApprovePaymentOrder $action): JsonResponse
     {
-        $this->authorize('paymentDecission', User::class);
+        $this->authorize('paymentDecission', Payment::class);
+
         $action->execute($code);
 
         return response()->json([
@@ -32,7 +34,8 @@ class PaymentAdminController extends Controller
 
     public function declinePayment(Payment $code, DeclinePaymentOrder $action): JsonResponse
     {
-        $this->authorize('paymentDecission', User::class);
+        $this->authorize('paymentDecission', Payment::class);
+
         $action->execute($code);
 
         return response()->json([
