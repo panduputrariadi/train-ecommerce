@@ -3,6 +3,7 @@
 namespace App\Base;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use JsonSerializable;
 use ReflectionClass;
 use ReflectionProperty;
@@ -28,14 +29,24 @@ abstract class BaseSnapshot implements JsonSerializable
             ->map(fn ($p) => $p->getName())
             ->all();
 
-        foreach ($properties as $property) {
-            if ($model->offsetExists($property) || isset($model->{$property})) {
-                $instance->{$property} = $model->{$property};
-            } elseif (method_exists($model, $property)) {
-                $instance->{$property} = $model->{$property};
-            } else {
-                $instance->{$property} = null;
+        foreach ($reflection->getProperties() as $property) {
+            $propertyName = $property->getName();
+
+            $snakeName = Str::snake($propertyName);
+
+            $value = null;
+            if (isset($model->{$propertyName})) {
+                $value = $model->{$propertyName};
+            } elseif (isset($model->{$snakeName})) {
+                $value = $model->{$snakeName};
             }
+
+            $type = $property->getType();
+            if ($value === null && $type && !$type->allowsNull()) {
+                continue;
+            }
+
+            $instance->{$propertyName} = $value;
         }
 
         return $instance;
