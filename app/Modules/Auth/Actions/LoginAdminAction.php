@@ -13,7 +13,7 @@ class LoginAdminAction
     public function execute(LoginAdminRequest $request): array
     {
         $dto = $request->validatedLogin();
-        $user = User::where('email', $dto->email)->firstOrFail();
+        $user = User::where('email', $dto->email)->with('roles')->firstOrFail();
 
         $token = $user->createToken(
             name: 'api_token_user',

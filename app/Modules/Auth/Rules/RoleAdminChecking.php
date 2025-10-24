@@ -10,13 +10,19 @@ class RoleAdminChecking implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $user = User::where('email', request()->input('email'))->first();
+        $email = request()->input('email');
+
+        $user = User::with('roles')
+            ->where('email', $email)
+            ->first();
 
         if (! $user) {
             return;
         }
 
-        if (! $user->roles()->where('slug', 'like', 'admin.%')->exists()) {
+        $isAdmin = $user->roles->contains(fn ($role) => str_starts_with($role->slug, 'admin.'));
+
+        if (! $isAdmin) {
             $fail('Credential invalid');
         }
     }
