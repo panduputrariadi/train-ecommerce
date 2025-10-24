@@ -16,7 +16,7 @@ class ProductData extends BaseValueObject
 
     public float $price;
 
-    public float $final_price;
+    public float $finalPrice;
 
-    public ?ActiveDiscountData $active_discount = null;
+    public ?ActiveDiscountData $activeDiscount = null;
 }

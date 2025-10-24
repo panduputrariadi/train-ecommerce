@@ -10,7 +10,7 @@ class ProductSnapShot extends BaseSnapshot
     public string $code;
     public string $name;
     public float $price;
-    public float $final_price;
-    public ?array $active_discount = null;
+    public float $finalProce;
+    public ?array $activeDiscount = null;
     public ?string $photo = null;
 }

@@ -14,5 +14,5 @@ class ActiveDiscountData extends BaseValueObject
 
     public ?float $value = null;
 
-    public ?string $expired_at = null;
+    public ?string $expiredAt = null;
 }

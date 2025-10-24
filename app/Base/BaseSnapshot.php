@@ -41,9 +41,8 @@ abstract class BaseSnapshot implements JsonSerializable
         return $instance;
     }
 
-
     /**
-     * Returns an array representation of the snapshot.
+     * Returns an array representation of the snapshot (snake_case keys).
      *
      * @return array
      */
@@ -56,25 +55,31 @@ abstract class BaseSnapshot implements JsonSerializable
 
         $data = [];
         foreach ($properties as $property) {
-            $data[$property] = $this->{$property} ?? null;
+            $key = self::camelToSnake($property);
+            $data[$key] = $this->{$property} ?? null;
         }
 
         return $data;
     }
 
+    /**
+     * Convert camelCase to snake_case.
+     */
+    protected static function camelToSnake(string $input): string
+    {
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
+    }
 
-     /**
+    /**
      * Returns a JSON string representation of the snapshot.
      *
      * @param int $options The JSON encoding options.
-     *
      * @return string
      */
     public function toJson(int $options = JSON_PRETTY_PRINT): string
     {
         return json_encode($this->toArray(), $options);
     }
-
 
     /**
      * Convert the object to its JSON representation.
@@ -97,8 +102,10 @@ abstract class BaseSnapshot implements JsonSerializable
     {
         $instance = new static();
         foreach ($data as $key => $value) {
-            if (property_exists($instance, $key)) {
-                $instance->{$key} = $value;
+            // accept both camelCase and snake_case input
+            $camelKey = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $key))));
+            if (property_exists($instance, $camelKey)) {
+                $instance->{$camelKey} = $value;
             }
         }
 

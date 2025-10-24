@@ -14,5 +14,5 @@ class AddressData extends BaseValueObject
 
     public string $country;
 
-    public string $zip_code;
+    public string $zipCode;
 }
