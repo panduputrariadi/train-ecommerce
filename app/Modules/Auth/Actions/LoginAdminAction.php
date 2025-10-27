@@ -2,7 +2,7 @@
 
 namespace App\Modules\Auth\Actions;
 
-use App\Modules\Auth\Request\LoginAdminRequest;
+use App\Modules\Auth\DTOs\LoginUserDto;
 use App\Modules\Share\Models\User;
 
 class LoginAdminAction
@@ -10,11 +10,9 @@ class LoginAdminAction
     /**
      * @return array{user: User, token: string}
      */
-    public function execute(LoginAdminRequest $request): array
+    public function execute(LoginUserDto $dto): array
     {
-        $dto = $request->validatedLogin();
-        $user = User::where('email', $dto->email)->with('roles')->firstOrFail();
-
+        $user = User::where('email', $dto->email)->firstOrFail();
         $token = $user->createToken(
             name: 'api_token_user',
             abilities: ['*'],

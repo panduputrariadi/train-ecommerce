@@ -35,14 +35,16 @@ class AuthController extends Controller
 
     public function login(LoginUserRequest $request, LoginUserAction $action): LoginUserResource
     {
-        $data = DB::transaction(fn () => $action->execute($request));
+        $dto = $request->validatedLogin();
+        $data = DB::transaction(fn () => $action->execute($dto));
 
         return new LoginUserResource($data['user'], $data['token']);
     }
 
     public function loginAdmin(LoginAdminRequest $request, LoginAdminAction $action): LoginUserResource
     {
-        $data = DB::transaction(fn () => $action->execute($request));
+        $dto = $request->validatedLogin();
+        $data = DB::transaction(fn () => $action->execute($dto));
 
         return new LoginUserResource($data['user'], $data['token']);
     }

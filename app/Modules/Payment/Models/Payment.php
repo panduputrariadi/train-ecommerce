@@ -56,7 +56,7 @@ class Payment extends Model
     /**
      * Get the name of the customer who made the payment.
      */
-    public function getCodeName(): ?string
+    public function getCodeName(): User
     {
         return Auth::user()->load(['profile', 'roles']);
     }
