@@ -14,6 +14,7 @@ class VerifyOtpAction
         $otp->update([
             'verified_at' => now(),
         ]);
+        $otp->delete();
 
         return $otp;
     }
