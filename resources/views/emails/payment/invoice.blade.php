@@ -63,7 +63,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($order['details'] ?? [] as $item)
+            @foreach ($detail ?? [] as $item)
                 <tr>
                     <td>{{ $item['product_data']['name'] ?? $item['product']['name'] ?? '-' }}</td>
                     <td>{{ $item['quantity'] ?? 0 }}</td>

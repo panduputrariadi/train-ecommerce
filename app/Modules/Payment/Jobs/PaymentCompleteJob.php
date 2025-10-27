@@ -27,10 +27,22 @@ class PaymentCompleteJob implements ShouldQueue
         $payment = $this->payment->loadMissing(['order.user.profile']);
         $order = $payment->order;
         $user = $order->user;
+        $detail = $order->details;
+
+        $detailArray = $detail->map(function ($item) {
+            $arr = $item->toArray();
+
+            if (is_object($item->product_data)) {
+                $arr['product_data'] = $item->product_data->toArray();
+            }
+
+            return $arr;
+        });
 
         $data = [
             'payment' => $payment->toArray(),
             'order' => $order->toArray(),
+            'detail' => $detailArray->toArray(),
             'user' => $user->toArray(),
             'profile' => $user->profile?->toArray(),
         ];

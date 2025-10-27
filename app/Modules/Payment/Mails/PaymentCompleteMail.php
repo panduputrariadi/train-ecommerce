@@ -23,6 +23,7 @@ class PaymentCompleteMail extends Mailable
         $pdf = Pdf::loadView('emails.payment.invoice', [
             'payment' => $this->data['payment'],
             'order' => $this->data['order'],
+            'detail' => $this->data['detail'],
             'user' => $this->data['user'],
             'profile' => $this->data['profile'],
         ]);
