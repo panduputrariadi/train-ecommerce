@@ -16,7 +16,7 @@ class LoginAdminAction
         $token = $user->createToken(
             name: 'api_token_user',
             abilities: ['*'],
-            expiresAt: now()->addDay()
+            // expiresAt: now()->addDay()
         )->plainTextToken;
 
         return [

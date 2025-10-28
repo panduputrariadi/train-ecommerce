@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->string('status');
-            $table->integer('sub_total');
-            $table->integer('tax_amount');
-            $table->integer('grand_total');
+            $table->float('sub_total');
+            $table->float('tax_amount');
+            $table->float('grand_total');
             $table->text('note')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
