@@ -33,10 +33,10 @@ class Payment extends Model
 
     protected $casts = [
         'amount' => 'float',
-        'order_id' => Order::class,
-        'bank_account_id' => BankAccount::class,
-        'created_by' => User::class,
-        'verified_by' => User::class,
+        'order_id' => 'integer',
+        'bank_account_id' => 'integer',
+        'created_by' => 'integer',
+        'verified_by' => 'integer',
         'paid_at' => 'datetime',
         'status' => PaymentStatus::class,
         'payment_method_id' => PaymentMethodEnum::class,

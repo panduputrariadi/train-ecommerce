@@ -37,7 +37,7 @@ class Order extends Model
         'sub_total' => 'float',
         'tax_amount' => 'float',
         'grand_total' => 'float',
-        'user_id' => User::class,
+        'user_id' => 'integer',
         'status' => OrderStatus::class,
         'user_data' => AddressDataCast::class,
     ];
@@ -111,6 +111,11 @@ class Order extends Model
     public function details(): HasMany
     {
         return $this->hasMany(DetailOrder::class);
+    }
+
+    public function detail(): HasOne
+    {
+        return $this->hasOne(DetailOrder::class)->latestOfMany();
     }
 
     /**

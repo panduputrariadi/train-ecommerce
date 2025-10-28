@@ -31,9 +31,9 @@ class DetailOrder extends Model
         'total_price' => 'float',
         'unit_price' => 'float',
         'quantity' => 'integer',
-        'discount_id' => Discount::class,
-        'product_id' => Product::class,
-        'order_id' => Order::class,
+        'discount_id' => 'integer',
+        'product_id' => 'integer',
+        'order_id' => 'integer',
         'product_data' => ProductDataCast::class,
     ];
 

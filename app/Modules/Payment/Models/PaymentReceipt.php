@@ -18,7 +18,7 @@ class PaymentReceipt extends Model
     ];
 
     protected $casts = [
-        'payment_id' => Payment::class,
+        'payment_id' => 'integer',
         'file_path' => 'string',
         'mime_type' => 'string',
         'uploaded_at' => 'datetime',
