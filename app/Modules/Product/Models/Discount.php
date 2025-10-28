@@ -16,6 +16,7 @@ class Discount extends Model
     protected $fillable = ['type', 'code', 'value', 'expired_at'];
 
     protected $casts = [
+        'value' => 'integer',
         'expired_at' => 'datetime',
     ];
 

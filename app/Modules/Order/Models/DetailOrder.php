@@ -3,6 +3,7 @@
 namespace App\Modules\Order\Models;
 
 use App\Modules\Order\Casts\ProductDataCast;
+use App\Modules\Product\Models\Discount;
 use App\Modules\Product\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,6 +27,13 @@ class DetailOrder extends Model
     ];
 
     protected $casts = [
+        'discount_amount' => 'float',
+        'total_price' => 'float',
+        'unit_price' => 'float',
+        'quantity' => 'integer',
+        'discount_id' => Discount::class,
+        'product_id' => Product::class,
+        'order_id' => Order::class,
         'product_data' => ProductDataCast::class,
     ];
 

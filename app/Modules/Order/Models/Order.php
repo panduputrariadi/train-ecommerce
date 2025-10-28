@@ -34,6 +34,10 @@ class Order extends Model
     ];
 
     protected $casts = [
+        'sub_total' => 'float',
+        'tax_amount' => 'float',
+        'grand_total' => 'float',
+        'user_id' => User::class,
         'status' => OrderStatus::class,
         'user_data' => AddressDataCast::class,
     ];
@@ -144,7 +148,7 @@ class Order extends Model
                 });
         });
     }
-    
+
     /**
      * Scope a query to filter orders by creation date range.
      *

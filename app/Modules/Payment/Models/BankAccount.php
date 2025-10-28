@@ -2,6 +2,7 @@
 
 namespace App\Modules\Payment\Models;
 
+use App\Modules\Payment\Enum\PaymentMethodEnum;
 use Database\Factories\BankAccountFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,7 @@ class BankAccount extends Model
     ];
 
     protected $casts = [
+        'payment_method_id' => PaymentMethodEnum::class,
         'is_active' => 'boolean',
     ];
 
